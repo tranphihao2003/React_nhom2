@@ -51,8 +51,13 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
+// page admin
 const Products = React.lazy(() => import('./views/products/Products'))
-
+const ProductsAdd = React.lazy(() => import('./views/products/Products-add'))
+const Shipperadd = React.lazy(() => import('./views/shipper/shipper-add'))
+const Shipper = React.lazy(() => import('./views/shipper/shipper'))
+const Suppliers = React.lazy(() => import('./views/suppliers/suppliers'))
+const SuppliersAdd = React.lazy(() => import('./views/suppliers/suppliers-add'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
@@ -100,6 +105,11 @@ const routes = [
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
   { path: '/products', name: 'Products', element: Products },
+  { path: '/products/add', name: 'Add Product', element: ProductsAdd },
+  { path: '/Shipper/add', name: 'add Shipper', element: Shipperadd },
+  { path: '/Shipper', name: 'Shipper', element: Shipper },
+  { path: '/suppliers', name: 'suppliers', element: Suppliers },
+  { path: '/suppliers/add', name: 'suppliers add', element: SuppliersAdd },
 ]
 
 export default routes
