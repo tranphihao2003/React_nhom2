@@ -78,19 +78,6 @@ const EditCustomers = React.lazy(() => import('./views/customers/EditCustomers')
 const Genres = React.lazy(() => import('./views/genres/Genres'))
 const AddGenres = React.lazy(() => import('./views/genres/AddGenres'))
 const EditGenres = React.lazy(() => import('./views/genres/EditGenres'))
-
-const Employees = React.lazy(() => import('./views/employees/Employees'))
-const AddEmployees = React.lazy(() => import('./views/employees/AddEmployees'))
-const EditEmployees = React.lazy(() => import('./views/employees/EditEmployees'))
-
-const Customers = React.lazy(() => import('./views/customers/Customers'))
-const AddCustomers = React.lazy(() => import('./views/customers/AddCustomers'))
-const EditCustomers = React.lazy(() => import('./views/customers/EditCustomers'))
-
-const Genres = React.lazy(() => import('./views/genres/Genres'))
-const AddGenres = React.lazy(() => import('./views/genres/AddGenres'))
-const EditGenres = React.lazy(() => import('./views/genres/EditGenres'))
-
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
