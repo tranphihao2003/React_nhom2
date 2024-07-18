@@ -1,7 +1,8 @@
-import React from 'react';
-import { CButton, CTable,CPagination,CPaginationItem  } from '@coreui/react';
+import React from 'react'
+import { CButton, CTable, CPagination, CPaginationItem } from '@coreui/react'
 
-
+import CIcon from '@coreui/icons-react'
+import * as icon from '@coreui/icons'
 const Suppliers = () => {
   const columns = [
     {
@@ -39,7 +40,7 @@ const Suppliers = () => {
       label: 'Thao tác',
       _props: { scope: 'col' },
     },
-  ];
+  ]
 
   const items = [
     {
@@ -49,7 +50,16 @@ const Suppliers = () => {
       Contact_Email: 'nguyenvana@gmail.com',
       Contact_Phone: '0901234567',
       Address: 'Số 10, Đường ABC, Quận XYZ, Thành phố HCM',
-      actions: <CButton color="primary">Chỉnh sửa</CButton>,
+      actions: (
+        <>
+          <CButton variant="outline" color="danger">
+            <CIcon icon={icon.cilTrash} />
+          </CButton>{' '}
+          <CButton color="primary">
+            <CIcon icon={icon.cilPencil} />
+          </CButton>
+        </>
+      ),
     },
     {
       Supplier_ID: 'SUP002',
@@ -58,7 +68,16 @@ const Suppliers = () => {
       Contact_Email: 'tranthib@gmail.com',
       Contact_Phone: '0912345678',
       Address: 'Số 20, Đường XYZ, Quận ABC, Thành phố HCM',
-      actions: <CButton color="primary">Chỉnh sửa</CButton>,
+      actions: (
+        <>
+          <CButton variant="outline" color="danger">
+            <CIcon icon={icon.cilTrash} />
+          </CButton>{' '}
+          <CButton color="primary">
+            <CIcon icon={icon.cilPencil} />
+          </CButton>
+        </>
+      ),
     },
     {
       Supplier_ID: 'SUP003',
@@ -67,13 +86,23 @@ const Suppliers = () => {
       Contact_Email: 'levanc@gmail.com',
       Contact_Phone: '0923456789',
       Address: 'Số 30, Đường PQR, Quận DEF, Thành phố HCM',
-      actions: <CButton color="primary">Chỉnh sửa</CButton>,
+      actions: (
+        <>
+          <CButton variant="outline" color="danger">
+            <CIcon icon={icon.cilTrash} />
+          </CButton>{' '}
+          <CButton color="primary">
+            <CIcon icon={icon.cilPencil} />
+          </CButton>
+        </>
+      ),
     },
-  ];
+  ]
 
-  return(<>
-  <CTable striped hover columns={columns} items={items} />;
-  <CPagination align="center" aria-label="Page navigation example">
+  return (
+    <>
+      <CTable striped hover columns={columns} items={items} />
+      <CPagination align="center" aria-label="Page navigation example">
         <CPaginationItem disabled>
           <span aria-hidden="true">&laquo;</span>
         </CPaginationItem>
@@ -85,7 +114,8 @@ const Suppliers = () => {
           <span aria-hidden="true">&raquo;</span>
         </CPaginationItem>
       </CPagination>
-  </>) 
-};
+    </>
+  )
+}
 
-export default Suppliers;
+export default Suppliers

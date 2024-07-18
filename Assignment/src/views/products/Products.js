@@ -1,7 +1,8 @@
 import React from 'react'
 import { CTable, CPagination, CPaginationItem } from '@coreui/react'
 import { CButton } from '@coreui/react'
-
+import CIcon from '@coreui/icons-react'
+import * as icon from '@coreui/icons'
 const Products = () => {
   const columns = [
     {
@@ -35,6 +36,11 @@ const Products = () => {
       _props: { scope: 'col' },
     },
     {
+      key: 'status',
+      label: 'Trạng thái',
+      _props: { scope: 'col' },
+    },
+    {
       key: 'actions',
       label: 'Thao tác',
       _props: { scope: 'col' },
@@ -57,9 +63,15 @@ const Products = () => {
       quantity: 10,
       actions: (
         <>
-          <CButton color="primary">Chỉnh sửa</CButton> <CButton color="danger">Xóa</CButton>
+          <CButton variant="outline" color="danger">
+            <CIcon icon={icon.cilTrash} />
+          </CButton>{' '}
+          <CButton color="primary">
+            <CIcon icon={icon.cilPencil} />
+          </CButton>
         </>
       ),
+      status: <span className="badge bg-success">Còn hàng </span>,
       _cellProps: { id: { scope: 'row' } },
     },
     {
@@ -77,9 +89,15 @@ const Products = () => {
       quantity: 5,
       actions: (
         <>
-          <CButton color="primary">Chỉnh sửa</CButton> <CButton color="danger">Xóa</CButton>
+          <CButton variant="outline" color="danger">
+            <CIcon icon={icon.cilTrash} />
+          </CButton>{' '}
+          <CButton color="primary">
+            <CIcon icon={icon.cilPencil} />
+          </CButton>
         </>
       ),
+      status: <span className="badge bg-danger">Hết hàng</span>,
       _cellProps: { id: { scope: 'row' } },
     },
     {
@@ -97,9 +115,15 @@ const Products = () => {
       quantity: 8,
       actions: (
         <>
-          <CButton color="primary">Chỉnh sửa</CButton> <CButton color="danger">Xóa</CButton>
+          <CButton variant="outline" color="danger">
+            <CIcon icon={icon.cilTrash} />
+          </CButton>{' '}
+          <CButton color="primary">
+            <CIcon icon={icon.cilPencil} />
+          </CButton>
         </>
       ),
+      status: <span className="badge bg-success">Còn hàng </span>,
       _cellProps: { id: { scope: 'row' } },
     },
   ]
