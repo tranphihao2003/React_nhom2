@@ -1,7 +1,8 @@
 import React from 'react'
 import { CTable, CButton } from '@coreui/react'
 import { Link } from 'react-router-dom'
-
+import CIcon from '@coreui/icons-react'
+import * as icon from '@coreui/icons'
 const Orders = (props) => {
   const columns = [
     {
@@ -57,10 +58,12 @@ const Orders = (props) => {
       Payment_Status: <span className="badge bg-danger">Chưa xác nhận</span>,
       actions: (
         <>
-          <Link to={`/orders/Order_detail/1`} className="btn btn-primary">
-            Chi tiết
-          </Link>
-          <CButton color="primary">Chỉnh sửa</CButton>
+          <CButton variant="outline" color="danger">
+            <CIcon icon={icon.cilTrash} />
+          </CButton>{' '}
+          <CButton color="primary">
+            <CIcon icon={icon.cilPencil} />
+          </CButton>
         </>
       ),
       _cellProps: { Order_ID: { scope: 'row' } },
@@ -75,10 +78,12 @@ const Orders = (props) => {
       Payment_Status: <span className="badge bg-success">Đang giao</span>,
       actions: (
         <>
-          <Link to={`/orders/Order_detail/2`} className="btn btn-primary">
-            Chi tiết
-          </Link>
-          <CButton color="primary">Chỉnh sửa</CButton>
+          <CButton variant="outline" color="danger">
+            <CIcon icon={icon.cilTrash} />
+          </CButton>{' '}
+          <CButton color="primary">
+            <CIcon icon={icon.cilPencil} />
+          </CButton>
         </>
       ),
       _cellProps: { Order_ID: { scope: 'row' } },

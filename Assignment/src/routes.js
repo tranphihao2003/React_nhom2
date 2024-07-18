@@ -77,7 +77,7 @@ const Customers = React.lazy(() => import('./views/customers/Customers'))
 const AddCustomers = React.lazy(() => import('./views/customers/AddCustomers'))
 const EditCustomers = React.lazy(() => import('./views/customers/EditCustomers'))
 
-const Genres = React.lazy(() => import('./views/genres/Genres'))
+const Genres = React.lazy(() => import('./views/genres/genres'))
 const AddGenres = React.lazy(() => import('./views/genres/AddGenres'))
 const EditGenres = React.lazy(() => import('./views/genres/EditGenres'))
 //Các bảng

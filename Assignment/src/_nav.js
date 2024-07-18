@@ -15,6 +15,13 @@ import {
   cilPuzzle,
   cilSpeedometer,
   cilStar,
+  cilCart,
+  cilHome,
+  cilHouse,
+  cilGroup,
+  cilUser,
+  cilUserFollow,
+  cilClearAll
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -31,24 +38,19 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    name: 'Orders',
-    to: '/orders',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    name: 'products',
+    to: '/products',
+    icon: <CIcon icon={cilAlbum} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
         name: 'Hiển thị',
-        to: '/Orders',
+        to: '/products',
       },
       {
         component: CNavItem,
         name: 'Thêm',
-        to: '/Order_Add',
-      },
-      {
-        component: CNavItem,
-        name: 'Sửa',
-        to: '/Order_Update',
+        to: '/add',
       },
     ],
   },
@@ -56,7 +58,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Orders',
     to: '/orders',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilCart} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
@@ -115,7 +117,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Stores',
     to: '/stores',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
@@ -138,7 +140,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Store Products',
     to: '/store_products',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilHouse} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
@@ -161,7 +163,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Accounts',
     to: '/accounts',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilGroup} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
@@ -184,7 +186,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Employees',
     to: '/employees',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
@@ -202,7 +204,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Customers',
     to: '/customers',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilUserFollow} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
@@ -220,7 +222,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Genres',
     to: '/genres',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilClearAll} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
