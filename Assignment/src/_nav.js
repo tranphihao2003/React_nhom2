@@ -44,18 +44,27 @@ const _nav = [
   // },
   {
     component: CNavGroup,
-    name: 'Product',
-    to: '/products',
+    name: 'Orders',
+    to: '/orders',
     icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
         name: 'Hiển thị',
-        to: '/Products',
+        to: '/Orders',
+      },
+      {
+        component: CNavItem,
+        name: 'Thêm',
+        to: '/Order_Add',
+      },
+      {
+        component: CNavItem,
+        name: 'Sửa',
+        to: '/Order_Update',
       },
     ],
   },
-  // },
   // {
   //   component: CNavTitle,
   //   name: 'Components',

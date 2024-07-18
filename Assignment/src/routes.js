@@ -51,7 +51,11 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
-const Products = React.lazy(() => import('./views/products/Products'))
+//Các bảng
+const Orders = React.lazy(() => import('./views/orders/Orders'))
+const Order_Detail = React.lazy(() => import('./views/orders/Order_Detail'))
+const Order_Add = React.lazy(() => import('./views/orders/Order_Add'))
+const Order_Update = React.lazy(() => import('./views/orders/Order_Update'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -99,7 +103,10 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', element: Modals },
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
-  { path: '/products', name: 'Products', element: Products },
+  { path: '/orders', name: 'Orders', element: Orders },
+  { path: '/orders/order_detail/:id', name: 'Order_Detail', element: Order_Detail },
+  { path: '/order_add', name: 'Order_Add', element: Order_Add },
+  { path: '/order_update', name: 'Order_Update', element: Order_Update },
 ]
 
 export default routes
