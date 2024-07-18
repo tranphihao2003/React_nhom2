@@ -55,6 +55,63 @@ const _nav = [
       },
     ],
   },
+  {
+    component: CNavGroup,
+    name: 'Employees',
+    to: '/employees',
+    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Hiển thị',
+        to: '/Employees',
+      },
+      {
+        component: CNavItem,
+        name: 'Thêm',
+        to: '/AddEmployees',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Customers',
+    to: '/customers',
+    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Hiển thị',
+        to: '/Customers',
+      },
+      {
+        component: CNavItem,
+        name: 'Thêm',
+        to: '/AddCustomers',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Genres',
+    to: '/genres',
+    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Hiển thị',
+        to: '/Genres',
+      },
+      {
+        component: CNavItem,
+        name: 'Thêm',
+        to: '/AddGenres',
+      },
+    ],
+  },
+
+  // }
+
   // },
   // {
   //   component: CNavTitle,
