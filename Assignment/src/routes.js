@@ -52,7 +52,15 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 const Products = React.lazy(() => import('./views/products/Products'))
-
+const Stores = React.lazy(() => import('./views/stores/Stores'))
+const Stores_Add = React.lazy(() => import('./views/stores/Stores_Add'))
+const Stores_Edit = React.lazy(() => import('./views/stores/Stores_Edit'))
+const Store_Products = React.lazy(() => import('./views/store_products/Store_Products'))
+const Store_Products_Add = React.lazy(() => import('./views/store_products/Store_Products_Add'))
+const Store_Products_Edit = React.lazy(() => import('./views/store_products/Store_Products_Edit'))
+const Accounts = React.lazy(() => import('./views/accounts/Accounts'))
+const Accounts_Add = React.lazy(() => import('./views/accounts/Accounts_Add'))
+const Accounts_Edit = React.lazy(() => import('./views/accounts/Accounts_Edit'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
@@ -100,6 +108,15 @@ const routes = [
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
   { path: '/products', name: 'Products', element: Products },
+  { path: '/stores', name: 'Stores', element: Stores },
+  { path: '/stores_add', name: 'Stores_Add', element: Stores_Add },
+  { path: '/stores_edit', name: 'Stores_Edit', element: Stores_Edit },
+  { path: '/store_products', name: 'Store_Products', element: Store_Products },
+  { path: '/store_products_add', name: 'Store_Products_Add', element: Store_Products_Add },
+  { path: '/store_products_edit', name: 'Store_Products_Edit', element: Store_Products_Edit },
+  { path: '/accounts', name: 'Accounts', element: Accounts },
+  { path: '/accounts_add', name: 'Accounts_Add', element: Accounts_Add },
+  { path: '/accounts_edit', name: 'Accounts_Edit', element: Accounts_Edit },
 ]
 
 export default routes

@@ -55,6 +55,75 @@ const _nav = [
       },
     ],
   },
+  {
+    component: CNavGroup,
+    name: 'Stores',
+    to: '/stores',
+    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Hiển thị',
+        to: '/stores',
+      },
+      {
+        component: CNavItem,
+        name: 'Thêm',
+        to: '/stores_add',
+      },
+      {
+        component: CNavItem,
+        name: 'Sửa',
+        to: '/stores_edit',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Store Products',
+    to: '/store_products',
+    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Hiển thị',
+        to: '/store_products',
+      },
+      {
+        component: CNavItem,
+        name: 'Thêm',
+        to: '/store_products_add',
+      },
+      {
+        component: CNavItem,
+        name: 'Sửa',
+        to: '/store_products_edit',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Accounts',
+    to: '/accounts',
+    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Hiển thị',
+        to: '/accounts',
+      },
+      {
+        component: CNavItem,
+        name: 'Thêm',
+        to: '/accounts_add',
+      },
+      {
+        component: CNavItem,
+        name: 'Sửa',
+        to: '/accounts_edit',
+      },
+    ],
+  },
   // },
   // {
   //   component: CNavTitle,
