@@ -1,7 +1,8 @@
 import React from 'react'
-import { CTable ,CPagination,CPaginationItem } from '@coreui/react'
+import { CTable, CPagination, CPaginationItem } from '@coreui/react'
 import { CButton } from '@coreui/react'
-
+import CIcon from '@coreui/icons-react'
+import * as icon from '@coreui/icons'
 const Shipper = () => {
   const columns = [
     {
@@ -48,8 +49,17 @@ const Shipper = () => {
       age: 30,
       SĐT: '0901234567',
       Store_ID: 'Store 1',
-      status: <span>Đang giao hàng</span>,
-      actions: <CButton color="primary">chỉnh sửa</CButton>,
+      status: <span class="badge text-bg-success">Đang giao hàng</span>,
+      actions: (
+        <>
+          <CButton variant="outline" color="danger">
+            <CIcon icon={icon.cilTrash} />
+          </CButton>{' '}
+          <CButton color="primary">
+            <CIcon icon={icon.cilPencil} />
+          </CButton>
+        </>
+      ),
     },
     {
       id: 2,
@@ -57,9 +67,18 @@ const Shipper = () => {
       age: 25,
       SĐT: '0912345678',
       Store_ID: 'Store 2',
-      status: <span>Đang sẵn sàng</span>,
+      status: <span class="badge text-bg-warning">Đang sẵn sàng</span>,
 
-      actions: <CButton color="primary">chỉnh sửa</CButton>,
+      actions: (
+        <>
+          <CButton variant="outline" color="danger">
+            <CIcon icon={icon.cilTrash} />
+          </CButton>{' '}
+          <CButton color="primary">
+            <CIcon icon={icon.cilPencil} />
+          </CButton>
+        </>
+      ),
     },
     {
       id: 3,
@@ -67,9 +86,18 @@ const Shipper = () => {
       age: 28,
       SĐT: '0923456789',
       Store_ID: 'Store 3',
-      status: <span>chưa hoạt động</span>,
+      status: <span className="badge text-bg-danger">chưa hoạt động</span>,
 
-      actions: <CButton color="primary">chỉnh sửa</CButton>,
+      actions: (
+        <>
+          <CButton variant="outline" color="danger">
+            <CIcon icon={icon.cilTrash} />
+          </CButton>{' '}
+          <CButton color="primary">
+            <CIcon icon={icon.cilPencil} />
+          </CButton>
+        </>
+      ),
     },
   ]
 
