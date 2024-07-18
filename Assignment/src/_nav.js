@@ -9,6 +9,9 @@ import {
   cilDrop,
   cilNotes,
   cilPencil,
+  cilTruck,
+  cilLan,
+  cilAlbum,
   cilPuzzle,
   cilSpeedometer,
   cilStar,
@@ -44,14 +47,19 @@ const _nav = [
   // },
   {
     component: CNavGroup,
-    name: 'Product',
+    name: 'Sản phẩm',
     to: '/products',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilAlbum} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
         name: 'Hiển thị',
         to: '/Products',
+      },
+      {
+        component: CNavItem,
+        name: 'Thêm Sản Phẩm',
+        to: '/Products/add',
       },
     ],
   },
