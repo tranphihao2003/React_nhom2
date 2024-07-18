@@ -21,7 +21,7 @@ import {
   cilGroup,
   cilUser,
   cilUserFollow,
-  cilClearAll
+  cilClearAll,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
