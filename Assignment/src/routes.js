@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -67,6 +68,19 @@ const Store_Products_Edit = React.lazy(() => import('./views/store_products/Stor
 const Accounts = React.lazy(() => import('./views/accounts/Accounts'))
 const Accounts_Add = React.lazy(() => import('./views/accounts/Accounts_Add'))
 const Accounts_Edit = React.lazy(() => import('./views/accounts/Accounts_Edit'))
+
+const Employees = React.lazy(() => import('./views/employees/Employees'))
+const AddEmployees = React.lazy(() => import('./views/employees/AddEmployees'))
+const EditEmployees = React.lazy(() => import('./views/employees/EditEmployees'))
+
+const Customers = React.lazy(() => import('./views/customers/Customers'))
+const AddCustomers = React.lazy(() => import('./views/customers/AddCustomers'))
+const EditCustomers = React.lazy(() => import('./views/customers/EditCustomers'))
+
+const Genres = React.lazy(() => import('./views/genres/Genres'))
+const AddGenres = React.lazy(() => import('./views/genres/AddGenres'))
+const EditGenres = React.lazy(() => import('./views/genres/EditGenres'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
@@ -128,6 +142,18 @@ const routes = [
   { path: '/accounts', name: 'Accounts', element: Accounts },
   { path: '/accounts_add', name: 'Accounts_Add', element: Accounts_Add },
   { path: '/accounts_edit', name: 'Accounts_Edit', element: Accounts_Edit },
+
+  { path: '/employees', name: 'Employees', element: Employees },
+  { path: '/AddEmployees', name: 'AddEmployees', element: AddEmployees },
+  { path: '/EditEmployees', name: 'EditEmployees', element: EditEmployees },
+
+  { path: '/customers', name: 'Customers', element: Customers },
+  { path: '/AddCustomers', name: 'AddCustomers', element: AddCustomers },
+  { path: '/EditCustomers', name: 'EditCustomers', element: EditCustomers },
+
+  { path: '/genres', name: 'Genres', element: Genres },
+  { path: '/AddGenres', name: 'AddGenres', element: AddGenres },
+  { path: '/EditGenres', name: 'EditGenres', element: EditGenres },
 ]
 
 export default routes

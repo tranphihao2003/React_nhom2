@@ -3,6 +3,7 @@ import { CTable, CPagination, CPaginationItem } from '@coreui/react'
 import { CButton } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
+
 const Products = () => {
   const columns = [
     {
