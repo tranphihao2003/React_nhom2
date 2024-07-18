@@ -58,7 +58,7 @@ const Cutstomers = () => {
             <CIcon icon={icon.cilTrash} />
           </CButton>{' '}
           <Link to="/EditCustomers">
-            <CButton variant="outline" color="success">
+            <CButton variant="outline" color="primary">
               <CIcon icon={icon.cilColorBorder} />
             </CButton>{' '}
           </Link>
@@ -79,7 +79,7 @@ const Cutstomers = () => {
             <CIcon icon={icon.cilTrash} />
           </CButton>{' '}
           <Link to="/EditCustomers">
-            <CButton variant="outline" color="success">
+            <CButton variant="outline" color="primary">
               <CIcon icon={icon.cilColorBorder} />
             </CButton>{' '}
           </Link>
@@ -100,7 +100,7 @@ const Cutstomers = () => {
             <CIcon icon={icon.cilTrash} />
           </CButton>{' '}
           <Link to="/EditCustomers">
-            <CButton variant="outline" color="success">
+            <CButton variant="outline" color="primary">
               <CIcon icon={icon.cilColorBorder} />
             </CButton>{' '}
           </Link>

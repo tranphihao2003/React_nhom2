@@ -63,7 +63,7 @@ const Employees = () => {
             <CIcon icon={icon.cilTrash} />
           </CButton>{' '}
           <Link to="/EditEmployees">
-            <CButton variant="outline" color="success">
+            <CButton variant="outline" color="primary">
               <CIcon icon={icon.cilColorBorder} />
             </CButton>{' '}
           </Link>
@@ -85,7 +85,7 @@ const Employees = () => {
             <CIcon icon={icon.cilTrash} />
           </CButton>{' '}
           <Link to="/EditEmployees">
-            <CButton variant="outline" color="success">
+            <CButton variant="outline" color="primary">
               <CIcon icon={icon.cilColorBorder} />
             </CButton>{' '}
           </Link>
@@ -107,7 +107,7 @@ const Employees = () => {
             <CIcon icon={icon.cilTrash} />
           </CButton>{' '}
           <Link to="/EditEmployees">
-            <CButton variant="outline" color="success">
+            <CButton variant="outline" color="primary">
               <CIcon icon={icon.cilColorBorder} />
             </CButton>{' '}
           </Link>
@@ -129,7 +129,7 @@ const Employees = () => {
             <CIcon icon={icon.cilTrash} />
           </CButton>{' '}
           <Link to="/EditEmployees">
-            <CButton variant="outline" color="success">
+            <CButton variant="outline" color="primary">
               <CIcon icon={icon.cilColorBorder} />
             </CButton>{' '}
           </Link>

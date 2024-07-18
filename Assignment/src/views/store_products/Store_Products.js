@@ -43,7 +43,9 @@ const Store_Products = () => {
           <CButton variant="outline" color="danger">
             <CIcon icon={icon.cilTrash} />
           </CButton>{' '}
-          <CButton color="primary">Chỉnh sửa</CButton>
+          <CButton color="primary">
+            <CIcon icon={icon.cilPencil} />
+          </CButton>
         </>
       ),
     },
@@ -57,7 +59,9 @@ const Store_Products = () => {
           <CButton variant="outline" color="danger">
             <CIcon icon={icon.cilTrash} />
           </CButton>{' '}
-          <CButton color="primary">Chỉnh sửa</CButton>
+          <CButton color="primary">
+            <CIcon icon={icon.cilPencil} />
+          </CButton>
         </>
       ),
     },
