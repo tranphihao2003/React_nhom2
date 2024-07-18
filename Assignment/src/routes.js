@@ -80,6 +80,11 @@ const EditCustomers = React.lazy(() => import('./views/customers/EditCustomers')
 const Genres = React.lazy(() => import('./views/genres/Genres'))
 const AddGenres = React.lazy(() => import('./views/genres/AddGenres'))
 const EditGenres = React.lazy(() => import('./views/genres/EditGenres'))
+//Các bảng
+const Orders = React.lazy(() => import('./views/orders/Orders'))
+const Order_Detail = React.lazy(() => import('./views/orders/Order_Detail'))
+const Order_Add = React.lazy(() => import('./views/orders/Order_Add'))
+const Order_Update = React.lazy(() => import('./views/orders/Order_Update'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -154,6 +159,10 @@ const routes = [
   { path: '/genres', name: 'Genres', element: Genres },
   { path: '/AddGenres', name: 'AddGenres', element: AddGenres },
   { path: '/EditGenres', name: 'EditGenres', element: EditGenres },
+  { path: '/orders', name: 'Orders', element: Orders },
+  { path: '/orders/order_detail/:id', name: 'Order_Detail', element: Order_Detail },
+  { path: '/order_add', name: 'Order_Add', element: Order_Add },
+  { path: '/order_update', name: 'Order_Update', element: Order_Update },
 ]
 
 export default routes
