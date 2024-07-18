@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -51,6 +52,34 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
+// page admin
+const Products = React.lazy(() => import('./views/products/Products'))
+const ProductsAdd = React.lazy(() => import('./views/products/Products-add'))
+const Shipperadd = React.lazy(() => import('./views/shipper/shipper-add'))
+const Shipper = React.lazy(() => import('./views/shipper/shipper'))
+const Suppliers = React.lazy(() => import('./views/suppliers/suppliers'))
+const SuppliersAdd = React.lazy(() => import('./views/suppliers/suppliers-add'))
+const Stores = React.lazy(() => import('./views/stores/Stores'))
+const Stores_Add = React.lazy(() => import('./views/stores/Stores_Add'))
+const Stores_Edit = React.lazy(() => import('./views/stores/Stores_Edit'))
+const Store_Products = React.lazy(() => import('./views/store_products/Store_Products'))
+const Store_Products_Add = React.lazy(() => import('./views/store_products/Store_Products_Add'))
+const Store_Products_Edit = React.lazy(() => import('./views/store_products/Store_Products_Edit'))
+const Accounts = React.lazy(() => import('./views/accounts/Accounts'))
+const Accounts_Add = React.lazy(() => import('./views/accounts/Accounts_Add'))
+const Accounts_Edit = React.lazy(() => import('./views/accounts/Accounts_Edit'))
+
+const Employees = React.lazy(() => import('./views/employees/Employees'))
+const AddEmployees = React.lazy(() => import('./views/employees/AddEmployees'))
+const EditEmployees = React.lazy(() => import('./views/employees/EditEmployees'))
+
+const Customers = React.lazy(() => import('./views/customers/Customers'))
+const AddCustomers = React.lazy(() => import('./views/customers/AddCustomers'))
+const EditCustomers = React.lazy(() => import('./views/customers/EditCustomers'))
+
+const Genres = React.lazy(() => import('./views/genres/genres'))
+const AddGenres = React.lazy(() => import('./views/genres/AddGenres'))
+const EditGenres = React.lazy(() => import('./views/genres/EditGenres'))
 //Các bảng
 const Orders = React.lazy(() => import('./views/orders/Orders'))
 const Order_Detail = React.lazy(() => import('./views/orders/Order_Detail'))
@@ -103,6 +132,33 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', element: Modals },
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
+  { path: '/products', name: 'Products', element: Products },
+  { path: '/products/add', name: 'Add Product', element: ProductsAdd },
+  { path: '/Shipper/add', name: 'add Shipper', element: Shipperadd },
+  { path: '/Shipper', name: 'Shipper', element: Shipper },
+  { path: '/suppliers', name: 'suppliers', element: Suppliers },
+  { path: '/suppliers/add', name: 'suppliers add', element: SuppliersAdd },
+  { path: '/stores', name: 'Stores', element: Stores },
+  { path: '/stores_add', name: 'Stores_Add', element: Stores_Add },
+  { path: '/stores_edit', name: 'Stores_Edit', element: Stores_Edit },
+  { path: '/store_products', name: 'Store_Products', element: Store_Products },
+  { path: '/store_products_add', name: 'Store_Products_Add', element: Store_Products_Add },
+  { path: '/store_products_edit', name: 'Store_Products_Edit', element: Store_Products_Edit },
+  { path: '/accounts', name: 'Accounts', element: Accounts },
+  { path: '/accounts_add', name: 'Accounts_Add', element: Accounts_Add },
+  { path: '/accounts_edit', name: 'Accounts_Edit', element: Accounts_Edit },
+
+  { path: '/employees', name: 'Employees', element: Employees },
+  { path: '/AddEmployees', name: 'AddEmployees', element: AddEmployees },
+  { path: '/EditEmployees', name: 'EditEmployees', element: EditEmployees },
+
+  { path: '/customers', name: 'Customers', element: Customers },
+  { path: '/AddCustomers', name: 'AddCustomers', element: AddCustomers },
+  { path: '/EditCustomers', name: 'EditCustomers', element: EditCustomers },
+
+  { path: '/genres', name: 'Genres', element: Genres },
+  { path: '/AddGenres', name: 'AddGenres', element: AddGenres },
+  { path: '/EditGenres', name: 'EditGenres', element: EditGenres },
   { path: '/orders', name: 'Orders', element: Orders },
   { path: '/orders/order_detail/:id', name: 'Order_Detail', element: Order_Detail },
   { path: '/order_add', name: 'Order_Add', element: Order_Add },
