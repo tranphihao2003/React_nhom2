@@ -1,5 +1,5 @@
 import React from 'react'
-import { CTable, CButton } from '@coreui/react'
+import { CTable, CButton, CPagination, CPaginationItem } from '@coreui/react'
 import { Link } from 'react-router-dom'
 import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
@@ -58,12 +58,16 @@ const Orders = (props) => {
       Payment_Status: <span className="badge bg-danger">Chưa xác nhận</span>,
       actions: (
         <>
-          <CButton variant="outline" color="danger">
-            <CIcon icon={icon.cilTrash} />
-          </CButton>{' '}
-          <CButton color="primary">
-            <CIcon icon={icon.cilPencil} />
-          </CButton>
+          <Link to={`/order_detail/1`}>
+            <CButton variant="outline" color="danger">
+              Chi tiết
+            </CButton>
+          </Link>{' '}
+          <Link to={`/order_update/1`}>
+            <CButton color="primary">
+              <CIcon icon={icon.cilPencil} />
+            </CButton>
+          </Link>
         </>
       ),
       _cellProps: { Order_ID: { scope: 'row' } },
@@ -78,18 +82,38 @@ const Orders = (props) => {
       Payment_Status: <span className="badge bg-success">Đang giao</span>,
       actions: (
         <>
-          <CButton variant="outline" color="danger">
-            <CIcon icon={icon.cilTrash} />
-          </CButton>{' '}
-          <CButton color="primary">
-            <CIcon icon={icon.cilPencil} />
-          </CButton>
+          <Link to={`/order_detail/1`}>
+            <CButton variant="outline" color="danger">
+              Chi tiết
+            </CButton>
+          </Link>{' '}
+          <Link to={`/order_update/1`}>
+            <CButton color="primary">
+              <CIcon icon={icon.cilPencil} />
+            </CButton>
+          </Link>
         </>
       ),
       _cellProps: { Order_ID: { scope: 'row' } },
     },
   ]
-  return <CTable striped hover columns={columns} items={items} />
+  return (
+    <>
+      <CTable striped hover columns={columns} items={items} />
+      <CPagination align="center" aria-label="Page navigation example">
+        <CPaginationItem disabled>
+          <span aria-hidden="true">&laquo;</span>
+        </CPaginationItem>
+        <CPaginationItem>1</CPaginationItem>
+        <CPaginationItem>2</CPaginationItem>
+        <CPaginationItem>3</CPaginationItem>
+        <CPaginationItem>
+          {' '}
+          <span aria-hidden="true">&raquo;</span>
+        </CPaginationItem>
+      </CPagination>
+    </>
+  )
 }
 
 export default Orders

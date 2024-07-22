@@ -160,9 +160,9 @@ const routes = [
   { path: '/AddGenres', name: 'AddGenres', element: AddGenres },
   { path: '/EditGenres', name: 'EditGenres', element: EditGenres },
   { path: '/orders', name: 'Orders', element: Orders },
-  { path: '/orders/order_detail/:id', name: 'Order_Detail', element: Order_Detail },
-  { path: '/order_add', name: 'Order_Add', element: Order_Add },
-  { path: '/order_update', name: 'Order_Update', element: Order_Update },
+  { path: '/order_detail/:id', name: 'Order_Detail', element: Order_Detail },
+  { path: '/order_add/', name: 'Order_Add', element: Order_Add },
+  { path: '/order_update/:id', name: 'Order_Update', element: Order_Update },
 ]
 
 export default routes

@@ -21,7 +21,7 @@ import {
   cilGroup,
   cilUser,
   cilUserFollow,
-  cilClearAll
+  cilClearAll,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -50,7 +50,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Thêm',
-        to: '/add',
+        to: '/products/add',
       },
     ],
   },
@@ -63,17 +63,12 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Hiển thị',
-        to: '/Orders',
+        to: '/orders',
       },
       {
         component: CNavItem,
         name: 'Thêm',
-        to: '/Order_Add',
-      },
-      {
-        component: CNavItem,
-        name: 'Sửa',
-        to: '/Order_Update',
+        to: '/order_Add',
       },
     ],
   },
