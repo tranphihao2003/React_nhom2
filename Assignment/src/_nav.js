@@ -50,7 +50,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Thêm',
-        to: '/add',
+        to: '/products/add',
       },
     ],
   },

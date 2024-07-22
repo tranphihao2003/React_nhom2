@@ -1,7 +1,6 @@
 import React, { Suspense, useEffect } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { setItem, getItem, removeItem } from './services/localStorage.services'
 
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
@@ -15,8 +14,8 @@ const Register = React.lazy(() => import('./views/pages/register/Register'))
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 import { isTokenExpired } from './services/localStorage.services'
+
 const App = () => {
-  
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
   const storedTheme = useSelector((state) => state.theme)
 

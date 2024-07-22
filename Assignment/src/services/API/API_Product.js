@@ -1,4 +1,4 @@
-import API_config from "../../config/API_config";
+import API_config from '../../config/API_config'
 export default class API_Product {
   async getProducts() {
     const response = await fetch(API_config.products.list)
@@ -34,5 +34,4 @@ export default class API_Product {
     })
     return response.json()
   }
-   
 }

@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Routes, Route, useParams } from 'react-router-dom'
+import API_Suppliers from '../../services/API/API_suppliers'
 import {
   CButton,
   CCol,
@@ -7,46 +9,68 @@ import {
   CFormLabel,
   CRow,
   CFormTextarea,
+  CAlert,
 } from '@coreui/react'
-
-const SuppliersAdd = () => {
-  const [formData, setFormData] = useState({
-    Supplier_ID: '',
+const SupplierEdit = () => {
+  const API_Class = new API_Suppliers()
+  const [validated, setValidated] = useState(false)
+  const [status, setStatus] = useState(null)
+  const [formData, setformData] = useState({
     Supplier_Name: '',
     Contact_Name: '',
     Contact_Email: '',
     Contact_Phone: '',
     Address: '',
   })
-
-  const handleChange = (e) => {
+  let { id } = useParams()
+  useEffect(() => {
+    document.title = 'Chỉnh sửa -Nhà phân phối'
+    getdata()
+  }, [])
+  function getdata() {
+    API_Class.getsuppliersbyid(id).then((response) => {
+      setformData(response[0])
+    })
+  }
+  function update() {
+    API_Class.updatesuppliers(formData)
+      .then((response) => {
+        setStatus(true)
+      })
+      .catch((error) => {
+        setStatus(false)
+      })
+  }
+  function handleSubmit(e) {
+    e.preventDefault()
+    const form = e.currentTarget
+    if (form.checkValidity() === false) {
+      e.stopPropagation()
+    }else{
+      update()
+    }
+    setValidated(true)
+  }
+  function handleChange(e) {
     const { name, value } = e.target
-    setFormData({
+    setformData({
       ...formData,
       [name]: value,
     })
   }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Here you can perform actions with the formData, e.g., submit to backend or process locally
-    console.log(formData)
-    // Reset the form after submission if needed
-    setFormData({
-      Supplier_ID: '',
-      Supplier_Name: '',
-      Contact_Name: '',
-      Contact_Email: '',
-      Contact_Phone: '',
-      Address: '',
-    })
-  }
-
   return (
-    <CForm className="row g-3" onSubmit={handleSubmit}>
-      <h1 className="text-center mb-4">Thêm nhà phân phối</h1>
-
-
+    <CForm className="row g-3" onSubmit={handleSubmit} noValidate validated={validated}>
+      <h1 className="text-center mb-4">Chỉnh sửa nhà phân phối</h1>
+      {status === false && (
+        <CCol md={12}>
+          <CAlert color="danger">Chỉnh sửa nhà phân phối thất bại</CAlert>
+        </CCol>
+      )}
+      {status === true && (
+        <CCol md={12}>
+          <CAlert color="success">Chỉnh sửa nhà phân phối thành công</CAlert>
+        </CCol>
+      )}
 
       <CCol md={6}>
         <CFormLabel htmlFor="Supplier_Name">Tên nhà phân phối</CFormLabel>
@@ -109,11 +133,10 @@ const SuppliersAdd = () => {
 
       <CCol md={12}>
         <CButton color="primary" type="submit">
-          Thêm nhà phân phối
+          Chỉnh sửa nhà phân phối
         </CButton>
       </CCol>
     </CForm>
   )
 }
-
-export default SuppliersAdd
+export default SupplierEdit

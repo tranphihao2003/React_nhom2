@@ -1,9 +1,71 @@
-import React from 'react'
-import { CTable, CButton } from '@coreui/react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { CTable, CButton, CPagination, CPaginationItem } from '@coreui/react'
+import { useNavigate, useSearchParams, Link } from 'react-router-dom'
+import ModalComponent from '../../components/modal/modalComponent'
 import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
-const Orders = (props) => {
+import API_Order from '../../services/API/API_Order'
+
+const Orders = () => {
+  // Phân trang
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [pagination, setPagination] = useState({
+    page: searchParams.get('page') ? parseInt(searchParams.get('page')) : 1,
+    pageSize: searchParams.get('pageSize') ? parseInt(searchParams.get('pageSize')) : 3,
+    totalItems: 0,
+    totalPages: 0,
+  })
+
+  const API_Class = new API_Order()
+  const [items, setItems] = useState([])
+  const navigate = useNavigate()
+  useEffect(() => {
+    document.title = 'Đơn hàng'
+    getdata(pagination.page, pagination.pageSize)
+  }, [])
+
+  function getdata(page, pageSize) {
+    API_Class.getOrders(page, pageSize).then((response) => {
+      setPagination({
+        totalItems: response.totalItems,
+        totalPages: response.totalPages,
+        page: response.currentPage,
+        pageSize: response.pageSize,
+      })
+      renderdata(response.orders)
+    })
+  }
+
+  function deleteacp(id) {
+    API_Class.deleteOrder(id).then((response) => {
+      ShowSwal('success', 'Xóa thành công')
+      getdata()
+    })
+  }
+
+  function editacp(id) {
+    navigate(`/orders/${id}`)
+  }
+
+  const ShowSwal = (status, title) => {
+    withReactContent(Swal).fire({
+      position: 'center',
+      icon: status,
+      title: title,
+      showConfirmButton: false,
+      timer: 1000,
+    })
+  }
+
+  function handlePageChange(newpage) {
+    searchParams.set('page', newpage)
+    navigate(`/suppliers?${searchParams.toString()}`)
+    getdata(newpage, pagination.pageSize)
+    console.log('====================================')
+    console.log(pagination)
+    console.log('====================================')
+  }
+
   const columns = [
     {
       key: 'Order_ID',
@@ -35,11 +97,11 @@ const Orders = (props) => {
       label: 'Giá (VNĐ)',
       _props: { scope: 'col' },
     },
-    {
-      key: 'Payment_Status',
-      label: 'Trạng thái',
-      _props: { scope: 'col' },
-    },
+    // {
+    //   key: 'Payment_Status',
+    //   label: 'Trạng thái',
+    //   _props: { scope: 'col' },
+    // },
     {
       key: 'actions',
       label: 'Thao tác',
@@ -47,49 +109,60 @@ const Orders = (props) => {
     },
   ]
 
-  const items = [
-    {
-      Order_ID: 1,
-      Store_ID: 'Chi nhánh 1',
-      Employee_ID: 'Thái Dương',
-      Customer_ID: 'Phương Tuấn',
-      Order_Date: '25/9/2024',
-      Total_Amount: '390,000',
-      Payment_Status: <span className="badge bg-danger">Chưa xác nhận</span>,
-      actions: (
-        <>
-          <CButton variant="outline" color="danger">
-            <CIcon icon={icon.cilTrash} />
-          </CButton>{' '}
-          <CButton color="primary">
-            <CIcon icon={icon.cilPencil} />
-          </CButton>
-        </>
-      ),
-      _cellProps: { Order_ID: { scope: 'row' } },
-    },
-    {
-      Order_ID: 2,
-      Store_ID: 'Chi nhánh 1',
-      Employee_ID: 'Kỳ Nam',
-      Customer_ID: 'Phương Tuấn',
-      Order_Date: '7/16/2024',
-      Total_Amount: '700,000',
-      Payment_Status: <span className="badge bg-success">Đang giao</span>,
-      actions: (
-        <>
-          <CButton variant="outline" color="danger">
-            <CIcon icon={icon.cilTrash} />
-          </CButton>{' '}
-          <CButton color="primary">
-            <CIcon icon={icon.cilPencil} />
-          </CButton>
-        </>
-      ),
-      _cellProps: { Order_ID: { scope: 'row' } },
-    },
-  ]
-  return <CTable striped hover columns={columns} items={items} />
+  function renderdata(items) {
+    setItems(
+      items.map((item, index) => {
+        item.actions = (
+          <>
+            <ModalComponent
+              {...item}
+              color="danger"
+              content="bạn muốn xóa ?"
+              icon="cilTrash"
+              status="Delete"
+              actions={deleteacp}
+            ></ModalComponent>{' '}
+            <ModalComponent
+              {...item}
+              color="primary"
+              content="bạn muốn chỉnh sửa?"
+              icon="cilPen"
+              status="Edit"
+              actions={editacp}
+            ></ModalComponent>
+          </>
+        )
+        return item
+      }),
+    )
+  }
+
+  return (
+    <>
+      <CTable striped hover columns={columns} items={items} />
+      <CPagination align="center" aria-label="Page navigation example">
+        <CPaginationItem
+          disabled={pagination.page === 1}
+          onClick={() => handlePageChange(pagination.page - 1)}
+        >
+          <span aria-hidden="true">&laquo;</span>
+        </CPaginationItem>
+        {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((page) => (
+          <CPaginationItem
+            key={page}
+            active={page === pagination.page}
+            onClick={() => handlePageChange(page)}
+          >
+            {page}
+          </CPaginationItem>
+        ))}
+        <CPaginationItem>
+          {' '}
+          <span aria-hidden="true">&raquo;</span>
+        </CPaginationItem>
+      </CPagination>
+    </>
+  )
 }
 
 export default Orders

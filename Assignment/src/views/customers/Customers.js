@@ -13,13 +13,13 @@ const Cutstomers = () => {
     },
     {
       key: 'first_Name',
-      label: 'Tên',
+      label: 'Họ',
       _props: { scope: 'col' },
     },
 
     {
       key: 'last_Name',
-      label: 'Họ',
+      label: 'Tên',
       _props: { scope: 'col' },
     },
     {
@@ -47,9 +47,9 @@ const Cutstomers = () => {
   const items = [
     {
       id: 1,
-      first_Name: 'Jack',
-      last_Name: 'Thái Văn',
-      Email: 'jack5mGmail.com',
+      first_Name: 'Trịnh Trần',
+      last_Name: 'Phương Tuấn',
+      Email: 'jack97mGmail.com',
       Phone: '012312312',
       Address: 'Bến tre',
       actions: (
@@ -69,7 +69,7 @@ const Cutstomers = () => {
     {
       id: 2,
       first_Name: 'Jack',
-      last_Name: 'Thái Văn',
+      last_Name: 'J97',
       Email: 'jack5mGmail.com',
       Phone: '012312312',
       Address: 'Bến tre',
@@ -89,8 +89,8 @@ const Cutstomers = () => {
     },
     {
       id: 3,
-      first_Name: 'Jack',
-      last_Name: 'Thái Văn',
+      first_Name: 'Meomeo',
+      last_Name: '',
       Email: 'jack5mGmail.com',
       Phone: '012312312',
       Address: 'Bến tre',

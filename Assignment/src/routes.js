@@ -1,4 +1,6 @@
+import { element } from 'prop-types'
 import React from 'react'
+import Login from './views/pages/login/Login'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
@@ -58,7 +60,7 @@ const ProductsAdd = React.lazy(() => import('./views/products/Products-add'))
 const Shipperadd = React.lazy(() => import('./views/shipper/shipper-add'))
 const Shipper = React.lazy(() => import('./views/shipper/shipper'))
 const Suppliers = React.lazy(() => import('./views/suppliers/suppliers'))
-const SuppliersAdd = React.lazy(() => import('./views/suppliers/suppliers-add'))
+const SuppliersAdd = React.lazy(() => import('./views/suppliers/suppliersAdd'))
 const Stores = React.lazy(() => import('./views/stores/Stores'))
 const Stores_Add = React.lazy(() => import('./views/stores/Stores_Add'))
 const Stores_Edit = React.lazy(() => import('./views/stores/Stores_Edit'))

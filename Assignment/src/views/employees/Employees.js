@@ -12,13 +12,12 @@ const Employees = () => {
       _props: { scope: 'col' },
     },
     {
-      key: 'last_Name',
+      key: 'first_Name',
       label: 'Họ',
       _props: { scope: 'col' },
     },
-
     {
-      key: 'first_Name',
+      key: 'last_Name',
       label: 'Tên',
       _props: { scope: 'col' },
     },
@@ -52,8 +51,8 @@ const Employees = () => {
   const items = [
     {
       id: 1,
-      first_Name: 'Jack',
-      last_Name: 'Thái Văn',
+      first_Name: 'Nguyễn',
+      last_Name: 'Thái Dương',
       salary: '5,000',
       store_ID: 'Đống đa hà nội',
       position: 'Nhân viên',
@@ -74,8 +73,8 @@ const Employees = () => {
     },
     {
       id: 2,
-      first_Name: 'Jack',
-      last_Name: 'Thái Văn',
+      first_Name: 'Trịnh Trần',
+      last_Name: 'Phương Tuấn',
       salary: '5,000',
       store_ID: 'Đống đa hà nội',
       position: 'Nhân viên',
@@ -96,8 +95,8 @@ const Employees = () => {
     },
     {
       id: 3,
-      first_Name: 'Jack',
-      last_Name: 'Thái Văn',
+      first_Name: 'Trịnh Trần',
+      last_Name: 'Phương Tuấn',
       salary: '5,000',
       store_ID: 'Đống đa hà nội',
       position: 'Nhân viên',

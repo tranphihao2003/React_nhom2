@@ -7,16 +7,8 @@ export const setItem = (key, value) => {
   }
 }
 export const getItem = (key) => {
-  try {
-    const serializedValue = localStorage.getItem(key)
-    if (serializedValue === null) {
-      return undefined
-    }
-    return JSON.parse(serializedValue)
-  } catch (error) {
-    console.error(`lỗi khi lấy ${key} từ localStorage`, error)
-    return undefined
-  }
+  const items = localStorage.getItem(key)
+  return items
 }
 export const removeItem = (key) => {
   try {

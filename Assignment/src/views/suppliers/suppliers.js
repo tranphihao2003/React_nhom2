@@ -1,9 +1,70 @@
-import React from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { CButton, CTable, CPagination, CPaginationItem } from '@coreui/react'
-
+import ModalComponent from '../../components/modal/modalComponent'
 import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
+import API_Suppliers from '../../services/API/API_suppliers'
+import { useNavigate, useSearchParams, Link } from 'react-router-dom'
+
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 const Suppliers = () => {
+  // pagination
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [pagination, setPagination] = useState({
+    page: searchParams.get('page') ? parseInt(searchParams.get('page')) : 1,
+    pageSize: searchParams.get('pageSize') ? parseInt(searchParams.get('pageSize')) : 3,
+    totalItems: 0,
+    totalPages: 0,
+  })
+
+  const API_Class = new API_Suppliers()
+  const [items, setItems] = useState([])
+  const navigate = useNavigate()
+  useEffect(() => {
+    document.title = 'Nhà phân phối'
+    getdata(pagination.page, pagination.pageSize)
+  }, [])
+  function getdata(page, pageSize) {
+    API_Class.getsuppliers(page, pageSize).then((response) => {
+      setPagination({
+        totalItems: response.totalItems,
+        totalPages: response.totalPages,
+        page: response.currentPage,
+        pageSize: response.pageSize,
+      })
+      renderdata(response.suppliers)
+    })
+  }
+
+  function deleteacp(id) {
+    API_Class.deletesuppliers(id).then((response) => {
+      ShowSwal('success', 'Xóa thành công')
+      getdata()
+    })
+  }
+  function editacp(id) {
+    navigate(`/suppliers/${id}`)
+  }
+
+  const ShowSwal = (status, title) => {
+    withReactContent(Swal).fire({
+      position: 'center',
+      icon: status,
+      title: title,
+      showConfirmButton: false,
+      timer: 1000,
+    })
+  }
+  function handlePageChange(newpage) {
+    searchParams.set('page', newpage)
+    navigate(`/suppliers?${searchParams.toString()}`)
+    getdata(newpage, pagination.pageSize)
+    console.log('====================================')
+    console.log(pagination)
+    console.log('====================================')
+  }
   const columns = [
     {
       key: 'Supplier_ID',
@@ -42,73 +103,53 @@ const Suppliers = () => {
     },
   ]
 
-  const items = [
-    {
-      Supplier_ID: 'SUP001',
-      Supplier_Name: 'Công ty TNHH A',
-      Contact_Name: 'Nguyễn Văn A',
-      Contact_Email: 'nguyenvana@gmail.com',
-      Contact_Phone: '0901234567',
-      Address: 'Số 10, Đường ABC, Quận XYZ, Thành phố HCM',
-      actions: (
-        <>
-          <CButton variant="outline" color="danger">
-            <CIcon icon={icon.cilTrash} />
-          </CButton>{' '}
-          <CButton color="primary">
-            <CIcon icon={icon.cilPencil} />
-          </CButton>
-        </>
-      ),
-    },
-    {
-      Supplier_ID: 'SUP002',
-      Supplier_Name: 'Công ty TNHH B',
-      Contact_Name: 'Trần Thị B',
-      Contact_Email: 'tranthib@gmail.com',
-      Contact_Phone: '0912345678',
-      Address: 'Số 20, Đường XYZ, Quận ABC, Thành phố HCM',
-      actions: (
-        <>
-          <CButton variant="outline" color="danger">
-            <CIcon icon={icon.cilTrash} />
-          </CButton>{' '}
-          <CButton color="primary">
-            <CIcon icon={icon.cilPencil} />
-          </CButton>
-        </>
-      ),
-    },
-    {
-      Supplier_ID: 'SUP003',
-      Supplier_Name: 'Công ty TNHH C',
-      Contact_Name: 'Lê Văn C',
-      Contact_Email: 'levanc@gmail.com',
-      Contact_Phone: '0923456789',
-      Address: 'Số 30, Đường PQR, Quận DEF, Thành phố HCM',
-      actions: (
-        <>
-          <CButton variant="outline" color="danger">
-            <CIcon icon={icon.cilTrash} />
-          </CButton>{' '}
-          <CButton color="primary">
-            <CIcon icon={icon.cilPencil} />
-          </CButton>
-        </>
-      ),
-    },
-  ]
+  function renderdata(items) {
+    setItems(
+      items.map((item, index) => {
+        item.actions = (
+          <>
+            <ModalComponent
+              {...item}
+              color="danger"
+              content="bạn muốn xóa ?"
+              icon="cilTrash"
+              status="Delete"
+              actions={deleteacp}
+            ></ModalComponent>{' '}
+            <ModalComponent
+              {...item}
+              color="primary"
+              content="bạn muốn chỉnh sửa?"
+              icon="cilPen"
+              status="Edit"
+              actions={editacp}
+            ></ModalComponent>
+          </>
+        )
+        return item
+      }),
+    )
+  }
 
   return (
     <>
       <CTable striped hover columns={columns} items={items} />
       <CPagination align="center" aria-label="Page navigation example">
-        <CPaginationItem disabled>
+        <CPaginationItem
+          disabled={pagination.page === 1}
+          onClick={() => handlePageChange(pagination.page - 1)}
+        >
           <span aria-hidden="true">&laquo;</span>
         </CPaginationItem>
-        <CPaginationItem>1</CPaginationItem>
-        <CPaginationItem>2</CPaginationItem>
-        <CPaginationItem>3</CPaginationItem>
+        {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((page) => (
+          <CPaginationItem
+            key={page}
+            active={page === pagination.page}
+            onClick={() => handlePageChange(page)}
+          >
+            {page}
+          </CPaginationItem>
+        ))}
         <CPaginationItem>
           {' '}
           <span aria-hidden="true">&raquo;</span>
