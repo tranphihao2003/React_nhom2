@@ -26,7 +26,7 @@ const Suppliers = () => {
   const [pagination, setPagination] = useState({
     page: searchParams.get('page') ? parseInt(searchParams.get('page')) : 1, //  lấy ra page từ url
     pageSize: searchParams.get('pageSize') ? parseInt(searchParams.get('pageSize')) : 10, // lấy ra pageSize từ url
-    totalItems: 0, 
+    totalItems: 0,
     totalPages: 0,
   })
   const [reloadheader, setreloadheader] = useState(false) // reload thùng rác khi xóa
@@ -37,15 +37,17 @@ const Suppliers = () => {
     document.title = 'Nhà phân phối'
     getdata(pagination.page, pagination.pageSize)
   }, [])
-  function getdata(page, pageSize) { // lấy data api
+  function getdata(page, pageSize) {
+    // lấy data api
     API.getsuppliers(page, pageSize).then((response) => {
+      const { data } = response
       setPagination({
-        totalItems: response.totalItems,
-        totalPages: response.totalPages,
-        page: response.currentPage,
-        pageSize: response.pageSize,
+        totalItems: data.totalItems,
+        totalPages: data.totalPages,
+        page: data.currentPage,
+        pageSize: data.pageSize,
       })
-      renderdata(response.suppliers)
+      renderdata(data.suppliers)
     })
   }
   function deleteacp(id) {
@@ -68,7 +70,8 @@ const Suppliers = () => {
       timer: 1000,
     })
   }
-  function handlePageChange(newpage) { // thay đổi page
+  function handlePageChange(newpage) {
+    // thay đổi page
     searchParams.set('page', newpage)
     navigate(`/suppliers?${searchParams.toString()}`)
     getdata(newpage, pagination.pageSize)
@@ -178,9 +181,8 @@ const Suppliers = () => {
         <CTable striped hover columns={columns} items={items} />
         {items.length === 0 && <div className="text-center">Không có dữ liệu</div>}
       </div>
-        {
-          items.length !=0 && 
-          <CPagination align="center" aria-label="Page navigation example">
+      {items.length != 0 && (
+        <CPagination align="center" aria-label="Page navigation example">
           <CPaginationItem
             disabled={pagination.page === 1}
             onClick={() => handlePageChange(pagination.page - 1)}
@@ -204,7 +206,7 @@ const Suppliers = () => {
             <span aria-hidden="true">&raquo;</span>
           </CPaginationItem>
         </CPagination>
-        }
+      )}
     </CCard>
   )
 }

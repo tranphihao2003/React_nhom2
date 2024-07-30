@@ -8,8 +8,9 @@ import {
   CCardHeader,
   CRow,
   CCol,
+  CBadge,
 } from '@coreui/react'
-import API_Store from '../../services/API/API_Store'
+import * as API_Store from '../../services/API/API_Store'
 import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
@@ -26,7 +27,7 @@ const Stores = () => {
     totalItems: 0,
     totalPages: 0,
   })
-  const API_Class = new API_Store();
+
   const [reloadheader, setreloadheader] = useState([])
   const [items, setItems] = useState([])
   const navigate = useNavigate()
@@ -34,27 +35,30 @@ const Stores = () => {
     document.title = 'Cửa hàng'
     getdata(pagination.page, pagination.pageSize)
   }, [])
-  function getdata(page, pageSize) { // lấy data api
-    console.log(page, pageSize);
-    API_Class.getStore(page, pageSize).then((response) => {
+  function getdata(page, pageSize) {
+    // lấy data api
+
+    API_Store.getStore(page, pageSize).then((response) => {
+      const { data } = response
+
       setPagination({
-        totalItems: response.totalItems,
-        totalPages: response.totalPages,
-        page: response.currentPage,
-        pageSize: response.pageSize,
+        totalItems: data.totalItems,
+        totalPages: data.totalPages,
+        page: data.currentPage,
+        pageSize: data.pageSize,
       })
-      renderdata(response.stores)
+      renderdata(data.stores)
     })
   }
   function deleteacp(id) {
-    API_Class.changestatus(id, 1).then((response) => {
+    API_Store.changestatus(id, 1).then((response) => {
       ShowSwal('success', 'Xóa thành công')
       getdata(pagination.page, pagination.pageSize)
       setreloadheader((reloadheader) => !reloadheader)
     })
   }
   function editacp(id) {
-    navigate(`/Stores_edit/${id}`)
+    navigate(`/stores_edit/${id}`)
   }
   const ShowSwal = (status, title) => {
     withReactContent(Swal).fire({
@@ -66,7 +70,6 @@ const Stores = () => {
     })
   }
   function handlePageChange(newpage) {
-    console.log(newpage);
     searchParams.set('page', newpage)
     navigate(`/stores?${searchParams.toString()}`)
     getdata(newpage, pagination.pageSize)
@@ -107,6 +110,12 @@ const Stores = () => {
     setItems(
       items.map((item, index) => {
         item.STT = index + 1
+        item.status =
+          item.Store_Status == 0 ? (
+            <CBadge color="danger">Ngừng Hoạt động</CBadge>
+          ) : (
+            <CBadge color="success"> hoạt động</CBadge>
+          )
         item.actions = (
           <>
             <ModalComponent
@@ -137,13 +146,12 @@ const Stores = () => {
   }
 
   return (
-
     <CCard>
       <CCardHeader>
         <CRow className="align-items-center">
           <CCol sm="3">
             <h5 id="traffic" className="card-title mb-0">
-              Danh sách nhà cung cấp
+              Danh sách cửa hàng
             </h5>
           </CCol>
 
@@ -151,13 +159,13 @@ const Stores = () => {
             <AppHeaderHistory
               id="Store_ID"
               API={API_Store}
-              path="Stores"
+              path="stores"
               page={pagination.page}
               loaddata={getdata}
               status={reloadheader}
             />
             <CButton
-              onClick={() => navigate('/Stores_add')}
+              onClick={() => navigate('/stores_add')}
               color="success"
               className="float-end me-2 px-4 text-white"
             >

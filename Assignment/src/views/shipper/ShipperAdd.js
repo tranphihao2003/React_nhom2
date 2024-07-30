@@ -14,8 +14,8 @@ import {
   CAlert,
 } from '@coreui/react'
 // api
-import API_Shipper from '../../services/API/API_Shipper'
-import API_Store from '../../services/API/API_Store'
+import * as API_Shipper from '../../services/API/API_Shipper'
+import * as API_Store from '../../services/API/API_Store'
 const ShipperAdd = () => {
   const [validated, setValidated] = React.useState(false)
   const [status, setStatus] = React.useState(null)
@@ -33,13 +33,13 @@ const ShipperAdd = () => {
     getdata()
   }, [])
   async function getdata() {
-    const API_Class_store = new API_Store()
-    const response = await API_Class_store.getStore(1, 100)
+
+    const response = await API_Store.getStore(1, 100)
     setStore(response.stores)
   }
   async function create() {
-    const API_Class = new API_Shipper()
-    const response = await API_Class.createShipper(formData)
+   
+    const response = await API_Shipper.createShipper(formData)
     if (response) {
       setStatus(true)
     }

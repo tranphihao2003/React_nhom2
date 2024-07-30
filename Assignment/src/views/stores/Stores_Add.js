@@ -11,7 +11,7 @@ import {
   CCardBody,
 } from '@coreui/react';
 // api
-import API_Store from '../../services/API/API_Store';
+import * as API_Store from '../../services/API/API_Store';
 // router
 import { useNavigate } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ const Store_Add = () => {
   const [status, setStatus] = useState(null);
   const [validated, setValidated] = useState(false);
   const [count, setCount] = useState(0);
-  const API_Class = new API_Store();
+
   const [formData, setFormData] = useState({
     Store_Name: '',
     Store_Location: '',
@@ -32,7 +32,7 @@ const Store_Add = () => {
   }, [count]);
 
   function create() {
-    API_Class.createStore(formData)
+    API_Store.createStore(formData)
       .then((response) => {
         setStatus(true);
         setTimeout(() => {

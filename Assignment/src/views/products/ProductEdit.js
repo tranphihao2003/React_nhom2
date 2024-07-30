@@ -9,8 +9,8 @@ import {
   CFormSelect,
   CFormTextarea,
 } from '@coreui/react'
-import API_Product from '../../services/API/API_Product'
-import API_genres from '../../services/API/API_Genre'
+import * as API from '../../services/API/API_Product'
+import * as APIGen from '../../services/API/API_Genre'
 import { useParams,useNavigate } from 'react-router-dom'
 
 const ProductsEdit = () => {
@@ -42,12 +42,11 @@ const ProductsEdit = () => {
       })
   }
   async function getProduct() {
-    const API_Product_class = new API_Product()
-    const API_genres_class = new API_genres()
-    const response = await API_genres_class.getgenres()
+ 
+    const response = await APIGen.getGenres()
 
     setGenres(response.genres)
-    const responseProduct = await API_Product_class.getProductsbyid(id)
+    const responseProduct = await API.getProductById(id)
 
     setProduct(responseProduct[0])
   }

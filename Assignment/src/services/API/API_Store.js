@@ -1,85 +1,123 @@
-import { json } from 'react-router-dom'
 import API_config from '../../config/API_config'
 import { getItem, removeItem } from '../localStorage.services'
 
-export default class API_Store {
-  async getStore(page = 1, pageSize = 10) {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(
-      API_config.store.list + '?page=' + page + '&pageSize=' + pageSize,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    )
-    return this._handleResponse(response)
+// Function to handle authenticated fetch requests
+const _fetchWithAuth = async (url, options) => {
+  const token = getItem('token')
+  options.headers = {
+    ...options.headers,
+    Authorization: `Bearer ${token}`,
   }
-  async getStorebyid(id) {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.store.list + '/' + id, {
+  return fetch(url, options)
+}
+
+// Function to handle API responses
+const _handleResponse = async (response, navigate) => {
+  if (response.status === 401 || response.status === 403) {
+    removeItem('token')
+    Swal.fire({
+      icon: 'error',
+      title: 'Lỗi',
+      text: 'Phiên đăng nhập đã hết hạn',
+      preConfirm: () => {
+        navigate('/login')
+      },
+    })
+  }
+  try {
+    const data = await response.json()
+    return {
+      status: response.status,
+      data: data,
+    }
+  } catch (error) {
+    return {
+      status: response.status,
+      data: null,
+    }
+  }
+}
+
+// Function to get stores
+export const getStore = async (page = 1, pageSize = 10, navigate) => {
+  const response = await _fetchWithAuth(
+    `${API_config.stores.list}?page=${page}&pageSize=${pageSize}`,
+    {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-    })
-    return this._handleResponse(response)
-  }
-  async createStore(Store) {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.store.create, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(Store),
-    })
-    return this._handleResponse(response)
-  }
+    },
+  )
+  return _handleResponse(response, navigate)
+}
 
-  async updateStore(Store) {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.store.update + '/' + Store.Supplier_ID, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(Store),
-    })
-    return this._handleResponse(response)
-  }
+// Function to change the status of a store
+export const changestatus = async (id, status, navigate) => {
+  const response = await _fetchWithAuth(`${API_config.stores.updatestatus}/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ status }),
+  })
+  return _handleResponse(response, navigate)
+}
 
-  async deleteStore(id) {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.store.delete + '/' + id, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    return this._handleResponse(response)
-  }
+// Function to retrieve deleted data
+export const Backdata = async (navigate) => {
+  const response = await _fetchWithAuth(API_config.stores.backdata, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  return _handleResponse(response, navigate)
+}
 
-  async _fetchWithAuth(url, options) {
-    const token = getItem('token')
-    options.headers = {
-      ...options.headers,
-      Authorization: `Bearer ${token}`,
-    }
-    return fetch(url, options)
-  }
+// Function to get store by ID
+export const getStoreById = async (id, navigate) => {
+  const response = await _fetchWithAuth(`${API_config.stores.list}/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  return _handleResponse(response, navigate)
+}
 
-  async _handleResponse(response) {
-    if (response.status === 401 || response.status === 403) {
-      removeItem('token')
-      window.location.replace('/#/login')
-    }
-    try {
-      return await response.json()
-    } catch (error) {
-      console.error('Failed to parse JSON:', error)
-      return null
-    }
-  }
+// Function to create a new store
+export const createStore = async (store, navigate) => {
+  const response = await _fetchWithAuth(API_config.stores.create, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(store),
+  })
+  return _handleResponse(response, navigate)
+}
+
+// Function to update an existing store
+export const updateStore = async (store, navigate) => {
+  const response = await _fetchWithAuth(`${API_config.stores.update}/${store.Store_ID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(store),
+  })
+  return _handleResponse(response, navigate)
+}
+
+// Function to delete a store by ID
+export const deleteAPI = async (id, navigate) => {
+  const response = await _fetchWithAuth(`${API_config.stores.delete}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+
+  return _handleResponse(response, navigate)
 }

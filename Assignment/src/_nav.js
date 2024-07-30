@@ -148,12 +148,7 @@ const _nav = [
         component: CNavItem,
         name: 'Thêm',
         to: '/stores_add',
-      },
-      {
-        component: CNavItem,
-        name: 'Sửa',
-        to: '/stores_edit',
-      },
+      }
     ],
   },
   {
@@ -171,12 +166,7 @@ const _nav = [
         component: CNavItem,
         name: 'Thêm',
         to: '/store_products_add',
-      },
-      {
-        component: CNavItem,
-        name: 'Sửa',
-        to: '/store_products_edit',
-      },
+      }
     ],
   },
   {
@@ -194,12 +184,7 @@ const _nav = [
         component: CNavItem,
         name: 'Thêm',
         to: '/accounts_add',
-      },
-      {
-        component: CNavItem,
-        name: 'Sửa',
-        to: '/accounts_edit',
-      },
+      }
     ],
   },
   {
@@ -235,24 +220,6 @@ const _nav = [
         component: CNavItem,
         name: 'Thêm',
         to: '/AddCustomers',
-      },
-    ],
-  },
-  {
-    component: CNavGroup,
-    name: 'Genres',
-    to: '/genres',
-    icon: <CIcon icon={cilClearAll} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Hiển thị',
-        to: '/Genres',
-      },
-      {
-        component: CNavItem,
-        name: 'Thêm',
-        to: '/AddGenres',
       },
     ],
   },

@@ -85,7 +85,7 @@ const Customers = React.lazy(() => import('./views/customers/Customers'))
 const AddCustomers = React.lazy(() => import('./views/customers/AddCustomers'))
 const EditCustomers = React.lazy(() => import('./views/customers/EditCustomers'))
 
-const Genres = React.lazy(() => import('./views/genres/genres'))
+const Genres = React.lazy(() => import('./views/genres/Genres'))
 const AddGenres = React.lazy(() => import('./views/genres/AddGenres'))
 const EditGenres = React.lazy(() => import('./views/genres/EditGenres'))
 //Các bảng
@@ -153,7 +153,7 @@ const PublicRoutes = [
   // Store routes
   { path: '/stores', name: 'Stores', element: Stores, requiredRole: [''] },
   { path: '/stores_add', name: 'Add Store', element: Stores_Add, requiredRole: ['Admin'] },
-  { path: '/stores_edit', name: 'Edit Store', element: Stores_Edit, requiredRole: ['Admin'] },
+  { path: '/stores_edit/:id', name: 'Edit Store', element: Stores_Edit, requiredRole: ['Admin'] },
   {
     path: '/store_products',
     name: 'Store Products',

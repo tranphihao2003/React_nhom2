@@ -39,13 +39,14 @@ const Shipper = () => {
   }, [])
   const getdata = (page, pageSize) => {
     API.getShippers(page, pageSize).then((res) => {
+      const { data } = res
       setPagination({
-        totalItems: res.totalItems,
-        totalPages: res.totalPages,
-        page: res.currentPage,
-        pageSize: res.pageSize,
+        totalItems: data.totalItems,
+        totalPages: data.totalPages,
+        page: data.currentPage,
+        pageSize: data.pageSize,
       })
-      renderdata(res.shippers)
+      renderdata(data.shippers)
     })
   }
   const deleteacp = (id) => {

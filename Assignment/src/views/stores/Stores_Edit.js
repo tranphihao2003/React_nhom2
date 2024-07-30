@@ -10,7 +10,7 @@ import {
   CCardHeader,
   CCardBody,
 } from '@coreui/react';
-import API_Store from '../../services/API/API_Store';
+import * as API_Store from '../../services/API/API_Store';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const Stores_Edit = () => {
@@ -24,16 +24,16 @@ const Stores_Edit = () => {
     Store_Phone: '',
   });
 
-  const API_Class = new API_Store();
+
 
   useEffect(() => {
     document.title = 'Sửa cửa hàng';
 
     if (id) {
-      API_Class.getStorebyid(id)
+      API_Store.getStoreById(id)
         .then((response) => {
-          console.log(response);
-          setFormData(response[0]);
+          const { data } = response;
+          setFormData(data[0]);
         })
         .catch((error) => {
           console.error('Error fetching store data:', error);
@@ -62,8 +62,9 @@ const Stores_Edit = () => {
   };
 
   const updateStore = () => {
-    API_Class.updateStore({ ...formData, Store_ID: id })
+    API_Store.updateStore({ ...formData, Store_ID: id })
       .then((response) => {
+        
         setStatus(true);
         setTimeout(() => {
           navigate('/Stores');

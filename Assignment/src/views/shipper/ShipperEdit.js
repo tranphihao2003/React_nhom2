@@ -14,8 +14,8 @@ import {
   CAlert,
 } from '@coreui/react'
 // api
-import API_Shipper from '../../services/API/API_Shipper'
-import API_Store from '../../services/API/API_Store'
+import * as API_Shipper from '../../services/API/API_Shipper'
+import * as API_Store from '../../services/API/API_Store'
 import { useParams } from 'react-router-dom'
 const ShipperEdit = () => {
   let { id } = useParams()
@@ -35,17 +35,14 @@ const ShipperEdit = () => {
     getdata()
   }, [])
   async function getdata() {
-    const API_Class_store = new API_Store()
-    const API_Class_Shipper = new API_Shipper()
-    const response = await API_Class_store.getStore(1, 100)
-    const responseShipper = await API_Class_Shipper.getShipperbyid(id)
+    const response = await API_Store.getStore(1, 100)
+    const responseShipper = await API_Shipper.getShipperById(id)
     setFormData(responseShipper[0])
     setStore(response.stores)
-    
   }
   async function update() {
-    const API_Class = new API_Shipper()
-    const response = await API_Class.updateShipper(formData)
+    
+    const response = await API_Shipper.updateShipper(formData)
     if (response) {
       setStatus(true)
     }
