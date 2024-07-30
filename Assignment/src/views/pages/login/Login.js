@@ -58,7 +58,7 @@ const Login = () => {
     }
     setValidated(true)
     setSubmitCount(submitCount + 1)
-    console.log(submitCount)
+  
   }
 
   return (

@@ -2,10 +2,30 @@ import { json } from 'react-router-dom'
 import API_config from '../../config/API_config'
 import { getItem, removeItem } from '../localStorage.services'
 
-export default class API_Product {
-  async getProducts() {
+export default class API_Genres {
+  async changestatus(id, status) {
     const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.products.list, {
+    const response = await this._fetchWithAuth(API_config.genres.updatestatus + '/' + id, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: status }),
+    })
+    return this._handleResponse(response)
+  }
+  async getGenres() {
+    const token = getItem('token')
+    const response = await this._fetchWithAuth(API_config.genres.list, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    return this._handleResponse(response)
+  }
+  //lấy dữ liệu đã xóa
+  async Backdata() {
+    const token = getItem('token')
+    const response = await this._fetchWithAuth(API_config.genres.backdata, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -14,38 +34,37 @@ export default class API_Product {
     return this._handleResponse(response)
   }
 
-  async createProduct(product) {
+  async createGenres(genres) {
     const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.products.create, {
+    const response = await this._fetchWithAuth(API_config.genres.create, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(product),
+      body: JSON.stringify(genres),
     })
     return this._handleResponse(response)
   }
 
-  async updateProduct(product) {
+  async updateGenres(genres) {
     const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.products.update, {
+    const response = await this._fetchWithAuth(API_config.genres.update, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(product),
+      body: JSON.stringify(genres),
     })
     return this._handleResponse(response)
   }
 
-  async deleteProduct(product) {
+  async delete(genres) {
     const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.products.delete, {
+    const response = await this._fetchWithAuth(API_config.genres.delete + '/' + genres, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(product),
     })
     return this._handleResponse(response)
   }

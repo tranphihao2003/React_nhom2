@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   CButton,
   CCol,
@@ -7,11 +7,17 @@ import {
   CFormLabel,
   CRow,
   CFormTextarea,
+  CAlert,
 } from '@coreui/react'
-
+// api
+import API_Suppliers from '../../services/API/API_suppliers'
 const SuppliersAdd = () => {
+  useEffect(() => {
+    document.title = 'Thêm nhà phân phối'
+  }, [])
+  const [status, setStatus] = useState(null)
+  const API_Class = new API_Suppliers()
   const [formData, setFormData] = useState({
-    Supplier_ID: '',
     Supplier_Name: '',
     Contact_Name: '',
     Contact_Email: '',
@@ -29,24 +35,35 @@ const SuppliersAdd = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Here you can perform actions with the formData, e.g., submit to backend or process locally
-    console.log(formData)
-    // Reset the form after submission if needed
     setFormData({
-      Supplier_ID: '',
       Supplier_Name: '',
       Contact_Name: '',
       Contact_Email: '',
       Contact_Phone: '',
       Address: '',
     })
+    API_Class.createProduct(formData)
+      .then((response) => {
+        setStatus(true)
+      })
+      .catch((error) => {
+        setStatus(false)
+      })
   }
 
   return (
     <CForm className="row g-3" onSubmit={handleSubmit}>
       <h1 className="text-center mb-4">Thêm nhà phân phối</h1>
-
-
+      {status === false && (
+        <CCol md={12}>
+          <CAlert color="danger">Thêm nhà phân phối thất bại</CAlert>
+        </CCol>
+      )}
+      {status === true && (
+        <CCol md={12}>
+          <CAlert color="success">Thêm nhà phân phối thành công</CAlert>
+        </CCol>
+      )}
 
       <CCol md={6}>
         <CFormLabel htmlFor="Supplier_Name">Tên nhà phân phối</CFormLabel>

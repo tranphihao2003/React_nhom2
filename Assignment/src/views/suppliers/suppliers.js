@@ -1,38 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CButton, CTable, CPagination, CPaginationItem } from '@coreui/react'
 
 import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
-const Suppliers = () => {
+import API_Genres from '../../services/API/API_Genres'
+const Genres = () => {
+  useEffect(() => {
+    document.title = 'Nhà phân phối'
+    const API_Class = new API_Genres()
+    API_Class.getGenres().then((response) => {
+      renderdata(response.suppliers)
+    })
+  }, [])
   const columns = [
     {
-      key: 'Supplier_ID',
+      key: 'Genre_ID',
       label: 'STT',
       _props: { scope: 'col' },
     },
     {
-      key: 'Supplier_Name',
+      key: 'Genre_Name',
       label: 'Tên nhà cung cấp',
-      _props: { scope: 'col' },
-    },
-    {
-      key: 'Contact_Name',
-      label: 'Tên người liên hệ',
-      _props: { scope: 'col' },
-    },
-    {
-      key: 'Contact_Email',
-      label: 'Email người liên hệ',
-      _props: { scope: 'col' },
-    },
-    {
-      key: 'Contact_Phone',
-      label: 'SĐT người liên hệ',
-      _props: { scope: 'col' },
-    },
-    {
-      key: 'Address',
-      label: 'Địa chỉ',
       _props: { scope: 'col' },
     },
     {
@@ -41,16 +29,12 @@ const Suppliers = () => {
       _props: { scope: 'col' },
     },
   ]
+  const [items, setItems] = useState([])
 
-  const items = [
-    {
-      Supplier_ID: 'SUP001',
-      Supplier_Name: 'Công ty TNHH A',
-      Contact_Name: 'Nguyễn Văn A',
-      Contact_Email: 'nguyenvana@gmail.com',
-      Contact_Phone: '0901234567',
-      Address: 'Số 10, Đường ABC, Quận XYZ, Thành phố HCM',
-      actions: (
+  function renderdata(items) {
+    return items.map((item, index) => {
+      item.Genre_ID = index + 1
+      item.actions = (
         <>
           <CButton variant="outline" color="danger">
             <CIcon icon={icon.cilTrash} />
@@ -59,46 +43,10 @@ const Suppliers = () => {
             <CIcon icon={icon.cilPencil} />
           </CButton>
         </>
-      ),
-    },
-    {
-      Supplier_ID: 'SUP002',
-      Supplier_Name: 'Công ty TNHH B',
-      Contact_Name: 'Trần Thị B',
-      Contact_Email: 'tranthib@gmail.com',
-      Contact_Phone: '0912345678',
-      Address: 'Số 20, Đường XYZ, Quận ABC, Thành phố HCM',
-      actions: (
-        <>
-          <CButton variant="outline" color="danger">
-            <CIcon icon={icon.cilTrash} />
-          </CButton>{' '}
-          <CButton color="primary">
-            <CIcon icon={icon.cilPencil} />
-          </CButton>
-        </>
-      ),
-    },
-    {
-      Supplier_ID: 'SUP003',
-      Supplier_Name: 'Công ty TNHH C',
-      Contact_Name: 'Lê Văn C',
-      Contact_Email: 'levanc@gmail.com',
-      Contact_Phone: '0923456789',
-      Address: 'Số 30, Đường PQR, Quận DEF, Thành phố HCM',
-      actions: (
-        <>
-          <CButton variant="outline" color="danger">
-            <CIcon icon={icon.cilTrash} />
-          </CButton>{' '}
-          <CButton color="primary">
-            <CIcon icon={icon.cilPencil} />
-          </CButton>
-        </>
-      ),
-    },
-  ]
-
+      )
+      setItems((items) => [...items, item])
+    })
+  }
   return (
     <>
       <CTable striped hover columns={columns} items={items} />
@@ -118,4 +66,4 @@ const Suppliers = () => {
   )
 }
 
-export default Suppliers
+export default Genres

@@ -17,8 +17,12 @@ const API_config = {
     list: `${config.api}/customers`,
     create: `${config.api}/customers`,
     update: `${config.api}/customers`,
+    stop: `${config.api}/customers/stop`,
     delete: `${config.api}/customers`,
+    backdata: `${config.api}/customers/backdata/all`,
+    updatestatus: `${config.api}/customers/backdata`,
   },
+
   employees: {
     list: `${config.api}/employees`,
     create: `${config.api}/employees`,
@@ -44,10 +48,13 @@ const API_config = {
     delete: `${config.api}/suppliers`,
   },
   genres: {
-    list: `${config.api}/genres`,
-    create: `${config.api}/genres`,
-    update: `${config.api}/genres`,
-    delete: `${config.api}/genres`,
+    list: `${config.api}/customers`,
+    create: `${config.api}/customers`,
+    update: `${config.api}/customers`,
+    stop: `${config.api}/customers/stop`,
+    delete: `${config.api}/customers`,
+    backdata: `${config.api}/customers/backdata/all`,
+    updatestatus: `${config.api}/customers/backdata`,
   },
   store_products: {
     list: `${config.api}/store_products`,
