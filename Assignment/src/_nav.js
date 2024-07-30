@@ -105,17 +105,49 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Hiển thị',
-        to: '/Orders',
+        to: '/Genres',
       },
       {
         component: CNavItem,
         name: 'Thêm',
-        to: '/Order_Add',
+        to: '/AddGenres',
+      }
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Shippers',
+    to: '/Shippers',
+    icon: <CIcon icon={cilTruck} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Hiển thị',
+        to: '/Shippers',
       },
       {
         component: CNavItem,
-        name: 'Sửa',
-        to: '/Order_Update',
+        name: 'Thêm người giao hình',
+        to: '/Shippers/add',
+      },
+    ],
+  },
+
+  {
+    component: CNavGroup,
+    name: 'Orders',
+    to: '/orders',
+    icon: <CIcon icon={cilCart} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Hiển thị',
+        to: '/orders',
+      },
+      {
+        component: CNavItem,
+        name: 'Thêm',
+        to: '/order_Add',
       },
     ],
   },
@@ -153,12 +185,7 @@ const _nav = [
         component: CNavItem,
         name: 'Thêm',
         to: '/stores_add',
-      },
-      {
-        component: CNavItem,
-        name: 'Sửa',
-        to: '/stores_edit',
-      },
+      }
     ],
   },
   {
@@ -176,12 +203,7 @@ const _nav = [
         component: CNavItem,
         name: 'Thêm',
         to: '/store_products_add',
-      },
-      {
-        component: CNavItem,
-        name: 'Sửa',
-        to: '/store_products_edit',
-      },
+      }
     ],
   },
   {
@@ -199,12 +221,7 @@ const _nav = [
         component: CNavItem,
         name: 'Thêm',
         to: '/accounts_add',
-      },
-      {
-        component: CNavItem,
-        name: 'Sửa',
-        to: '/accounts_edit',
-      },
+      }
     ],
   },
   {

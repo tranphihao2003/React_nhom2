@@ -42,13 +42,18 @@ const COLUMNS_CONFIG = {
     { key: 'Phone', label: 'SỐ điện thoại' },
     { key: 'status', label: 'Trạng thái' },
     { key: 'actions', label: 'Thao tác' },
-
+  ],
+  stores: [
+    { key: 'STT', label: 'STT' },
+    { key: 'Store_Name', label: 'Tên cửa hàng' },
+    { key: 'Store_Location', label: 'Địa chỉ' },
+    { key: 'Store_Phone', label: 'SĐT' },
+    { key: 'status', label: 'Trạng thái' },
+    { key: 'actions', label: 'Thao tác' },
   ],
 }
 
 const AppHeaderHistory = (props) => {
-
- console.log(props.API);
   const navigate = useNavigate()
   const [visibleLg, setVisibleLg] = useState(false)
   const [items, setItems] = useState([])
@@ -56,28 +61,33 @@ const AppHeaderHistory = (props) => {
   const config_path = Object.keys(API_config)
   useEffect(() => {
     getdata()
-  }, [visibleLg,props.status])
+  }, [visibleLg, props.status])
   async function getdata() {
-    
     for (const item of config_path) {
-    
       if (item === props.path) {
         const data = await props.API.Backdata()
-        setCountTag(data.length)
-        renderdata(data)
+        setCountTag(data.data.length)
+        renderdata(data.data)
         break
       }
     }
   }
 
-  async function deleteProduct(id) {
-    
-  
+  async function deleteItem(id) {
     const data = await props.API.deleteAPI(id)
-    if (data) {
+
+    if (data.data.errno === 1451) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Không thể xóa này',
+        showConfirmButton: false,
+        timer: 1500,
+      })
+      return
+    } else if (data.status === 200) {
       Swal.fire({
         icon: 'success',
-        title: 'Xóa sản phẩm thành công',
+        title: 'Xóa thành công',
         showConfirmButton: false,
         timer: 1500,
       })
@@ -85,18 +95,24 @@ const AppHeaderHistory = (props) => {
       props.loaddata(props.page, 10)
     }
   }
-  async function restoreProduct(id) {
-
+  async function restoreitem(id) {
     const data = await props.API.changestatus(id, 0)
-    if (data) {
+    if (data.status === 200) {
       Swal.fire({
         icon: 'success',
-        title: 'Khôi phục sản phẩm thành công',
+        title: 'Khôi phục thành công',
         showConfirmButton: false,
         timer: 1500,
       })
       getdata()
       props.loaddata(props.page, 10)
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Không thể khôi phục ',
+        showConfirmButton: false,
+        timer: 1500,
+      })
     }
   }
   const renderdata = (data) => {
@@ -117,7 +133,7 @@ const AppHeaderHistory = (props) => {
             <CButton
               color="primary"
               onClick={() => {
-                restoreProduct(item[props.id])
+                restoreitem(item[props.id])
               }}
               className="me-2"
             >
@@ -126,7 +142,7 @@ const AppHeaderHistory = (props) => {
             <CButton
               color="danger"
               onClick={() => {
-                deleteProduct(item[props.id])
+                deleteItem(item[props.id])
               }}
             >
               <CIcon icon={icon.cilTrash} />
@@ -161,7 +177,7 @@ const AppHeaderHistory = (props) => {
         aria-labelledby="OptionalSizesExample2"
       >
         <CModalHeader>
-          <CModalTitle id="OptionalSizesExample2">Các sản phẩm đã xóa</CModalTitle>
+          <CModalTitle id="OptionalSizesExample2">Các Mục đã xóa</CModalTitle>
         </CModalHeader>
         <CModalBody>
           <CTable striped hover columns={columns()} items={items} />

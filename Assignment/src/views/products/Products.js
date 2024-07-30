@@ -11,7 +11,6 @@ import withReactContent from 'sweetalert2-react-content'
 import AppHeaderHistory from '../../components/AppheaderHisory'
 
 const Products = () => {
- 
   // Phân trang
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -37,13 +36,15 @@ const Products = () => {
   }, [])
   const getdata = (page, pageSize) => {
     API.getProducts(page, pageSize).then((res) => {
+      const { data } = res
+   
       setPagination({
-        totalItems: res.totalItems,
-        totalPages: res.totalPages,
-        page: res.currentPage,
-        pageSize: res.pageSize,
+        totalItems: data.totalItems,
+        totalPages: data.totalPages,
+        page: data.currentPage,
+        pageSize: data.pageSize,
       })
-      renderdata(res.products)
+      renderdata(data.products)
     })
   }
   function renderdata(items) {
@@ -89,7 +90,6 @@ const Products = () => {
   }
   //  chức năng
   const deleteacp = (id) => {
-   
     API.changestatus(id, 1).then((res) => {
       ShowSwal('success', 'Xóa thành công')
       getdata(pagination.page, pagination.pageSize)

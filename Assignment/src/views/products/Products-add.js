@@ -10,7 +10,7 @@ import {
   CFormTextarea,
 } from '@coreui/react'
 import * as API from '../../services/API/API_Product'
-import API_genres from '../../services/API/API_Genre'
+import * as API_genres from '../../services/API/API_Genre'
 import { useNavigate } from 'react-router-dom'
 const ProductsAdd = () => {
   const navigate = useNavigate()
@@ -26,9 +26,7 @@ const ProductsAdd = () => {
   })
   const [Genres, setGenres] = useState([])
   function create() {
-   
-    API
-      .createProduct(product)
+    API.createProduct(product)
       .then((response) => {
         setStatus(true)
       })
@@ -41,8 +39,7 @@ const ProductsAdd = () => {
   }, [])
   const [validated, setValidated] = useState(false)
   async function getGenres() {
-    const API_genres_class = new API_genres()
-    const response = await API_genres_class.getgenres()
+    const response = await API_genres.getGenres()
     setGenres(response.genres)
   }
   const handleChange = (e) => {
@@ -122,7 +119,6 @@ const ProductsAdd = () => {
             name="Genre_ID"
             id="inputProductType"
             onChange={handleChange}
-            
             feedbackInvalid="Chọn thể loại âm nhạc"
             required
           />

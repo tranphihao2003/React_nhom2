@@ -153,7 +153,7 @@ const PublicRoutes = [
   // Store routes
   { path: '/stores', name: 'Stores', element: Stores, requiredRole: [''] },
   { path: '/stores_add', name: 'Add Store', element: Stores_Add, requiredRole: ['Admin'] },
-  { path: '/stores_edit', name: 'Edit Store', element: Stores_Edit, requiredRole: ['Admin'] },
+  { path: '/stores_edit/:id', name: 'Edit Store', element: Stores_Edit, requiredRole: ['Admin'] },
   {
     path: '/store_products',
     name: 'Store Products',
