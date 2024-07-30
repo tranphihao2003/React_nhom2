@@ -3,6 +3,30 @@ import API_config from '../../config/API_config'
 import { getItem, removeItem } from '../localStorage.services'
 
 export default class API_Order {
+  async changestatus(id, status) {
+    //Thay đổi trạng thái và dừng và khôi phục
+    const token = getItem('token')
+    const response = await this._fetchWithAuth(API_config.orders.updatestatus + '/' + id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status: status }),
+    })
+    return this._handleResponse(response)
+  }
+
+  async backdata() {
+    const token = getItem('token')
+    const response = await this._fetchWithAuth(API_config.orders.backdata, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    return this._handleResponse(response)
+  }
+
   async getOrders(page = 1, pageSize = 10) {
     const token = getItem('token')
     const response = await this._fetchWithAuth(

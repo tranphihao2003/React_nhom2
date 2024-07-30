@@ -2,10 +2,33 @@ import { json } from 'react-router-dom'
 import API_config from '../../config/API_config'
 import { getItem, removeItem } from '../localStorage.services'
 
-export default class API_Product {
+export default class API_Store {
+  async getStore(page = 1, pageSize = 10) {
+    const token = getItem('token')
+    const response = await this._fetchWithAuth(
+      API_config.Stores.list + '?page=' + page + '&pageSize=' + pageSize,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+    return this._handleResponse(response)
+  }
+  async getAllStoreAdd() {
+    const token = getItem('token')
+    const response = await this._fetchWithAuth(API_config.store.list_add, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    return this._handleResponse(response)
+  }
   async changestatus(id, status) {
     const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.products.updatestatus + '/' + id, {
+    const response = await this._fetchWithAuth(API_config.Stores.updatestatus + '/' + id, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -14,10 +37,9 @@ export default class API_Product {
     })
     return this._handleResponse(response)
   }
-
-  async backdata() {
+  async Backdata() {
     const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.products.backdata, {
+    const response = await this._fetchWithAuth(API_config.Stores.backdata, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -25,10 +47,9 @@ export default class API_Product {
     })
     return this._handleResponse(response)
   }
-
-  async getAllProducts() {
+  async getStorebyid(id) {
     const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.products.list, {
+    const response = await this._fetchWithAuth(API_config.Stores.list + '/' + id, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -36,50 +57,37 @@ export default class API_Product {
     })
     return this._handleResponse(response)
   }
-
-  async getAllProductAdd() {
+  async createStore(Store) {
     const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.products.list_add, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    return this._handleResponse(response)
-  }
-
-  async createOrder(order) {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.orders.create, {
+    const response = await this._fetchWithAuth(API_config.Stores.create, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(order),
+      body: JSON.stringify(Store),
     })
     return this._handleResponse(response)
   }
 
-  async updateOrder(order) {
+  async updateStore(Store) {
     const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.orders.update, {
+    const response = await this._fetchWithAuth(API_config.Stores.update + '/' + Store.Store_ID, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(order),
+      body: JSON.stringify(Store),
     })
     return this._handleResponse(response)
   }
 
-  async deleteOrder(order) {
+  async delete(id) {
     const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.orders.delete, {
+    const response = await this._fetchWithAuth(API_config.Stores.delete + '/' + id, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(order),
     })
     return this._handleResponse(response)
   }

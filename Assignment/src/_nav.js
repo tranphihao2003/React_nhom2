@@ -65,16 +65,6 @@ const _nav = [
         name: 'Hiển thị',
         to: '/Orders',
       },
-      {
-        component: CNavItem,
-        name: 'Thêm',
-        to: '/Order_Add',
-      },
-      {
-        component: CNavItem,
-        name: 'Sửa',
-        to: '/Order_Update',
-      },
     ],
   },
   {

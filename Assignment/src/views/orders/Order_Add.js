@@ -1,29 +1,92 @@
 import React from 'react'
 import { CTable, CButton, CFormSelect, CFormLabel, CForm, CFormInput } from '@coreui/react'
 
+import API_Order from '../../services/API/API_Order'
+import API_Product from '../../services/API/API_Product'
+import API_Store from '../../services/API/API_Store'
+
+import CIcon from '@coreui/icons-react'
+import * as icon from '@coreui/icons'
+import { useNavigate, useSearchParams, Link } from 'react-router-dom'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+import ModalComponent from '../../components/modal/modalComponent'
+import AppHeaderHistory from '../../components/AppheaderHisory'
+import { useState, useEffect } from 'react'
+
 const Order_Add = () => {
+  const Product_List = new API_Product()
+  const Store_List = new API_Store()
+  const [items, setItems] = useState([])
+  const [stores, setStores] = useState([])
+  const [customers, setCustomers] = useState([])
+
+  const [selectedProduct, setSelectedProduct] = useState('')
+  const [selectedStore, setSelectedStore] = useState('')
+  const [selectedCustomers, setSelectedCustomers] = useState('')
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    get_data()
+  }, [])
+
+  function get_data() {
+    // Get thằng sản phẩm
+    Product_List.getAllProductAdd().then((response) => {
+      render_data(response)
+    })
+
+    // Get thằng chi nhánh
+    Store_List.getAllStoreAdd().then((response) => {
+      render_data_store(response)
+    })
+  }
+
+  function render_data(items) {
+    setItems(
+      items.map((item, index) => {
+        return item
+      }),
+    )
+  }
+  function render_data_store(items) {
+    setStores(
+      items.map((item, index) => {
+        return item
+      }),
+    )
+  }
+  function render_data_customers(items) {
+    setCustomers(
+      items.map((item, index) => {
+        return item
+      }),
+    )
+  }
   return (
     <>
       <h2>Thêm đơn hàng</h2>
       <CForm style={{ margin: '10px' }}>
         <CFormSelect
           style={{ marginBottom: '10px' }}
-          label="Mã khách hàng"
-          options={[
-            'Chọn khách hàng',
-            { label: 'Phi Hào', value: '1' },
-            { label: 'Quốc Kiệt', value: '2' },
-          ]}
+          label="Khách hàng"
+          options={['Chọn khách hàng', { label: 'Phi Hào', value: '1' }]}
         />
         <CFormSelect
           style={{ marginBottom: '10px' }}
           label="Sản phẩm"
-          options={[
-            'Chọn sản phẩm',
-            { label: 'Đánh Đổi', value: '1' },
-            { label: 'Loi Choi', value: '2' },
-          ]}
-        />
+          value={selectedProduct}
+          onChange={(e) => setSelectedProduct(e.target.value)}
+        >
+          <option value="">Chọn sản phẩm</option>
+          {items.map((product) => (
+            <option key={product.Product_ID} value={product.Product_ID}>
+              {product.Product_Name}
+            </option>
+          ))}
+        </CFormSelect>
         <CFormInput
           style={{ marginBottom: '10px' }}
           type="number"
@@ -53,13 +116,17 @@ const Order_Add = () => {
         />
         <CFormSelect
           style={{ marginBottom: '10px' }}
-          label="Cửa hàng"
-          options={[
-            'Chọn cửa hàng',
-            { label: 'Chi nhánh 1', value: '1' },
-            { label: 'Chi nhánh 2', value: '2' },
-          ]}
-        />
+          label="Chi nhánh"
+          value={selectedStore}
+          onChange={(e) => setSelectedStore(e.target.value)}
+        >
+          <option value="">Chọn chi nhánh</option>
+          {stores.map((store) => (
+            <option key={store.Store_ID} value={store.Store_ID}>
+              {store.Store_Name}
+            </option>
+          ))}
+        </CFormSelect>
         <CFormSelect
           style={{ marginBottom: '10px' }}
           label="Phương thức thanh toán"
@@ -74,8 +141,9 @@ const Order_Add = () => {
           label="Trạng thái đơn hàng"
           options={[
             'Chọn trạng thái đơn hàng',
-            { label: 'Chưa xác nhận', value: '1' },
-            { label: 'Đã thanh toán', value: '2' },
+            { label: 'Chờ xác nhận', value: '0' },
+            { label: 'Đang giao', value: '1' },
+            { label: 'Hoàn thành', value: '2' },
             { label: 'Đã hủy', value: '3' },
           ]}
         />

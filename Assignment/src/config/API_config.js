@@ -9,12 +9,14 @@ const API_config = {
   },
   products: {
     list: `${config.api}/products`,
+    list_add: `${config.api}/products/listadd`,
     create: `${config.api}/products`,
     update: `${config.api}/products`,
     delete: `${config.api}/products`,
   },
   customers: {
     list: `${config.api}/customers`,
+    list_add: `${config.api}/customers/listadd`,
     create: `${config.api}/customers`,
     update: `${config.api}/customers`,
     delete: `${config.api}/customers`,
@@ -30,6 +32,19 @@ const API_config = {
     create: `${config.api}/orders`,
     update: `${config.api}/orders`,
     delete: `${config.api}/orders`,
+    stop: `${config.api}/orders/stop`,
+    backdata: `${config.api}/orders/backdata`,
+    updatestatus: `${config.api}/orders/updatestatus`,
+  },
+  order_details: {
+    list: `${config.api}/order_details`,
+    list_detail: `${config.api}/order_details/listdetail`,
+    create: `${config.api}/order_details`,
+    update: `${config.api}/order_details`,
+    delete: `${config.api}/order_details`,
+    stop: `${config.api}/order_details/stop`,
+    backdata: `${config.api}/order_details/backdata`,
+    updatestatus: `${config.api}/order_details/updatestatus`,
   },
   shippers: {
     list: `${config.api}/shippers`,
@@ -57,6 +72,7 @@ const API_config = {
   },
   store: {
     list: `${config.api}/store`,
+    list_add: `${config.api}/store/listadd`,
     create: `${config.api}/store`,
     update: `${config.api}/store`,
     delete: `${config.api}/store`,
