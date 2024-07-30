@@ -21,7 +21,7 @@ import {
   cilGroup,
   cilUser,
   cilUserFollow,
-  cilClearAll
+  cilClearAll,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -50,10 +50,52 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Thêm',
-        to: '/add',
+        to: '/products/add',
       },
     ],
   },
+  {
+    component: CNavGroup,
+    name: 'Genres',
+    to: '/genres',
+    icon: <CIcon icon={cilClearAll} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Hiển thị',
+        to: '/Genres',
+      },
+      {
+        component: CNavItem,
+        name: 'Thêm',
+        to: '/AddGenres',
+      },
+      {
+        component: CNavItem,
+        name: 'Thêm Sản Phẩm',
+        to: '/Products/add',
+      },
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: 'Nhà phân phối',
+    to: '/suppliers',
+    icon: <CIcon icon={cilLan} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Hiển thị',
+        to: '/suppliers',
+      },
+      {
+        component: CNavItem,
+        name: 'Thêm nhà phân phối',
+        to: '/suppliers/add',
+      },
+    ],
+  },
+
   {
     component: CNavGroup,
     name: 'Orders',
@@ -79,40 +121,23 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    name: 'Shipper',
-    to: '/Shipper',
+    name: 'Shippers',
+    to: '/Shippers',
     icon: <CIcon icon={cilTruck} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
         name: 'Hiển thị',
-        to: '/Shipper',
+        to: '/Shippers',
       },
       {
         component: CNavItem,
         name: 'Thêm người giao hình',
-        to: '/Shipper/add',
+        to: '/Shippers/add',
       },
     ],
   },
-  {
-    component: CNavGroup,
-    name: 'Nhà phân phối',
-    to: '/suppliers',
-    icon: <CIcon icon={cilLan} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Hiển thị',
-        to: '/suppliers',
-      },
-      {
-        component: CNavItem,
-        name: 'Thêm nhà phân phối',
-        to: '/suppliers/add',
-      },
-    ],
-  },
+
   {
     component: CNavGroup,
     name: 'Stores',
@@ -215,65 +240,6 @@ const _nav = [
         component: CNavItem,
         name: 'Thêm',
         to: '/AddCustomers',
-      },
-    ],
-  },
-  {
-    component: CNavGroup,
-    name: 'Genres',
-    to: '/genres',
-    icon: <CIcon icon={cilClearAll} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Hiển thị',
-        to: '/Genres',
-      },
-      {
-        component: CNavItem,
-        name: 'Thêm',
-        to: '/AddGenres',
-      },
-      {
-        component: CNavItem,
-        name: 'Thêm Sản Phẩm',
-        to: '/Products/add',
-      },
-    ],
-  },
-  {
-    component: CNavGroup,
-    name: 'Shipper',
-    to: '/Shipper',
-    icon: <CIcon icon={cilTruck} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Hiển thị',
-        to: '/Shipper',
-      },
-      {
-        component: CNavItem,
-        name: 'Thêm người giao hình',
-        to: '/Shipper/add',
-      },
-    ],
-  },
-  {
-    component: CNavGroup,
-    name: 'Nhà phân phối',
-    to: '/suppliers',
-    icon: <CIcon icon={cilLan} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Hiển thị',
-        to: '/suppliers',
-      },
-      {
-        component: CNavItem,
-        name: 'Thêm nhà phân phối',
-        to: '/suppliers/add',
       },
     ],
   },
