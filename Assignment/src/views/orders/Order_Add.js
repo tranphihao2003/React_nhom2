@@ -1,4 +1,3 @@
-import React from 'react'
 import { CTable, CButton, CFormSelect, CFormLabel, CForm, CFormInput } from '@coreui/react'
 
 import API_Order from '../../services/API/API_Order'
@@ -13,7 +12,8 @@ import withReactContent from 'sweetalert2-react-content'
 
 import ModalComponent from '../../components/modal/modalComponent'
 import AppHeaderHistory from '../../components/AppheaderHisory'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, React } from 'react'
+import { useSelect } from 'react-select-search'
 
 const Order_Add = () => {
   const Product_List = new API_Product()
@@ -25,6 +25,8 @@ const Order_Add = () => {
   const [selectedProduct, setSelectedProduct] = useState('')
   const [selectedStore, setSelectedStore] = useState('')
   const [selectedCustomers, setSelectedCustomers] = useState('')
+  const [productOrderList, setProductOrderList] = useState([])
+  const [totalPrice, setTotalPrice] = useState(0)
 
   const navigate = useNavigate()
 
@@ -65,6 +67,51 @@ const Order_Add = () => {
       }),
     )
   }
+
+  function onSelectProduct(id) {
+    const selectedProduct = productOrderList.find((product) => product.Product_ID === id)
+
+    if (selectedProduct) {
+      setTotalPrice(totalPrice + selectedProduct.Product_Price)
+    } else {
+      Product_List.getProductById(id)
+        .then((res) => {
+          const newProduct = {
+            Product_ID: res[0].Product_ID,
+            Product_Name: res[0].Product_Name,
+            Product_Price: res[0].Product_Price,
+            Quantity: 1,
+          }
+
+          setProductOrderList([...productOrderList, newProduct])
+          setTotalPrice(totalPrice + res[0].Product_Price)
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    }
+  }
+
+  function onChangeQta(index, newqty) {
+    const updatedProductOrderList = [...productOrderList]
+    updatedProductOrderList[index].quantity = Number(newqty)
+
+    let totalPrice = 0
+    updatedProductOrderList.forEach((element) => {
+      totalPrice += element.price * element.quantity
+    })
+
+    setProductOrderList(updatedProductOrderList)
+    setTotalPrice(
+      totalPrice.toLocaleString('it-IT', {
+        style: 'currency',
+        currency: 'VND',
+      }),
+    )
+
+    console.log(updatedProductOrderList)
+  }
+
   return (
     <>
       <h2>Thêm đơn hàng</h2>
@@ -78,7 +125,7 @@ const Order_Add = () => {
           style={{ marginBottom: '10px' }}
           label="Sản phẩm"
           value={selectedProduct}
-          onChange={(e) => setSelectedProduct(e.target.value)}
+          onChange={(e) => onSelectProduct(e.target.value)}
         >
           <option value="">Chọn sản phẩm</option>
           {items.map((product) => (
@@ -87,6 +134,13 @@ const Order_Add = () => {
             </option>
           ))}
         </CFormSelect>
+        <ul>
+          {productOrderList.map((item, index) => (
+            <li key={index}>
+              {item[0].Product_Name} {totalPrice}
+            </li>
+          ))}
+        </ul>
         <CFormInput
           style={{ marginBottom: '10px' }}
           type="number"

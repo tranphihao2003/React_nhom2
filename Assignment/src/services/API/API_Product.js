@@ -47,7 +47,16 @@ export default class API_Product {
     })
     return this._handleResponse(response)
   }
-
+  // Function to get product details by ID
+  async getProductById(id) {
+    const response = await this._fetchWithAuth(`${API_config.products.list}/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    return this._handleResponse(response)
+  }
   async createOrder(order) {
     const token = getItem('token')
     const response = await this._fetchWithAuth(API_config.orders.create, {

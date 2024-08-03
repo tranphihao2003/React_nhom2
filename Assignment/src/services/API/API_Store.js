@@ -6,7 +6,7 @@ export default class API_Store {
   async getStore(page = 1, pageSize = 10) {
     const token = getItem('token')
     const response = await this._fetchWithAuth(
-      API_config.Stores.list + '?page=' + page + '&pageSize=' + pageSize,
+      API_config.store.list + '?page=' + page + '&pageSize=' + pageSize,
       {
         method: 'GET',
         headers: {
