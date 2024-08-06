@@ -16,7 +16,6 @@ import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
 import API_config from '../config/API_config'
 import { useNavigate } from 'react-router-dom'
-import API_Product from '../services/API/API_Product'
 
 const COLUMNS_CONFIG = {
   products: [
@@ -44,6 +43,16 @@ const COLUMNS_CONFIG = {
     { key: 'status', label: 'Trạng thái' },
     { key: 'actions', label: 'Thao tác' },
   ],
+  employees: [
+    { key: 'STT', label: 'STT' },
+    { key: 'First_Name', label: 'Họ' },
+    { key: 'Last_Name', label: 'Tên' },
+    { key: 'Store_ID', label: 'Chi nhánh' },
+    { key: 'Position', label: 'Vị trí' },
+    { key: 'Salary', label: 'Lương' },
+    { key: 'Status', label: 'Trạng thái' },
+    { key: 'actions', label: 'Thao tác' },
+  ],
 }
 
 const AppHeaderHistory = (props) => {
@@ -55,12 +64,12 @@ const AppHeaderHistory = (props) => {
   const config_path = Object.keys(API_config)
   useEffect(() => {
     getdata()
-  }, [visibleLg,props.status])
+  }, [visibleLg, props.status])
   async function getdata() {
     const api = new API_Class()
     for (const item of config_path) {
       if (item === props.path) {
-        const data = await api.Backdata()
+        const data = await api.backdata()
         setCountTag(data.length)
         renderdata(data)
         break
@@ -83,8 +92,9 @@ const AppHeaderHistory = (props) => {
     }
   }
   async function restoreProduct(id) {
+    console.log(id)
     const api = new API_Class()
-    const data = await api.changestatus(id, 0)
+    const data = await api.changeStatus(id, 0)
     if (data) {
       Swal.fire({
         icon: 'success',
@@ -103,8 +113,8 @@ const AppHeaderHistory = (props) => {
         item.Product_Image = (
           <img src={item.Product_Image} alt={item.Product_Name} style={{ width: '50px' }} />
         )
-        item.status =
-          item.status === 1 ? (
+        item.Status =
+          item.Status === 1 ? (
             <CBadge color="danger">Tạm ngưng</CBadge>
           ) : (
             <CBadge color="secondary">Inactive</CBadge>

@@ -183,11 +183,6 @@ const _nav = [
         name: 'Hiển thị',
         to: '/Employees',
       },
-      {
-        component: CNavItem,
-        name: 'Thêm',
-        to: '/AddEmployees',
-      },
     ],
   },
   {

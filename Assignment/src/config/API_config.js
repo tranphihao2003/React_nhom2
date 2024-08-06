@@ -23,9 +23,14 @@ const API_config = {
   },
   employees: {
     list: `${config.api}/employees`,
+    list_add: `${config.api}/employees/listadd`,
+    list_detail: `${config.api}/employees/listdetail`,
     create: `${config.api}/employees`,
     update: `${config.api}/employees`,
     delete: `${config.api}/employees`,
+    stop: `${config.api}/employees/stop`,
+    backdata: `${config.api}/employees/backdata/all`,
+    updatestatus: `${config.api}/employees/backdata`,
   },
   orders: {
     list: `${config.api}/orders`,

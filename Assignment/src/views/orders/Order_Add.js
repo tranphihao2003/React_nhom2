@@ -1,4 +1,4 @@
-import { CTable, CButton, CFormSelect, CFormLabel, CForm, CFormInput } from '@coreui/react'
+import { CTable, CButton, CFormSelect, CFormLabel, CForm, CFormInput, CRow, CCol } from '@coreui/react'
 
 import API_Order from '../../services/API/API_Order'
 import API_Product from '../../services/API/API_Product'
@@ -14,6 +14,7 @@ import ModalComponent from '../../components/modal/modalComponent'
 import AppHeaderHistory from '../../components/AppheaderHisory'
 import { useState, useEffect, React } from 'react'
 import { useSelect } from 'react-select-search'
+import { auto } from '@popperjs/core'
 
 const Order_Add = () => {
   const Product_List = new API_Product()
@@ -34,16 +35,17 @@ const Order_Add = () => {
     get_data()
   }, [])
 
-  function get_data() {
+  async function get_data() {
     // Get thằng sản phẩm
-    Product_List.getAllProductAdd().then((response) => {
-      render_data(response)
-    })
+    const product = await Product_List.getAllProductAdd()
+    console.log(product)
+
+    render_data(product)
 
     // Get thằng chi nhánh
-    Store_List.getAllStoreAdd().then((response) => {
-      render_data_store(response)
-    })
+    const store = await Store_List.getAllStoreAdd()
+    render_data_store(store)
+
   }
 
   function render_data(items) {
@@ -69,29 +71,33 @@ const Order_Add = () => {
   }
 
   function onSelectProduct(id) {
-    const selectedProduct = productOrderList.find((product) => product.Product_ID === id)
+    Product_List.getProductById(id)
+      .then((res) => {
+        const newProduct = {
+          Product_ID: res[0].Product_ID,
+          Product_Name: res[0].Product_Name,
+          Product_Price: res[0].Product_Price,
+          Quantity: 1,
+        }
 
-    if (selectedProduct) {
-      setTotalPrice(totalPrice + selectedProduct.Product_Price)
-    } else {
-      Product_List.getProductById(id)
-        .then((res) => {
-          const newProduct = {
-            Product_ID: res[0].Product_ID,
-            Product_Name: res[0].Product_Name,
-            Product_Price: res[0].Product_Price,
-            Quantity: 1,
-          }
-
-          setProductOrderList([...productOrderList, newProduct])
-          setTotalPrice(totalPrice + res[0].Product_Price)
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    }
+        setProductOrderList([...productOrderList, newProduct])
+        setTotalPrice(totalPrice + res[0].Product_Price)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
   }
+  function truqty(id) {
+    productOrderList.map((e)=>{
+        if (e.Product_ID == id) {
+            console.log(e);
+            
+        }
+    })
+    
+    
 
+  }
   function onChangeQta(index, newqty) {
     const updatedProductOrderList = [...productOrderList]
     updatedProductOrderList[index].quantity = Number(newqty)
@@ -134,21 +140,54 @@ const Order_Add = () => {
             </option>
           ))}
         </CFormSelect>
-        <ul>
+        <ul style={{
+          maxHeight: 300,
+          overflow: auto
+        }}>
           {productOrderList.map((item, index) => (
-            <li key={index}>
-              {item[0].Product_Name} {totalPrice}
+            <li key={index} className='m-2'>
+              <CRow>
+                <CCol xl={3}>
+                  {item.Product_Name}
+                </CCol>
+                <CCol xl={4}>
+                  <CRow>
+                    <CCol xl={2}>
+                      <CButton onClick={()=>truqty(item.Product_ID)}>
+                        -
+                      </CButton>
+                    </CCol>
+                    <CCol xl={8} >
+
+                      <CFormInput className='text-center' defaultValue={1} type='number'></CFormInput>
+                    </CCol>
+                    <CCol xl={2}>
+
+                      <CButton>
+                        +
+                      </CButton>
+                    </CCol>
+                  </CRow>
+                </CCol>
+                <CCol xl={3} className='align-items-center d-flex justify-content-center' >
+                  {item.Product_Price}
+                </CCol>
+                <CCol xl={2}>
+                  <CButton>
+                    Xóa
+                  </CButton>
+                </CCol>
+              </CRow>
             </li>
           ))}
         </ul>
         <CFormInput
           style={{ marginBottom: '10px' }}
           type="number"
+          value={selectedProduct}
           id=""
+          onChange={(e) => onChangeQta(e.target.value)}
           label="Số lượng"
-          placeholder="Nhập số lượng"
-          text=""
-          aria-describedby="exampleFormControlInputHelpInline"
         />
         <CFormInput
           style={{ marginBottom: '10px' }}
@@ -156,8 +195,6 @@ const Order_Add = () => {
           id=""
           label="Ngày đặt hàng"
           placeholder=""
-          text=""
-          aria-describedby="exampleFormControlInputHelpInline"
         />
         <CFormSelect
           style={{ marginBottom: '10px' }}

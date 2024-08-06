@@ -1,7 +1,30 @@
-import React from 'react'
-import { CTable, CButton, CFormSelect, CFormLabel, CForm, CFormInput } from '@coreui/react'
+import React, { useEffect, useState } from 'react'
+import {
+  CButton,
+  CCol,
+  CForm,
+  CFormInput,
+  CFormLabel,
+  CAlert,
+  CCard,
+  CCardHeader,
+  CCardBody,
+  CFormSelect,
+} from '@coreui/react'
+import { useNavigate, useParams } from 'react-router-dom'
+import API_Order from '../../services/API/API_Order'
 
 const Order_Update = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
+  const [status, setStatus] = useState(null)
+  const [validated, setValidated] = useState(false)
+  const [formData, setFormData] = useState({
+    Status: '',
+  })
+
+  const API_Order_Class = new API_Order()
+
   return (
     <>
       <h2>Cập nhật đơn hàng</h2>

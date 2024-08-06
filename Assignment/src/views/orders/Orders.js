@@ -60,7 +60,7 @@ const Orders = () => {
   }
 
   function editacp(id) {
-    navigate(`/orders/${id}`)
+    navigate(`/order_update/${id}`)
   }
 
   const ShowSwal = (status, title) => {
