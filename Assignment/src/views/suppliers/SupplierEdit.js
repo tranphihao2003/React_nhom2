@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { Routes, Route, useParams } from 'react-router-dom'
+import { getsuppliersbyid, updatesuppliers } from '../../services/API/API_suppliers'
 import {
   CButton,
   CCol,
@@ -9,40 +11,29 @@ import {
   CFormTextarea,
   CAlert,
 } from '@coreui/react'
-// api
-import API_Suppliers from '../../services/API/API_suppliers'
-const SuppliersAdd = () => {
-  useEffect(() => {
-    document.title = 'Thêm nhà phân phối'
-  }, [])
+const SupplierEdit = () => {
+  const [validated, setValidated] = useState(false)
   const [status, setStatus] = useState(null)
-  const API_Class = new API_Suppliers()
-  const [formData, setFormData] = useState({
+  const [formData, setformData] = useState({
     Supplier_Name: '',
     Contact_Name: '',
     Contact_Email: '',
     Contact_Phone: '',
     Address: '',
   })
-
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value,
+  let { id } = useParams()
+  useEffect(() => {
+    document.title = 'Chỉnh sửa -Nhà phân phối'
+    getdata()
+  }, [])
+  function getdata() {
+    getsuppliersbyid(id).then((response) => {
+      console.log(response)
+      setformData(response[0])
     })
   }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setFormData({
-      Supplier_Name: '',
-      Contact_Name: '',
-      Contact_Email: '',
-      Contact_Phone: '',
-      Address: '',
-    })
-    API_Class.createProduct(formData)
+  function update() {
+    updatesuppliers(formData)
       .then((response) => {
         setStatus(true)
       })
@@ -50,18 +41,34 @@ const SuppliersAdd = () => {
         setStatus(false)
       })
   }
-
+  function handleSubmit(e) {
+    e.preventDefault()
+    const form = e.currentTarget
+    if (form.checkValidity() === false) {
+      e.stopPropagation()
+    } else {
+      update()
+    }
+    setValidated(true)
+  }
+  function handleChange(e) {
+    const { name, value } = e.target
+    setformData({
+      ...formData,
+      [name]: value,
+    })
+  }
   return (
-    <CForm className="row g-3" onSubmit={handleSubmit}>
-      <h1 className="text-center mb-4">Thêm nhà phân phối</h1>
+    <CForm className="row g-3" onSubmit={handleSubmit} noValidate validated={validated}>
+      <h1 className="text-center mb-4">Chỉnh sửa nhà phân phối</h1>
       {status === false && (
         <CCol md={12}>
-          <CAlert color="danger">Thêm nhà phân phối thất bại</CAlert>
+          <CAlert color="danger">Chỉnh sửa nhà phân phối thất bại</CAlert>
         </CCol>
       )}
       {status === true && (
         <CCol md={12}>
-          <CAlert color="success">Thêm nhà phân phối thành công</CAlert>
+          <CAlert color="success">Chỉnh sửa nhà phân phối thành công</CAlert>
         </CCol>
       )}
 
@@ -126,11 +133,10 @@ const SuppliersAdd = () => {
 
       <CCol md={12}>
         <CButton color="primary" type="submit">
-          Thêm nhà phân phối
+          Chỉnh sửa nhà phân phối
         </CButton>
       </CCol>
     </CForm>
   )
 }
-
-export default SuppliersAdd
+export default SupplierEdit

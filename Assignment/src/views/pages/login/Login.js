@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import API_User from '../../../services/API/API_User'
+import { useNavigate } from 'react-router-dom'
+import { UserLogin } from '../../../services/API/API_User'
 import {
   CButton,
   CCard,
@@ -19,6 +18,7 @@ import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser, cilAlbum } from '@coreui/icons'
 
 const Login = () => {
+  const navigate = useNavigate()
   const [account, setAccount] = useState({
     username: '',
     password: '',
@@ -29,7 +29,7 @@ const Login = () => {
   const [loginStatus, setLoginStatus] = useState('')
   const handleChange = (e) => {
     const { name, value } = e.target
-    // Cập nhật state credentials với giá trị mới
+
     setAccount({
       ...account,
       [name]: value,
@@ -37,13 +37,14 @@ const Login = () => {
   }
   useEffect(() => {
     if (validated) {
-      const api = new API_User()
-      api.login(account).then((response) => {
+      UserLogin(account).then((response) => {
         if (response.token) {
           setLoginStatus('Đăng nhập thành công')
           localStorage.setItem('token', response.token)
-          localStorage.setItem('user', JSON.stringify(response.user))
-          window.location.href = '/'
+          localStorage.setItem('user', JSON.stringify(response.account))
+          setTimeout(() => {
+            navigate('/')
+          }, 1000)
         } else {
           setLoginStatus('Đăng nhập thất bại')
         }
@@ -58,7 +59,6 @@ const Login = () => {
     }
     setValidated(true)
     setSubmitCount(submitCount + 1)
-  
   }
 
   return (

@@ -1,8 +1,8 @@
 const genres_class = require('../model/genres')
 exports.getAllgenress = async (req, res) => {
   try {
-    let page = req.query.page
-    let pageSize = req.query.pageSize
+    let page = Number(req.query.page)
+    let pageSize = Number(req.query.pageSize)
     let genress = await genres_class.getAllgenres(page, pageSize)
     res.status(200).json(genress)
   } catch (error) {

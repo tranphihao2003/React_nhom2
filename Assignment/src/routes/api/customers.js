@@ -14,10 +14,14 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
 })
-router.get('/', authenticateToken, customers.getAllcustomers)
-router.post('/', authenticateToken, customers.createcustomers)
+router.get('/', authenticateToken, customers.getAllcustomerss)
 router.get('/:id', authenticateToken, customers.getcustomersById)
+router.post('/', authenticateToken, upload.single('image'), customers.createcustomers)
 router.put('/:id', authenticateToken, customers.updatecustomers)
 router.delete('/:id', authenticateToken, customers.deletecustomers)
+
+router.get('/backdata/all', authenticateToken, customers.backdata2)
+router.put('/backdata/:id', authenticateToken, customers.changeStatus2)
+router.put('/stop/:id', authenticateToken, customers.changeStatus2)
 
 module.exports = router

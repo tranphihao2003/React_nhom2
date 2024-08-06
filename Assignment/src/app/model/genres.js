@@ -10,7 +10,7 @@ class genres {
     return new Promise((resolve, reject) => {
       const countQuery = 'SELECT COUNT(*) AS total FROM genres'
       const paginatedQuery =
-        'SELECT * FROM genres Where status = 0 ORDER BY Genre_ID DESC LIMIT ?, ?'
+        'SELECT * FROM genres Where status = 0  ORDER BY Genre_ID  DESC LIMIT ?, ?'
 
       db.query(countQuery, (err, countResult) => {
         if (err) {
@@ -55,6 +55,7 @@ class genres {
     })
   }
   static updategenres(id, genres) {
+    console.log(genres);
     return new Promise((resolve, reject) => {
       db.query('UPDATE genres SET ? WHERE Genre_ID = ?', [genres, id], (err, result) => {
         if (err) {
@@ -77,7 +78,7 @@ class genres {
 
   static backdata() {
     return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM genres WHERE status = 1 ', (err, result) => {
+      db.query('SELECT * FROM genres WHERE status = 1', (err, result) => {
         if (err) {
           reject(err)
         }
@@ -87,7 +88,7 @@ class genres {
   }
   static changeStatus(id, status) {
     return new Promise((resolve, reject) => {
-      db.query('UPDATE genres SET status = ? WHERE Genre_ID =?', [status, id], (err, result) => {
+      db.query('UPDATE genres SET status = ? WHERE Genre_ID = ?', [status, id], (err, result) => {
         if (err) {
           reject(err)
         }

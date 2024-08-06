@@ -16,8 +16,6 @@ import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
 import API_config from '../config/API_config'
 import { useNavigate } from 'react-router-dom'
-import API_Product from '../services/API/API_Product'
-import Genres from '../views/genres/Genres'
 
 const COLUMNS_CONFIG = {
   products: [
@@ -45,17 +43,27 @@ const COLUMNS_CONFIG = {
     { key: 'status', label: 'Trạng thái' },
     { key: 'actions', label: 'Thao tác' },
   ],
-  genres: [
+  stores: [
     { key: 'STT', label: 'STT' },
-    { key: 'Genre_Name', label: 'Tên Loại' },
+    { key: 'Store_Name', label: 'Tên cửa hàng' },
+    { key: 'Store_Location', label: 'Địa chỉ' },
+    { key: 'Store_Phone', label: 'SĐT' },
     { key: 'status', label: 'Trạng thái' },
+    { key: 'actions', label: 'Thao tác' },
+  ],
+  customers: [
+    { key: 'STT', label: 'STT' },
+    { key: 'First_Name', label: 'Tên' },
+    { key: 'Last_Name', label: 'Họ' },
+    { key: 'Email', label: 'Email' },
+    { key: 'Phone', label: 'Số điện thoại' },
+    { key: 'Address', label: 'Địa chỉ' },
+    { key: 'Status', label: 'Trạng thái' },
     { key: 'actions', label: 'Thao tác' },
   ],
 }
 
 const AppHeaderHistory = (props) => {
-  console.log(props);
-  const API_Class = props.API
   const navigate = useNavigate()
   const [visibleLg, setVisibleLg] = useState(false)
   const [items, setItems] = useState([])
@@ -64,28 +72,32 @@ const AppHeaderHistory = (props) => {
   useEffect(() => {
     getdata()
   }, [visibleLg, props.status])
-
   async function getdata() {
-    const api = new API_Class()
     for (const item of config_path) {
       if (item === props.path) {
-        console.log(item);
-        const data = await api.Backdata()
-        setCountTag(data.length)
-        renderdata(data)
+        const data = await props.API.Backdata()
+        setCountTag(data.data.length)
+        renderdata(data.data)
         break
       }
     }
   }
 
-  async function deleteProduct(id) {
-    const api = new API_Class()
-    console.log(api);
-    const data = await api.delete(id)
-    if (data) {
+  async function deleteItem(id) {
+    const data = await props.API.deleteAPI(id)
+
+    if (data.data.errno === 1451) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Không thể xóa này',
+        showConfirmButton: false,
+        timer: 1500,
+      })
+      return
+    } else if (data.status === 200) {
       Swal.fire({
         icon: 'success',
-        title: 'Xóa sản phẩm thành công',
+        title: 'Xóa thành công',
         showConfirmButton: false,
         timer: 1500,
       })
@@ -93,18 +105,24 @@ const AppHeaderHistory = (props) => {
       props.loaddata(props.page, 10)
     }
   }
-  async function restoreProduct(id) {
-    const api = new API_Class()
-    const data = await api.changestatus(id, 0)
-    if (data) {
+  async function restoreitem(id) {
+    const data = await props.API.changestatus(id, 0)
+    if (data.status === 200) {
       Swal.fire({
         icon: 'success',
-        title: 'Khôi phục sản phẩm thành công',
+        title: 'Khôi phục thành công',
         showConfirmButton: false,
         timer: 1500,
       })
       getdata()
       props.loaddata(props.page, 10)
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Không thể khôi phục ',
+        showConfirmButton: false,
+        timer: 1500,
+      })
     }
   }
   const renderdata = (data) => {
@@ -125,7 +143,7 @@ const AppHeaderHistory = (props) => {
             <CButton
               color="primary"
               onClick={() => {
-                restoreProduct(item[props.id])
+                restoreitem(item[props.id])
               }}
               className="me-2"
             >
@@ -134,7 +152,7 @@ const AppHeaderHistory = (props) => {
             <CButton
               color="danger"
               onClick={() => {
-                deleteProduct(item[props.id])
+                deleteItem(item[props.id])
               }}
             >
               <CIcon icon={icon.cilTrash} />
@@ -169,7 +187,7 @@ const AppHeaderHistory = (props) => {
         aria-labelledby="OptionalSizesExample2"
       >
         <CModalHeader>
-          <CModalTitle id="OptionalSizesExample2">Các sản phẩm đã xóa</CModalTitle>
+          <CModalTitle id="OptionalSizesExample2">Các Mục đã xóa</CModalTitle>
         </CModalHeader>
         <CModalBody>
           <CTable striped hover columns={columns()} items={items} />

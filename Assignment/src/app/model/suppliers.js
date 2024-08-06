@@ -1,26 +1,27 @@
-var db = require("./db");
+var db = require('./db')
 class suppliers {
   constructor() {
-    this.suppliers = [];
+    this.suppliers = []
   }
   static getAllsuppliers(page = 1, pageSize = 10) {
-    const offset = (page - 1) * pageSize;
-    const limit = pageSize;
+    const offset = (page - 1) * pageSize
+    const limit = pageSize
 
     return new Promise((resolve, reject) => {
-      const countQuery = "SELECT COUNT(*) AS total FROM suppliers";
-      const paginatedQuery = "SELECT * FROM suppliers LIMIT ?, ?";
+      const countQuery = 'SELECT COUNT(*) AS total FROM suppliers'
+      const paginatedQuery =
+        'SELECT * FROM suppliers Where status = 0  ORDER BY Supplier_ID  DESC LIMIT ?, ?'
 
       db.query(countQuery, (err, countResult) => {
         if (err) {
-          return reject(err);
+          return reject(err)
         }
-        const totalItems = countResult[0].total;
-        const totalPages = Math.ceil(totalItems / pageSize);
+        const totalItems = countResult[0].total
+        const totalPages = Math.ceil(totalItems / pageSize)
 
         db.query(paginatedQuery, [offset, limit], (err, result) => {
           if (err) {
-            return reject(err);
+            return reject(err)
           }
           resolve({
             suppliers: result,
@@ -28,62 +29,75 @@ class suppliers {
             totalPages: totalPages,
             currentPage: page,
             pageSize: pageSize,
-          });
-        });
-      });
-    });
+          })
+        })
+      })
+    })
   }
   static getsuppliersById(id) {
     return new Promise((resolve, reject) => {
-      db.query(
-        "SELECT * FROM suppliers WHERE Supplier_ID = ?",
-        id,
-        (err, result) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(result);
+      db.query('SELECT * FROM suppliers WHERE Supplier_ID = ?', id, (err, result) => {
+        if (err) {
+          reject(err)
         }
-      );
-    });
+        resolve(result)
+      })
+    })
   }
   static createsuppliers(suppliers) {
     return new Promise((resolve, reject) => {
-      db.query("INSERT INTO suppliers SET ?", suppliers, (err, result) => {
+      db.query('INSERT INTO suppliers SET ?', suppliers, (err, result) => {
         if (err) {
-          reject(err);
+          reject(err)
         }
-        resolve(result);
-      });
-    });
+        resolve(result)
+      })
+    })
   }
   static updatesuppliers(id, suppliers) {
     return new Promise((resolve, reject) => {
-      db.query(
-        "UPDATE suppliers SET ? WHERE Supplier_ID = ?",
-        [suppliers, id],
-        (err, result) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(result);
+      db.query('UPDATE suppliers SET ? WHERE Supplier_ID = ?', [suppliers, id], (err, result) => {
+        if (err) {
+          reject(err)
         }
-      );
-    });
+        resolve(result)
+      })
+    })
   }
   static deletesuppliers(id) {
     return new Promise((resolve, reject) => {
+      db.query('DELETE FROM suppliers WHERE Supplier_ID = ?', id, (err, result) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(result)
+      })
+    })
+  }
+
+  static backdata() {
+    return new Promise((resolve, reject) => {
+      db.query('SELECT * FROM suppliers WHERE status = 1', (err, result) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(result)
+      })
+    })
+  }
+  static changeStatus(id, status) {
+    return new Promise((resolve, reject) => {
       db.query(
-        "DELETE FROM suppliers WHERE Supplier_ID = ?",
-        id,
+        'UPDATE suppliers SET status = ? WHERE Supplier_ID = ?',
+        [status, id],
         (err, result) => {
           if (err) {
-            reject(err);
+            reject(err)
           }
-          resolve(result);
-        }
-      );
-    });
+          resolve(result)
+        },
+      )
+    })
   }
 }
-module.exports = suppliers;
+module.exports = suppliers

@@ -6,11 +6,7 @@ const ModalComponent = (props) => {
   const [visible, setVisible] = useState(false)
   return (
     <>
-      <CButton
-        variant={props.variant}
-        color={props.color ? props.color : null}
-        onClick={() => setVisible(!visible)}
-      >
+      <CButton color={props.color ? props.color : null} onClick={() => setVisible(!visible)}>
         {props.icon ? <CIcon icon={icon[props.icon]} /> : null}
       </CButton>
       <CModal

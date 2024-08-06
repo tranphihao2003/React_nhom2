@@ -19,5 +19,7 @@ router.get('/:id', authenticateToken, stores.getstoresById)
 router.post('/', authenticateToken, stores.createstores)
 router.put('/:id', authenticateToken, stores.updatestores)
 router.delete('/:id', authenticateToken, stores.deletestores)
-
+router.put('/backdata/:id', authenticateToken, stores.changeStatus)
+router.get('/backdata/all', authenticateToken, stores.backdata)
+router.put('/stop/:id', authenticateToken, stores.changeStatus)
 module.exports = router

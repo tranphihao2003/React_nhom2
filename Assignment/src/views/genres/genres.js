@@ -9,7 +9,7 @@ import {
   CRow,
   CCol,
 } from '@coreui/react'
-import API_Genres from '../../services/API/API_Genres'
+import * as API_Genres from '../../services/API/API_Genre'
 
 import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
@@ -28,7 +28,7 @@ const Genres = () => {
     totalItems: 0,
     totalPages: 0,
   })
-  const API_Class = new API_Genres()
+
   const [reloadheader, setreloadheader] = useState(false)
   const [items, setItems] = useState([])
   const navigate = useNavigate()
@@ -40,26 +40,28 @@ const Genres = () => {
 
   function getdata(page, pageSize) {
     // lấy data api
-    API_Class.getGenres(page, pageSize).then((response) => {
+    API_Genres.getGenres(page, pageSize).then((response) => {
+      const { data } = response
+      console.log(data)
       setPagination({
-        totalItems: response.totalItems,
-        totalPages: response.totalPages,
-        page: response.currentPage,
-        pageSize: response.pageSize,
+        totalItems: data.totalItems,
+        totalPages: data.totalPages,
+        page: data.currentPage,
+        pageSize: data.pageSize,
       })
-      renderdata(response.genres)
+      renderdata(data.genres)
     })
   }
 
   function deleteacp(id) {
-    API_Class.changestatus(id, 1).then((response) => {
+    API_Genres.changestatus(id, 1).then((response) => {
       ShowSwal('success', 'Xóa loại thành công')
       getdata(pagination.page, pagination.pageSize)
       setreloadheader((reloadheader) => !reloadheader)
     })
   }
   function editacp(id) {
-    navigate(`/genres/${id}`)
+    navigate(`/EditGenres/${id}`)
   }
   const ShowSwal = (status, title) => {
     withReactContent(Swal).fire({

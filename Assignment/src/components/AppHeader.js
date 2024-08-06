@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+
 import {
   CContainer,
   CDropdown,
@@ -57,12 +58,6 @@ const AppHeader = () => {
               Dashboard
             </CNavLink>
           </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">Users</CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">Settings</CNavLink>
-          </CNavItem>
         </CHeaderNav>
         <CHeaderNav className="ms-auto">
           <CNavItem>
@@ -70,16 +65,7 @@ const AppHeader = () => {
               <CIcon icon={cilBell} size="lg" />
             </CNavLink>
           </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilList} size="lg" />
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilEnvelopeOpen} size="lg" />
-            </CNavLink>
-          </CNavItem>
+          
         </CHeaderNav>
         <CHeaderNav>
           <li className="nav-item py-1">

@@ -20,4 +20,7 @@ router.post('/', authenticateToken, suppliers.createsuppliers)
 router.put('/:id', authenticateToken, suppliers.updatesuppliers)
 router.delete('/:id', authenticateToken, suppliers.deletesuppliers)
 
+router.put('/backdata/:id', authenticateToken, suppliers.changeStatus) // đổi trạng thái khôi phục
+router.get('/backdata/all', authenticateToken, suppliers.backdata) // lấy dữ liệu đã xóa
+router.put('/stop/:id', authenticateToken, suppliers.changeStatus) // Tạm dừng
 module.exports = router

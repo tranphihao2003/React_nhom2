@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
 })
-
+router.get('/verify', authenticateToken, account.verify)
 router.post('/login', account.login)
 router.get('', authenticateToken, account.getAllaccounts)
 router.get('/:id', authenticateToken, account.getAccountById)

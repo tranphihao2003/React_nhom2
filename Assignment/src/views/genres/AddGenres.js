@@ -1,96 +1,82 @@
 import React, { useEffect, useState } from 'react'
-import {
-  CButton,
-  CCol,
-  CForm,
-  CFormInput,
-  CFormLabel,
-  CRow,
-  CFormTextarea,
-  CAlert,
-  CCard,
-  CCardHeader,
-  CCardBody,
-} from '@coreui/react'
-// api
-import API_Genres from '../../services/API/API_Genres'
+import { CButton, CCard, CCardBody, CCol, CForm, CFormInput, CAlert } from '@coreui/react'
+import * as API_Genre from '../../services/API/API_Genre'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 const AddGenres = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+  const navigate = useNavigate()
   const [status, setStatus] = useState(null)
-  const [validated, setValidated] = useState(false)
-  const [count, setCount] = useState(0)
-  const API_Class = new API_Genres()
-  const [formData, setFormData] = useState({
-    Genre_Name: '',
-  })
+  const [Store, setStore] = useState([])
+
   useEffect(() => {
     document.title = 'Thêm Loại'
-  }, [count])
-  function create() {
-    API_Class.createGenres(formData)
-      .then((response) => {
-        setStatus(true)
-      })
-      .catch((error) => {
-        setStatus(false)
-      })
-  }
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
+    getdata()
+  }, [])
+
+  useEffect(() => {
+    if (status === true) {
+      setTimeout(() => {
+        navigate('/genres')
+      }, 2000) // Redirect after 2 seconds
+    }
+  }, [status, navigate])
+
+  async function getdata() {
+    const response = await API_Genre.getGenres(1, 100)
+    const { data: stores } = response
+    setStore(response.data.stores)
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const form = event.currentTarget
-    if (form.checkValidity() === false) {
-      event.stopPropagation()
-    } else {
-      create()
+  async function create(data) {
+    const response = await API_Genre.createGenre(data)
+    if (response) {
+      if (response.status === 201) {
+        setStatus(true)
+      } else {
+        setStatus(false)
+      }
     }
-    setValidated(true)
-    setCount(count + 1)
   }
 
   return (
     <CCard>
-      <CCardHeader>
-        <h3>Thêm Loại</h3>
-      </CCardHeader>
       <CCardBody>
-        <CForm className="row g-3" noValidate onSubmit={handleSubmit} validated={validated}>
-          {status === false && (
-            <CCol md={12}>
-              <CAlert color="danger">Thêm loại thất bại</CAlert>
-            </CCol>
-          )}
-          {status === true && (
-            <CCol md={12}>
-              <CAlert color="success">Thêm loại thành công</CAlert>
-            </CCol>
-          )}
-
+        <CForm className="row g-3" onSubmit={handleSubmit(create)}>
+          <h2>Thêm loại</h2>
+          {status === false ? (
+            <CAlert color="success">Thêm thành công</CAlert>
+          ) : status === true ? (
+            <CAlert color="danger">Thêm thất bại</CAlert>
+          ) : null}
           <CCol md={6}>
-            <CFormLabel htmlFor="Genre_Name">
-              <strong>Tên Loại</strong>
-            </CFormLabel>
             <CFormInput
               type="text"
-              placeholder="Nhập tên Loại"
-              autoComplete="Genre_Name"
-              required
+              id="name"
               name="Genre_Name"
-              onChange={handleChange}
-              feedbackInvalid="Vui lòng nhập tên loại"
+              label="Tên loại"
+              {...register('Genre_Name', { required: 'Vui lòng nhập tên loại' })}
+              invalid={!!errors.Genre_Name}
+              feedbackInvalid={errors.Genre_Name && errors.Genre_Name?.message}
+              placeholder="Tên loại"
             />
           </CCol>
-
-          <CCol md={12}>
-            <CButton color="primary" type="submit">
+          <CCol md={12} className="">
+            <CButton color="success" type="submit">
               Thêm Loại
+            </CButton>
+            <CButton
+              onClick={() => {
+                navigate('/genres')
+              }}
+              color="info"
+            >
+              Trở về
             </CButton>
           </CCol>
         </CForm>
