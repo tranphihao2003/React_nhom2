@@ -12,8 +12,8 @@ import {
   CFormSelect,
 } from '@coreui/react'
 import { useNavigate, useParams } from 'react-router-dom'
-import API_Store from '../../services/API/API_Store'
-import API_Employees from '../../services/API/API_Employees'
+import * as API_Store from '../../services/API/API_Store'
+import * as API from '../../services/API/API_Employees'
 
 const Employees_Update = () => {
   const { id } = useParams()
@@ -31,22 +31,20 @@ const Employees_Update = () => {
     Status: 0,
   })
 
-  const API_Store_Class = new API_Store()
-  const API_Employees_Class = new API_Employees()
-
   useEffect(() => {
     document.title = 'Cập nhật nhân viên'
     fetchEmployeesByID()
+    fetchStores()
   }, [])
 
   const fetchStores = async () => {
     try {
-      const response = await API_Store_Class.getStore()
-      if (response && response.stores) {
-        setStores(response.stores)
-      } else {
-        console.error('Invalid response format for stores:', response)
-      }
+      const response = await API_Store.getStore(1, 100)
+      const { data: stores } = response
+
+      console.log(stores.stores)
+      setStores(stores.stores)
+
     } catch (error) {
       console.error('Failed to fetch stores:', error)
     }
@@ -54,17 +52,17 @@ const Employees_Update = () => {
 
   const fetchEmployeesByID = async () => {
     try {
-      const response = await API_Employees_Class.getEmpoyees_Detail(id)
-      console.log(response[0].Store_ID)
+      const response = await API.getEmployeesDetail(id)
+      const { data: employees } = response
 
       setFormData({
-        Store_ID: response[0].Store_ID || '',
-        Employee_ID: response[0].Employee_ID || '',
-        First_Name: response[0].First_Name || '',
-        Last_Name: response[0].Last_Name || '',
-        Salary: response[0].Salary || '',
-        Position: response[0].Position || '',
-        Status: response[0].Status,
+        Store_ID: employees[0].Store_ID || '',
+        Employee_ID: employees[0].Employee_ID || '',
+        First_Name: employees[0].First_Name || '',
+        Last_Name: employees[0].Last_Name || '',
+        Salary: employees[0].Salary || '',
+        Position: employees[0].Position || '',
+        Status: employees[0].Status,
       })
     } catch (error) {
       console.error('Không thể lấy chi tiết sản phẩm:', error)
@@ -91,7 +89,7 @@ const Employees_Update = () => {
   }
 
   const updateEmpolyees = async () => {
-    API_Employees_Class.updateEmployees({ ...formData })
+    API.updateEmployees({ ...formData })
       .then((response) => {
         setStatus2(true)
         setTimeout(() => {
@@ -188,7 +186,6 @@ const Employees_Update = () => {
         </CButton>
         <CButton color="danger">Hủy</CButton>
       </CForm>
-      {console.log(formData)}
 
       <></>
     </>

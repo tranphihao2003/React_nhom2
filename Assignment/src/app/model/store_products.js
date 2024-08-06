@@ -9,7 +9,7 @@ class store_products {
 
     return new Promise((resolve, reject) => {
       const countQuery = "SELECT COUNT(*) AS total FROM store_products";
-      const paginatedQuery = "SELECT * FROM store_products ORDER BY Product_ID LIMIT ?, ?";
+      const paginatedQuery = "SELECT * FROM store_products Where status = 0 ORDER BY store_products_ID LIMIT ?, ?";
 
       db.query(countQuery, (err, countResult) => {
         if (err) {
@@ -36,7 +36,7 @@ class store_products {
   static getstore_productsById(id) {
     return new Promise((resolve, reject) => {
       db.query(
-        "SELECT * FROM store_products WHERE Store_ID = ?",
+        "SELECT * FROM store_products WHERE store_products_ID = ?",
         id,
         (err, result) => {
           if (err) {
@@ -64,7 +64,7 @@ class store_products {
   static updatestore_products(id, store_products) {
     return new Promise((resolve, reject) => {
       db.query(
-        "UPDATE store_products SET ? WHERE Store_ID = ?",
+        "UPDATE store_products SET ? WHERE store_products_ID = ?",
         [store_products, id],
         (err, result) => {
           if (err) {
@@ -78,7 +78,7 @@ class store_products {
   static deletestore_products(id) {
     return new Promise((resolve, reject) => {
       db.query(
-        "DELETE FROM store_products WHERE Store_ID = ?",
+        "DELETE FROM store_products WHERE store_products_ID = ?",
         id,
         (err, result) => {
           if (err) {
@@ -88,6 +88,27 @@ class store_products {
         }
       );
     });
+  }
+  static backdata() {
+    return new Promise((resolve, reject) => {
+      db.query('SELECT * FROM store_products WHERE status = 1', (err, result) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(result)
+      })
+    })
+  }
+  static changeStatus(id,status) {
+    
+    return new Promise((resolve, reject) => {
+      db.query('UPDATE store_products SET status = ? WHERE store_products_ID = ?', [status, id], (err, result) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(result)
+      })
+    })
   }
 }
 module.exports = store_products;

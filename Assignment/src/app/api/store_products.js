@@ -54,3 +54,22 @@ exports.deletestore_products = async (req, res) => {
     res.status(500).json(error);
   }
 };
+exports.backdata = async (req, res) => {
+  try {
+
+    let stores = await store_products_class.backdata()
+    res.status(200).json(stores)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+
+};
+exports.changeStatus = async (req, res) => {
+  try {
+  
+    let stores = await store_products_class.changeStatus(req.params.id, req.body.status)
+    res.status(200).json(stores)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}

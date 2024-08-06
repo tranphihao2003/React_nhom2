@@ -68,6 +68,8 @@ const AppHeaderHistory = (props) => {
     for (const item of config_path) {
       if (item === props.path) {
         const data = await props.API.Backdata()
+        console.log(data);
+        
         setCountTag(data.data.length)
         renderdata(data.data)
         break

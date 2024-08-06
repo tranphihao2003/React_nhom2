@@ -137,56 +137,7 @@ const Orders = () => {
     },
   ]
 
-  const items = [
-    {
-      Order_ID: 1,
-      Store_ID: 'Chi nhánh 1',
-      Employee_ID: 'Thái Dương',
-      Customer_ID: 'Phương Tuấn',
-      Order_Date: '25/9/2024',
-      Total_Amount: '390,000',
-      Payment_Status: <span className="badge bg-danger">Chưa xác nhận</span>,
-      actions: (
-        <>
-          <Link to={`/order_detail/1`}>
-            <CButton variant="outline" color="danger">
-              Chi tiết
-            </CButton>
-          </Link>{' '}
-          <Link to={`/order_update/1`}>
-            <CButton color="primary">
-              <CIcon icon={icon.cilPencil} />
-            </CButton>
-          </Link>
-        </>
-      ),
-      _cellProps: { Order_ID: { scope: 'row' } },
-    },
-    {
-      Order_ID: 2,
-      Store_ID: 'Chi nhánh 1',
-      Employee_ID: 'Kỳ Nam',
-      Customer_ID: 'Phương Tuấn',
-      Order_Date: '7/16/2024',
-      Total_Amount: '700,000',
-      Payment_Status: <span className="badge bg-success">Đang giao</span>,
-      actions: (
-        <>
-          <Link to={`/order_detail/1`}>
-            <CButton variant="outline" color="danger">
-              Chi tiết
-            </CButton>
-          </Link>{' '}
-          <Link to={`/order_update/1`}>
-            <CButton color="primary">
-              <CIcon icon={icon.cilPencil} />
-            </CButton>
-          </Link>
-        </>
-      ),
-      _cellProps: { Order_ID: { scope: 'row' } },
-    },
-  ]
+  
   return (
     <>
       <CTable striped hover columns={columns} items={items} />

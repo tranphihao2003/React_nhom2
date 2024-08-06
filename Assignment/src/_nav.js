@@ -148,7 +148,7 @@ const _nav = [
         component: CNavItem,
         name: 'Thêm',
         to: '/stores_add',
-      }
+      },
     ],
   },
   {
@@ -166,7 +166,7 @@ const _nav = [
         component: CNavItem,
         name: 'Thêm',
         to: '/store_products_add',
-      }
+      },
     ],
   },
   {
@@ -184,7 +184,7 @@ const _nav = [
         component: CNavItem,
         name: 'Thêm',
         to: '/accounts_add',
-      }
+      },
     ],
   },
   {
@@ -197,6 +197,11 @@ const _nav = [
         component: CNavItem,
         name: 'Hiển thị',
         to: '/Employees',
+      },
+      {
+        component: CNavItem,
+        name: 'Thêm',
+        to: '/AddEmployees',
       },
     ],
   },

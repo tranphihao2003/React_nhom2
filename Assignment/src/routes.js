@@ -203,13 +203,13 @@ const PublicRoutes = [
   {
     path: '/AddEmployees',
     name: 'Add Employee',
-    element: AddEmployees,
+    element: Employees_Add,
     requiredRole: ['Admin', ' StoreManager'],
   },
   {
-    path: '/EditEmployees',
+    path: '/EditEmployees/:id',
     name: 'Edit Employee',
-    element: EditEmployees,
+    element: Employees_Update,
     requiredRole: ['Admin', ' StoreManager'],
   },
 

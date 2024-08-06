@@ -9,7 +9,7 @@ import {
   CCol,
 } from '@coreui/react'
 
-import API_Employees from '../../services/API/API_Employees'
+import * as API from '../../services/API/API_Employees'
 import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
@@ -30,7 +30,6 @@ const Employees = () => {
     totalPages: 0,
   })
 
-  const API_Class = new API_Employees()
   const [reloadheader, setreloadheader] = useState(false)
   const [items, setItems] = useState([])
 
@@ -41,19 +40,20 @@ const Employees = () => {
   }, [])
 
   function getdata(page, pageSize) {
-    API_Class.getEmpoyees(page, pageSize).then((response) => {
+    API.getEmployees(page, pageSize).then((response) => {
+      const { data: Employees } = response
       setPagination({
-        totalItems: response.totalItems,
-        totalPages: response.totalPages,
-        page: response.currentPage,
-        pageSize: response.pageSize,
+        totalItems: Employees.totalItems,
+        totalPages: Employees.totalPages,
+        page: Employees.currentPage,
+        pageSize: Employees.pageSize,
       })
-      renderdata(response.employees)
+      renderdata(Employees.employees)
     })
   }
 
   function deleteacp(id) {
-    API_Class.changeStatus(id, 1).then((response) => {
+    API.changestatus(id, 1).then((response) => {
       ShowSwal('success', 'Xóa thành công')
       getdata(pagination.page, pagination.pageSize)
       setreloadheader((reloadheader) => !reloadheader)
@@ -61,7 +61,7 @@ const Employees = () => {
   }
 
   function editacp(id) {
-    navigate(`/employees_update/${id}`)
+    navigate(`/EditEmployees/${id}`)
   }
 
   const ShowSwal = (status, title) => {
@@ -78,9 +78,7 @@ const Employees = () => {
     searchParams.set('page', newpage)
     navigate(`/employees?${searchParams.toString()}`)
     getdata(newpage, pagination.pageSize)
-    console.log('====================================')
-    console.log(pagination)
-    console.log('====================================')
+
   }
 
   // Status hiển thị theo số
@@ -193,14 +191,14 @@ const Employees = () => {
           <CCol sm="9" className="d-md-block">
             <AppHeaderHistory
               id="Employee_ID"
-              API={API_Employees}
+              API={API}
               path="employees"
               page={pagination.page}
               loaddata={getdata}
               status={reloadheader}
             />
             <CButton
-              onClick={() => navigate('/employees_add')}
+              onClick={() => navigate('/AddEmployees')}
               color="success"
               className="float-end me-2 px-4 text-white"
             >
@@ -211,7 +209,7 @@ const Employees = () => {
       </CCardHeader>
       <div style={{ minHeight: '70vh' }}>
         <CTable striped hover columns={columns} items={items} />
-        {items.length === 0 && <div className='text-center'>Không có dữ liệu</div>}
+        {items.length === 0 && <div className="text-center">Không có dữ liệu</div>}
       </div>
       <CPagination align="center" aria-label="Page navigation example">
         <CPaginationItem
