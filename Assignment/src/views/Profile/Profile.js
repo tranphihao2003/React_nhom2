@@ -11,6 +11,11 @@ import {
   CFormCheck,
   CProgress,
   CTooltip,
+  CPlaceholder,
+  CCardImage,
+  CCardTitle,
+  CCardText,
+  CButton,
 } from '@coreui/react'
 import { CChartLine, CChartBar } from '@coreui/react-chartjs'
 import { cilArrowTop, cilOptions } from '@coreui/icons'
@@ -43,6 +48,7 @@ const Profile = () => {
       <CCol xs="12" sm="6" md="4">
         <CCard>
           <CCardHeader className="text-center">Thông tin cá nhân</CCardHeader>
+          
           <CCardBody>
             <CImage
               style={{ borderRadius: '50%' }}
@@ -475,7 +481,7 @@ const Profile = () => {
               </CRow>
             </CCol>
             <CCol xs="12" sm="12" md="12" className="">
-              <CProgress animated  color="danger" variant="striped" value={progress}>
+              <CProgress animated color="danger" variant="striped" value={progress}>
                 {' '}
                 {quantity >= 30 ? '100%' : `${progress.toFixed(1)}%`} {quantity} sản phẩm
               </CProgress>

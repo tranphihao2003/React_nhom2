@@ -93,18 +93,8 @@ const Suppliers = () => {
       _props: { scope: 'col' },
     },
     {
-      key: 'Contact_Email',
-      label: 'Email người liên hệ',
-      _props: { scope: 'col' },
-    },
-    {
       key: 'Contact_Phone',
       label: 'SĐT người liên hệ',
-      _props: { scope: 'col' },
-    },
-    {
-      key: 'Address',
-      label: 'Địa chỉ',
       _props: { scope: 'col' },
     },
     {
@@ -157,8 +147,8 @@ const Suppliers = () => {
               Danh sách nhà cung cấp
             </h5>
           </CCol>
-
-          <CCol sm="9" className="d-md-block">
+          
+          <CCol sm="9" className="d-flex justify-content-end">
             <AppHeaderHistory
               id="Supplier_ID"
               API={API}
@@ -177,7 +167,7 @@ const Suppliers = () => {
           </CCol>
         </CRow>
       </CCardHeader>
-      <div style={{ minHeight: '70vh' }}>
+      <div >
         <CTable striped hover columns={columns} items={items} />
         {items.length === 0 && <div className="text-center">Không có dữ liệu</div>}
       </div>

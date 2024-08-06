@@ -11,11 +11,11 @@ import {
 } from '@coreui/react'
 import * as API from '../../services/API/API_Product'
 import * as APIGen from '../../services/API/API_Genre'
-import { useParams,useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 const ProductsEdit = () => {
   let { id } = useParams()
-    const navigate = useNavigate()
+  const navigate = useNavigate()
   const [status, setStatus] = useState(null)
   const [product, setProduct] = useState({
     Product_Name: '',
@@ -31,9 +31,7 @@ const ProductsEdit = () => {
     getProduct()
   }, [])
   function update() {
-    const api = new API_Product()
-    api
-      .updateProduct(product)
+    API.updateProduct(product)
       .then((response) => {
         setStatus(true)
       })
@@ -42,13 +40,14 @@ const ProductsEdit = () => {
       })
   }
   async function getProduct() {
- 
     const response = await APIGen.getGenres()
+    const { data: genres } = response
 
-    setGenres(response.genres)
+    setGenres(genres.genres)
     const responseProduct = await API.getProductById(id)
+    const { data: product } = responseProduct
 
-    setProduct(responseProduct[0])
+    setProduct(product[0])
   }
   const [validated, setValidated] = useState(false)
 
@@ -191,11 +190,14 @@ const ProductsEdit = () => {
           </CButton>
         </CCol>
         <CCol md={12}>
-          <CButton color="danger"
-          onClick={() => {
-            navigate('/products')
-          }}
-          >Quay lại</CButton>
+          <CButton
+            color="danger"
+            onClick={() => {
+              navigate('/products')
+            }}
+          >
+            Quay lại
+          </CButton>
         </CCol>
       </CForm>
     </CCard>

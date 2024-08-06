@@ -21,7 +21,7 @@ exports.getsuppliersById = async (req, res) => {
 exports.createsuppliers = async (req, res) => {
   try {
     let suppliers = await suppliers_class.createsuppliers(req.body)
-    res.status(200).json(suppliers)
+    res.status(201).json(suppliers)
   } catch (error) {
     res.status(500).json(error)
   }
@@ -54,7 +54,7 @@ exports.backdata = async (req, res) => {
 exports.changeStatus = async (req, res) => {
   try {
     let suppliers = await suppliers_class.changeStatus(req.params.id, req.body.status)
-    res.status(200).json(suppliers)
+    res.status(201).json(suppliers)
   } catch (error) {
     res.status(500).json(error)
   }

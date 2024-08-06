@@ -9,7 +9,7 @@ import ModalComponent from '../../components/modal/modalComponent'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import AppHeaderHistory from '../../components/AppheaderHisory'
-
+import SearchBox from '../../components/modal/searchBoxcomponent'
 const Products = () => {
   // Phân trang
   const [searchParams, setSearchParams] = useSearchParams()
@@ -36,15 +36,14 @@ const Products = () => {
   }, [])
   const getdata = (page, pageSize) => {
     API.getProducts(page, pageSize).then((res) => {
-      const { data } = res
-   
+      const { data: productdata } = res
       setPagination({
-        totalItems: data.totalItems,
-        totalPages: data.totalPages,
-        page: data.currentPage,
-        pageSize: data.pageSize,
+        totalItems: productdata.totalItems,
+        totalPages: productdata.totalPages,
+        page: productdata.currentPage,
+        pageSize: productdata.pageSize,
       })
-      renderdata(data.products)
+      renderdata(productdata.products)
     })
   }
   function renderdata(items) {
@@ -162,7 +161,8 @@ const Products = () => {
             </h5>
           </CCol>
 
-          <CCol sm="9" className="d-md-block">
+          <CCol sm="9" className="d-flex justify-content-end">
+            <SearchBox path='products'></SearchBox>
             <AppHeaderHistory
               id="Product_ID"
               API={API}
@@ -174,18 +174,14 @@ const Products = () => {
             <CButton
               onClick={() => navigate('/products/add')}
               color="primary"
-              className="float-end me-2 px-4 text-white"
+              className=" me-2 px-4 text-white"
             >
               <CIcon icon={icon.cilPlus} /> Thêm mới
             </CButton>
           </CCol>
         </CRow>
       </CCardHeader>
-      <div
-        style={{
-          minHeight: '70vh',
-        }}
-      >
+      <div>
         <CTable striped hover columns={columns} items={items} />
         {items.length === 0 && (
           <div className="text-center mt-3">
@@ -193,30 +189,32 @@ const Products = () => {
           </div>
         )}
       </div>
-      <CPagination align="center" aria-label="Page navigation example">
-        <CPaginationItem
-          disabled={pagination.page <= 1}
-          onClick={() => handlePageChange(pagination.page - 1)}
-        >
-          <span aria-hidden="true">&laquo;</span>
-        </CPaginationItem>
-        {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((page) => (
+      {items.length !== 0 && (
+        <CPagination align="center" aria-label="Page navigation example">
           <CPaginationItem
-            key={page}
-            active={page === pagination.page}
-            onClick={() => handlePageChange(page)}
+            disabled={pagination.page <= 1}
+            onClick={() => handlePageChange(pagination.page - 1)}
           >
-            {page}
+            <span aria-hidden="true">&laquo;</span>
           </CPaginationItem>
-        ))}
-        <CPaginationItem
-          disabled={pagination.page === pagination.totalPages}
-          onClick={() => handlePageChange(pagination.page + 1)}
-        >
-          {' '}
-          <span aria-hidden="true">&raquo;</span>
-        </CPaginationItem>
-      </CPagination>
+          {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((page) => (
+            <CPaginationItem
+              key={page}
+              active={page === pagination.page}
+              onClick={() => handlePageChange(page)}
+            >
+              {page}
+            </CPaginationItem>
+          ))}
+          <CPaginationItem
+            disabled={pagination.page === pagination.totalPages}
+            onClick={() => handlePageChange(pagination.page + 1)}
+          >
+            {' '}
+            <span aria-hidden="true">&raquo;</span>
+          </CPaginationItem>
+        </CPagination>
+      )}
     </CCard>
   )
 }

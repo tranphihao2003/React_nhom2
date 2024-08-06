@@ -20,6 +20,7 @@ const API_config = {
     Stop: `${config.api}/products/stop`,
     backdata: `${config.api}/products/backdata/all`,
     updatestatus: `${config.api}/products/backdata`, // Assuming update backdata is the same as updatestatus
+    search : `${config.api}/products/searchkey`,
   },
   Customers: {
     list: `${config.api}/customers`,

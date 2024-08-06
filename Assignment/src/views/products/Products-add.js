@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+
 import {
   CAlert,
   CButton,
@@ -12,60 +14,42 @@ import {
 import * as API from '../../services/API/API_Product'
 import * as API_genres from '../../services/API/API_Genre'
 import { useNavigate } from 'react-router-dom'
+
 const ProductsAdd = () => {
   const navigate = useNavigate()
   const [status, setStatus] = useState(null)
-  const [product, setProduct] = useState({
-    Product_Name: '',
-    Product_Artist: '',
-    Genre_ID: '',
-    Product_Stock: '',
-    Product_Image: null,
-    Product_Description: '',
-    Product_Price: '',
-  })
+
   const [Genres, setGenres] = useState([])
-  function create() {
-    API.createProduct(product)
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+  } = useForm()
+
+  function create(data) {
+    data.Product_Image = data.Product_Image[0]
+    console.log(data)
+
+    API.createProduct(data)
       .then((response) => {
-        setStatus(true)
+        if (response.status === 201) {
+          setStatus(true)
+        }
       })
       .catch((error) => {
         setStatus(false)
       })
   }
+
   useEffect(() => {
     getGenres()
   }, [])
-  const [validated, setValidated] = useState(false)
+
   async function getGenres() {
     const response = await API_genres.getGenres()
-    setGenres(response.genres)
-  }
-  const handleChange = (e) => {
-    const { name, value, files } = e.target
-    if (files) {
-      setProduct({
-        ...product,
-        [name]: files[0],
-      })
-    } else {
-      setProduct({
-        ...product,
-        [name]: value,
-      })
-    }
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const form = e.currentTarget
-    if (form.checkValidity() === false) {
-      e.stopPropagation()
-    } else {
-      create()
-    }
-    setValidated(true)
+    const { data: genres } = response
+    setGenres(genres.genres)
   }
 
   return (
@@ -73,8 +57,7 @@ const ProductsAdd = () => {
       <CForm
         className="row g-3"
         noValidate
-        validated={validated}
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(create)}
         encType="multipart/form-data"
       >
         <h2>Thêm sản phẩm</h2>
@@ -83,14 +66,13 @@ const ProductsAdd = () => {
         <CCol md={6}>
           <CFormInput
             placeholder="Tên sản phẩm"
-            onChange={handleChange}
-            feedbackInvalid="Tên sản phẩm không được để trống"
             type="text"
             id="inputProductName"
             label="Tên sản phẩm"
-            value={product.Product_Name}
             name="Product_Name"
-            required
+            {...register('Product_Name', { required: 'Vui lòng nhập tên sản phẩm' })}
+            invalid={!!errors.Product_Name}
+            feedbackInvalid={errors.Product_Name && errors.Product_Name?.message}
           />
         </CCol>
         <CCol md={6}>
@@ -99,54 +81,54 @@ const ProductsAdd = () => {
             id="inputProductArtist"
             label="Tên nghệ sĩ"
             placeholder="Nhập tên nghệ sĩ"
-            onChange={handleChange}
-            feedbackInvalid="Tên nghệ sĩ không được để trống"
-            value={product.Product_Artist}
             name="Product_Artist"
-            required
+            {...register('Product_Artist', { required: 'Vui lòng nhập tên nghệ sĩ' })}
+            invalid={!!errors.Product_Artist}
+            feedbackInvalid={errors.Product_Artist && errors.Product_Artist?.message}
           />
         </CCol>
         <CCol xs={6}>
           <label htmlFor="inputProductType" className="form-label">
-            {' '}
             Thể loại âm nhạc
           </label>
           <CFormSelect
             aria-label="Default select example"
-            options={Genres.map((genre) => {
-              return { value: genre.Genre_ID, label: genre.Genre_Name }
-            })}
+            options={[
+              { value: '', label: 'Chọn mã loại' },
+              ...Genres.map((genre) => {
+                return { value: genre.Genre_ID, label: genre.Genre_Name }
+              }),
+            ]}
             name="Genre_ID"
             id="inputProductType"
-            onChange={handleChange}
-            feedbackInvalid="Chọn thể loại âm nhạc"
-            required
+            {...register('Genre_ID', { required: 'Vui lòng chọn thể loại' })}
+            invalid={!!errors.Genre_ID}
+            feedbackInvalid={errors.Genre_ID && errors.Genre_ID?.message}
           />
         </CCol>
+
         <CCol xs={6}>
           <CFormInput
-            type="number"
+            type="text"
             id="inputProductPrice"
             label="Giá sản phẩm"
             placeholder="Nhập giá sản phẩm"
-            value={product.Product_Price}
             name="Product_Price"
-            onChange={handleChange}
-            feedbackInvalid="Giá sản phẩm không được để trống"
-            required
+            {...register('Product_Price', { required: 'Vui lòng nhập giá sản phẩm', min: 0 })}
+            invalid={!!errors.Product_Price}
+            feedbackInvalid={errors.Product_Price && errors.Product_Price?.message}
           />
         </CCol>
         <CCol xs={6}>
           <CFormInput
-            type="number"
+            type="text"
             id="inputProductQuantity"
             label="Số lượng"
             placeholder="nhập số lượng"
-            value={product.Product_Stock}
             name="Product_Stock"
-            onChange={handleChange}
-            feedbackInvalid="Số lượng không được để trống"
-            required
+            {...register('Product_Stock', { required: 'Vui lòng nhập số lượng', min: 0 })}
+            invalid={!!errors.Product_Stock}
+            feedbackInvalid={errors.Product_Stock && errors.Product_Stock?.message}
           />
         </CCol>
         <CCol md={6}>
@@ -155,9 +137,9 @@ const ProductsAdd = () => {
             id="formFile"
             label="Chọn hình ảnh sản phẩm"
             name="Product_Image"
-            onChange={handleChange}
-            feedbackInvalid="Chọn hình ảnh sản phẩm"
-            required
+            {...register('Product_Image', { required: 'Vui lòng chọn hình ảnh' })}
+            invalid={!!errors.Product_Image}
+            feedbackInvalid={errors.Product_Image && errors.Product_Image?.message}
           />
         </CCol>
         <CCol md={12}>
@@ -167,10 +149,9 @@ const ProductsAdd = () => {
             rows={3}
             placeholder="Nhập mô tả sản phẩm"
             name="Product_Description"
-            value={product.Product_Description}
-            onChange={handleChange}
-            feedbackInvalid="Mô tả sản phẩm không được để trống"
-            required
+            {...register('Product_Description', { required: 'Vui lòng nhập mô tả sản phẩm' })}
+            invalid={!!errors.Product_Description}
+            feedbackInvalid={errors.Product_Description && errors.Product_Description?.message}
           ></CFormTextarea>
         </CCol>
 

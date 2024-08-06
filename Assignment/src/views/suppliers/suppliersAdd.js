@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import {
   CButton,
   CCol,
@@ -14,29 +15,30 @@ import {
   CCardFooter,
 } from '@coreui/react'
 // api
-import {createsuppliers} from '../../services/API/API_suppliers'
+import { createsuppliers } from '../../services/API/API_suppliers'
 import { Link } from 'react-router-dom'
 // router
 
 const SuppliersAdd = () => {
   const [status, setStatus] = useState(null)
-  const [validated, setValidated] = useState(false)
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+  } = useForm()
   const [count, setCount] = useState(0)
-  
-  const [formData, setFormData] = useState({
-    Supplier_Name: '',
-    Contact_Name: '',
-    Contact_Email: '',
-    Contact_Phone: '',
-    Address: '',
-  })
+
   useEffect(() => {
     document.title = 'Thêm nhà phân phối'
   }, [count])
-  function create() {
-    createsuppliers(formData)
+  function create(data) {
+    console.log(data)
+    createsuppliers(data)
       .then((response) => {
-        setStatus(true)
+        if (response.status === 201) {
+          setStatus(true)
+        }
       })
       .catch((error) => {
         setStatus(false)
@@ -50,28 +52,13 @@ const SuppliersAdd = () => {
     })
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const form = event.currentTarget
-    if (form.checkValidity() === false) {
-      event.stopPropagation()
-    } else {
-      create()
-    }
-    setValidated(true)
-    setCount(count + 1)
-  }
-
   return (
     <CCard>
       <CCardHeader>
-        <h3>
-        Thêm nhà phân phối
-        </h3>
+        <h3>Thêm nhà phân phối</h3>
       </CCardHeader>
       <CCardBody>
-        <CForm className="row g-3" noValidate onSubmit={handleSubmit} validated={validated}>
-         
+        <CForm className="row g-3" onSubmit={handleSubmit(create)}>
           {status === false && (
             <CCol md={12}>
               <CAlert color="danger">Thêm nhà phân phối thất bại</CAlert>
@@ -91,10 +78,12 @@ const SuppliersAdd = () => {
               type="text"
               placeholder="Nhập tên nhà phân phối"
               autoComplete="Supplier_Name"
-              required
               name="Supplier_Name"
               onChange={handleChange}
-              feedbackInvalid="Vui lòng nhập tên nhà phân phối"
+              {...register('Supplier_Name', { required: 'Vui lòng nhập tên nhà phân phối' })}
+              invalid={!!errors.Supplier_Name}
+              aria-invalid={errors.Supplier_Name ? 'true' : 'false'}
+              feedbackInvalid={errors.Supplier_Name?.message}
             />
           </CCol>
 
@@ -103,12 +92,15 @@ const SuppliersAdd = () => {
               <strong>Tên người liên hệ</strong>
             </CFormLabel>
             <CFormInput
-              required
               type="text"
               id="Contact_Name"
               name="Contact_Name"
               onChange={handleChange}
               placeholder="Nhập tên người liên hệ"
+              {...register('Contact_Name', { required: true })}
+              aria-invalid={errors.Contact_Name ? 'true' : 'false'}
+              invalid={!!errors.Contact_Name}
+              feedbackInvalid={errors.Contact_Name?.message}
             />
           </CCol>
 
@@ -117,13 +109,15 @@ const SuppliersAdd = () => {
               <strong>Email người liên hệ</strong>
             </CFormLabel>
             <CFormInput
-              required
               type="email"
               id="Contact_Email"
               name="Contact_Email"
               onChange={handleChange}
-              feedbackInvalid="Vui lòng nhập email"
               placeholder="Nhập email người liên hệ"
+              {...register('Contact_Email', { required: true, pattern: /^\S+@\S+$/i })}
+              aria-invalid={errors.Contact_Email ? 'true' : 'false'}
+              invalid={!!errors.Contact_Email}
+              feedbackInvalid={errors.Contact_Email?.message}
             />
           </CCol>
 
@@ -133,13 +127,16 @@ const SuppliersAdd = () => {
             </CFormLabel>
             <CFormInput
               pattern="[0-9]{10}"
-              required
               type="tel"
               id="Contact_Phone"
               name="Contact_Phone"
               onChange={handleChange}
-              feedbackInvalid="Vui lòng nhập số điện thoại"
               placeholder="Nhập số điện thoại người liên hệ"
+              {...register('Contact_Phone', { required: true, pattern: /[0-9]{10}/ })}
+              aria-invalid={errors.Contact_Phone ? 'true' : 'false'}
+              invalid={!!errors.Contact_Phone}
+              feedbackInvalid={errors.Contact_Phone?.message}
+
             />
           </CCol>
 
@@ -148,12 +145,15 @@ const SuppliersAdd = () => {
               <strong>Địa chỉ</strong>
             </CFormLabel>
             <CFormTextarea
-              required
               id="Address"
               name="Address"
               onChange={handleChange}
-              feedbackInvalid="Vui lòng nhập địa chỉ"
               placeholder="Nhập địa chỉ"
+              {...register('Address', { required: true })}
+              aria-invalid={errors.Address ? 'true' : 'false'}
+              invalid={!!errors.Address}
+              feedbackInvalid={errors.Address?.message}
+
             />
           </CCol>
 
@@ -165,10 +165,7 @@ const SuppliersAdd = () => {
         </CForm>
       </CCardBody>
       <CCardFooter>
-        <Link
-          to="/suppliers"
-          className="btn btn-sm btn-secondary"
-        >
+        <Link to="/suppliers" className="btn btn-sm btn-secondary">
           Quay lại
         </Link>
       </CCardFooter>

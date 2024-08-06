@@ -70,11 +70,6 @@ const _nav = [
         name: 'Thêm',
         to: '/AddGenres',
       },
-      {
-        component: CNavItem,
-        name: 'Thêm Sản Phẩm',
-        to: '/Products/add',
-      },
     ],
   },
   {
@@ -110,7 +105,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Thêm',
-        to: '/order_Add',
+        to: '/orders/order_add',
       },
     ],
   },

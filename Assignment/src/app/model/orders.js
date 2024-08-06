@@ -9,7 +9,7 @@ class orders {
 
     return new Promise((resolve, reject) => {
       const countQuery = "SELECT COUNT(*) AS total FROM orders";
-      const paginatedQuery = "SELECT * FROM orders ORDER BY Order_ID LIMIT ?, ?";
+      const paginatedQuery = "SELECT * FROM orders ORDER BY Order_ID DESC LIMIT ?, ?";
 
       db.query(countQuery, (err, countResult) => {
         if (err) {

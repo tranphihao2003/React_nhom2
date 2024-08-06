@@ -20,16 +20,16 @@ exports.getshippersById = async (req, res) => {
 }
 exports.createshippers = async (req, res) => {
   try {
-    let shippers = await shippers_class.createshippers(req.body)
-    res.status(200).json(shippers)
+    let shippers = await shippers_class.createshippers(req.body);
+    res.status(201).json(shippers);
   } catch (error) {
     res.status(500).json(error)
   }
 }
 exports.updateshippers = async (req, res) => {
   try {
-    let shippers = await shippers_class.updateshippers(req.params.id, req.body)
-    res.status(200).json(shippers)
+    let shippers = await shippers_class.updateshippers(req.params.id, req.body);
+    res.status(201).json(shippers);
   } catch (error) {
     res.status(500).json(error)
   }
@@ -53,7 +53,7 @@ exports.backdata = async (req, res) => {
 exports.changeStatus = async (req, res) => {
   try {
     let shippers = await shippers_class.changeStatus(req.params.id, req.body.status)
-    res.status(200).json(shippers)
+    res.status(201).json(shippers)
   } catch (error) {
     res.status(500).json(error)
   }

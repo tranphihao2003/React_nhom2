@@ -4,13 +4,14 @@ class products {
     this.products = []
   }
   static getAllproducts(page = 1, pageSize = 10) {
+ 
     const offset = (page - 1) * pageSize
     const limit = pageSize
 
     return new Promise((resolve, reject) => {
       const countQuery = 'SELECT COUNT(*) AS total FROM products Where status = 0'
       const paginatedQuery =
-        'SELECT * FROM products Where status = 0 ORDER BY Product_ID LIMIT ?, ?'
+        'SELECT * FROM products Where status = 0 ORDER BY Product_ID DESC LIMIT ? , ?'
 
       db.query(countQuery, (err, countResult) => {
         if (err) {
@@ -102,6 +103,20 @@ class products {
       db.query(
         'UPDATE products SET status = ? WHERE Product_ID = ?',
         [status, id],
+        (err, result) => {
+          if (err) {
+            reject(err)
+          }
+          resolve(result)
+        },
+      )
+    })
+  }
+  static searchProduct(key) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        'SELECT * FROM products WHERE Product_Name LIKE ?',
+        '%' + key + '%',
         (err, result) => {
           if (err) {
             reject(err)

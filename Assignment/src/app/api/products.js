@@ -2,7 +2,6 @@ const products_class = require('../model/products')
 
 exports.getAllproductss = async (req, res) => {
   try {
-    
     let page = Number(req.query.page)
     let pageSize = Number(req.query.pageSize)
     let productss = await products_class.getAllproducts(page, pageSize)
@@ -22,14 +21,14 @@ exports.getproductsById = async (req, res) => {
 exports.createProduct = async (req, res) => {
   try {
     if (req.file) {
+      console.log();
+      
       req.body.Product_Image = req.file.path
+
     }
     let product = await products_class.createproducts(req.body)
-    res.status(200).json(product)
+    res.status(201).json(product)
   } catch (error) {
-    console.log('====================================')
-    console.log(error)
-    console.log('====================================')
     res.status(500).json(error)
   }
 }
@@ -39,7 +38,7 @@ exports.updateproducts = async (req, res) => {
       req.body.Product_Image = req.file.path
     }
     let products = await products_class.updateproducts(req.params.id, req.body)
-    res.status(200).json(products)
+    res.status(201).json(products)
   } catch (error) {
     res.status(500).json(error)
   }
@@ -48,7 +47,7 @@ exports.updateproducts = async (req, res) => {
 exports.changeStatus = async (req, res) => {
   try {
     let products = await products_class.changeStatus(req.params.id, req.body.status)
-    res.status(200).json(products)
+    res.status(201).json(products)
   } catch (error) {
     res.status(500).json(error)
   }
@@ -64,6 +63,15 @@ exports.deleteproducts = async (req, res) => {
 exports.backdata = async (req, res) => {
   try {
     let products = await products_class.backdata()
+    res.status(200).json(products)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+exports.searchProduct = async (req, res) => {
+  try {
+    let key = req.query.searchkey
+    let products = await products_class.searchProduct(key)
     res.status(200).json(products)
   } catch (error) {
     res.status(500).json(error)

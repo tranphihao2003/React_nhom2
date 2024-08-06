@@ -17,72 +17,58 @@ import {
 import * as API_Shipper from '../../services/API/API_Shipper'
 import * as API_Store from '../../services/API/API_Store'
 import { useParams } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+
 const ShipperEdit = () => {
   let { id } = useParams()
-  const [validated, setValidated] = React.useState(false)
-  const [status, setStatus] = React.useState(null)
-  const [Store, setStore] = React.useState([])
-  const [formData, setFormData] = React.useState({
-    Shipper_Name: '',
-    Age: '',
-    Phone: '',
-    ID_Card_Number: '',
-    Home_Address: '',
-    Store_ID: '',
-  })
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    reset,
+  } = useForm()
+  const [status, setStatus] = useState(null)
+  const [Store, setStore] = useState([])
+
   useEffect(() => {
-    document.title = 'Thêm người giao hàng'
-    getdata()
+    document.title = 'Chỉnh sửa người giao hàng'
+    getData()
   }, [])
-  async function getdata() {
-    const response = await API_Store.getStore(1, 100)
+
+  async function getData() {
+    const responseStore = await API_Store.getStore(1, 100)
+    const { data: Store } = responseStore
+    setStore(Store.stores)
+
     const responseShipper = await API_Shipper.getShipperById(id)
-    setFormData(responseShipper[0])
-    setStore(response.stores)
+    const { data: Shipper } = responseShipper
+    reset(Shipper[0]) // reset form with fetched data
   }
-  async function update() {
-    
-    const response = await API_Shipper.updateShipper(formData)
+
+  async function update(formData) {
+    const response = await API_Shipper.updateShipper({ id, ...formData })
     if (response) {
       setStatus(true)
-    }
-  }
-  function handleSubmit(event) {
-    event.preventDefault()
-    const form = event.currentTarget
-
-    if (form.checkValidity() === false) {
-      event.stopPropagation()
     } else {
-      update()
+      setStatus(false)
     }
-    setValidated(true)
   }
-  function handleChange(e) {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
-  }
+
   return (
-    <CForm className="row g-3" onSubmit={handleSubmit} noValidate validated={validated}>
+    <CForm className="row g-3" onSubmit={handleSubmit(update)}>
       <h2>Chỉnh sửa người giao hàng</h2>
-      {status == true ? (
-        <CAlert color="success">Cập nhật thành công</CAlert>
-      ) : status == false ? (
-        <CAlert color="danger">Cập nhật thất bại</CAlert>
-      ) : null}
+      {status === true && <CAlert color="success">Cập nhật thành công</CAlert>}
+      {status === false && <CAlert color="danger">Cập nhật thất bại</CAlert>}
       <CCol md={6}>
         <CFormInput
           type="text"
           id="name"
           name="Shipper_Name"
           label="Tên người giao:"
-          onChange={handleChange}
-          required
-          value={formData.Shipper_Name}
-          feedbackInvalid="Vui lòng nhập tên người giao"
+          {...register('Shipper_Name', { required: 'Vui lòng nhập tên người giao' })}
+          invalid={!!errors.Shipper_Name}
+          feedbackInvalid={errors.Shipper_Name?.message}
           placeholder="Họ và tên"
         />
       </CCol>
@@ -93,27 +79,26 @@ const ShipperEdit = () => {
           id="age"
           label="Tuổi:"
           name="Age"
-          onChange={handleChange}
-          required
-          value={formData.Age}
+          {...register('Age', { required: 'Vui lòng nhập tuổi (18-40)', min: 18, max: 40 })}
+          invalid={!!errors.Age}
+          feedbackInvalid={errors.Age?.message}
           placeholder="Tuổi (18-40)"
-          feedbackInvalid="Vui lòng nhập tuổi (18-40)"
-          min={18}
-          max={40}
         />
       </CCol>
 
       <CCol md={6}>
         <CFormInput
-          pattern="[0-9]{10}"
+      
           type="text"
           name="Phone"
           id="Phone"
           label="Số điện thoại:"
-          onChange={handleChange}
-          required
-          value={formData.Phone}
-          feedbackInvalid="Vui lòng nhập số điện thoại"
+          {...register('Phone', {
+            required: 'Vui lòng nhập số điện thoại',
+            pattern: { value: /^[0-9]{10}$/, message: 'Số điện thoại không hợp lệ' },
+          })}
+          invalid={!!errors.Phone}
+          feedbackInvalid={errors.Phone?.message}
           placeholder="Nhập số điện thoại"
         />
       </CCol>
@@ -125,11 +110,13 @@ const ShipperEdit = () => {
           id="ID_Card_Number"
           placeholder="Nhập số CMND (12 số)"
           label="Chứng minh nhân dân:"
-          onChange={handleChange}
-          required
-          value={formData.ID_Card_Number}
+          {...register('ID_Card_Number', {
+            required: 'Vui lòng nhập số CMND',
+            pattern: { value: /^[0-9]{12}$/, message: 'Số CMND không hợp lệ' },
+          })}
+          invalid={!!errors.ID_Card_Number}
+          feedbackInvalid={errors.ID_Card_Number?.message}
           name="ID_Card_Number"
-          feedbackInvalid="Vui lòng nhập số CMND"
         />
       </CCol>
 
@@ -138,11 +125,10 @@ const ShipperEdit = () => {
           type="text"
           id="Home_Address"
           label="Địa chỉ nhà :"
-          onChange={handleChange}
-          required
-          value={formData.Home_Address}
+          {...register('Home_Address', { required: 'Vui lòng nhập địa chỉ nhà' })}
+          invalid={!!errors.Home_Address}
+          feedbackInvalid={errors.Home_Address?.message}
           name="Home_Address"
-          feedbackInvalid="Vui lòng nhập địa chỉ nhà"
           placeholder="(Đường, phường, quận, thành phố...)"
         />
       </CCol>
@@ -152,23 +138,20 @@ const ShipperEdit = () => {
           aria-label="Default select example"
           options={[
             { label: 'Chọn cửa hàng làm việc', value: '' },
-            ...Store.map((item) => {
-              return { label: item.Store_Name, value: item.Store_ID }
-            }),
+            ...Store.map((item) => ({ label: item.Store_Name, value: item.Store_ID })),
           ]}
           id="Store_ID"
           label="Cửa hàng làm việc"
-          onChange={handleChange}
-          required
-          value={formData.Store_ID}
+          {...register('Store_ID', { required: 'Vui lòng chọn cửa hàng làm việc' })}
+          invalid={!!errors.Store_ID}
+          feedbackInvalid={errors.Store_ID?.message}
           name="Store_ID"
-          feedbackInvalid="Vui lòng chọn cửa hàng làm việc"
         />
       </CCol>
 
       <CCol md={12}>
         <CButton color="primary" type="submit">
-          Thêm người giao hàng
+          Cập nhật người giao hàng
         </CButton>
       </CCol>
     </CForm>
