@@ -78,8 +78,8 @@ const Accounts_Add = React.lazy(() => import('./views/accounts/Accounts_Add'))
 const Accounts_Edit = React.lazy(() => import('./views/accounts/Accounts_Edit'))
 
 const Employees = React.lazy(() => import('./views/employees/Employees'))
-const AddEmployees = React.lazy(() => import('./views/employees/AddEmployees'))
-const EditEmployees = React.lazy(() => import('./views/employees/EditEmployees'))
+const Employees_Add = React.lazy(() => import('./views/employees/Employees_Add'))
+const Employees_Update = React.lazy(() => import('./views/employees/Employees_Update'))
 
 const Customers = React.lazy(() => import('./views/customers/Customers'))
 const AddCustomers = React.lazy(() => import('./views/customers/AddCustomers'))

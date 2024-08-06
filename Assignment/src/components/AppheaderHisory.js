@@ -43,12 +43,14 @@ const COLUMNS_CONFIG = {
     { key: 'status', label: 'Trạng thái' },
     { key: 'actions', label: 'Thao tác' },
   ],
-  stores: [
+  employees: [
     { key: 'STT', label: 'STT' },
-    { key: 'Store_Name', label: 'Tên cửa hàng' },
-    { key: 'Store_Location', label: 'Địa chỉ' },
-    { key: 'Store_Phone', label: 'SĐT' },
-    { key: 'status', label: 'Trạng thái' },
+    { key: 'First_Name', label: 'Họ' },
+    { key: 'Last_Name', label: 'Tên' },
+    { key: 'Store_ID', label: 'Chi nhánh' },
+    { key: 'Position', label: 'Vị trí' },
+    { key: 'Salary', label: 'Lương' },
+    { key: 'Status', label: 'Trạng thái' },
     { key: 'actions', label: 'Thao tác' },
   ],
 }
@@ -122,8 +124,8 @@ const AppHeaderHistory = (props) => {
         item.Product_Image = (
           <img src={item.Product_Image} alt={item.Product_Name} style={{ width: '50px' }} />
         )
-        item.status =
-          item.status === 1 ? (
+        item.Status =
+          item.Status === 1 ? (
             <CBadge color="danger">Tạm ngưng</CBadge>
           ) : (
             <CBadge color="secondary">Inactive</CBadge>
