@@ -1,15 +1,17 @@
-var db = require("./db");
+var db = require('./db');
+
 class store_products {
   constructor() {
     this.store_products = [];
   }
+
   static getAllstore_products(page = 1, pageSize = 10) {
     const offset = (page - 1) * pageSize;
     const limit = pageSize;
 
     return new Promise((resolve, reject) => {
-      const countQuery = "SELECT COUNT(*) AS total FROM store_products Where status = 0";
-      const paginatedQuery = "SELECT * FROM store_products Where status = 0 ORDER BY store_products_ID LIMIT ?, ?";
+      const countQuery = "SELECT COUNT(*) AS total FROM store_products WHERE status = 0";
+      const paginatedQuery = "SELECT * FROM store_products WHERE status = 0 ORDER BY store_products_ID LIMIT ?, ?";
 
       db.query(countQuery, (err, countResult) => {
         if (err) {
@@ -33,6 +35,7 @@ class store_products {
       });
     });
   }
+
   static getstore_productsById(id) {
     return new Promise((resolve, reject) => {
       db.query(
@@ -41,26 +44,26 @@ class store_products {
         (err, result) => {
           if (err) {
             reject(err);
+          } else {
+            resolve(result);
           }
-          resolve(result);
         }
       );
     });
   }
+
   static createstore_products(store_products) {
     return new Promise((resolve, reject) => {
-      db.query(
-        "INSERT INTO store_products SET ?",
-        store_products,
-        (err, result) => {
-          if (err) {
-            reject(err);
-          }
+      db.query('INSERT INTO store_products SET ?', store_products, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
           resolve(result);
         }
-      );
+      });
     });
   }
+
   static updatestore_products(id, store_products) {
     return new Promise((resolve, reject) => {
       db.query(
@@ -69,12 +72,14 @@ class store_products {
         (err, result) => {
           if (err) {
             reject(err);
+          } else {
+            resolve(result);
           }
-          resolve(result);
         }
       );
     });
   }
+
   static deletestore_products(id) {
     return new Promise((resolve, reject) => {
       db.query(
@@ -83,32 +88,37 @@ class store_products {
         (err, result) => {
           if (err) {
             reject(err);
+          } else {
+            resolve(result);
           }
-          resolve(result);
         }
       );
     });
   }
+
   static backdata() {
     return new Promise((resolve, reject) => {
       db.query('SELECT * FROM store_products WHERE status = 1', (err, result) => {
         if (err) {
-          reject(err)
+          reject(err);
+        } else {
+          resolve(result);
         }
-        resolve(result)
-      })
-    })
+      });
+    });
   }
-  static changeStatus(id,status) {
-    
+
+  static changeStatus(id, status) {
     return new Promise((resolve, reject) => {
       db.query('UPDATE store_products SET status = ? WHERE store_products_ID = ?', [status, id], (err, result) => {
         if (err) {
-          reject(err)
+          reject(err);
+        } else {
+          resolve(result);
         }
-        resolve(result)
-      })
-    })
+      });
+    });
   }
 }
+
 module.exports = store_products;

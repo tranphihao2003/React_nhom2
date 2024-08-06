@@ -58,7 +58,23 @@ const COLUMNS_CONFIG = {
     { key: 'Store_ID', label: 'Chi nhánh' },
     { key: 'Product_ID', label: 'Sản phẩm' },
     { key: 'Product_Stock', label: 'Số lượng' },
+  ],
+  stores: [
+    { key: 'STT', label: 'STT' },
+    { key: 'Store_Name', label: 'Tên cửa hàng' },
+    { key: 'Store_Location', label: 'Địa chỉ' },
+    { key: 'Store_Phone', label: 'SĐT' },
     { key: 'status', label: 'Trạng thái' },
+    { key: 'actions', label: 'Thao tác' },
+  ],
+  customers: [
+    { key: 'STT', label: 'STT' },
+    { key: 'First_Name', label: 'Tên' },
+    { key: 'Last_Name', label: 'Họ' },
+    { key: 'Email', label: 'Email' },
+    { key: 'Phone', label: 'Số điện thoại' },
+    { key: 'Address', label: 'Địa chỉ' },
+    { key: 'Status', label: 'Trạng thái' },
     { key: 'actions', label: 'Thao tác' },
   ],
 }

@@ -1,5 +1,4 @@
 var db = require('./db')
-
 class employees {
   constructor() {
     this.employees = []

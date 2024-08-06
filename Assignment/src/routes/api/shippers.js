@@ -13,13 +13,13 @@ const storage = multer.diskStorage({
 });
 const upload = multer({
   storage: storage,
-});
-router.get("/", authenticateToken, shippers.getAllshipperss);
-router.get("/:id", authenticateToken, shippers.getshippersById);
-router.post("/", authenticateToken, shippers.createshippers);
-router.put("/:id", authenticateToken, shippers.updateshippers);
+})
+router.get('/', authenticateToken, shippers.getAllshipperss)
+router.get('/:id', authenticateToken, shippers.getshippersById)
+router.post('/', authenticateToken, shippers.createshippers)
+router.put('/:id', authenticateToken, shippers.updateshippers)
 router.get('/backdata/all', authenticateToken, shippers.backdata) // Change to GET
 router.put('/backdata/:id', authenticateToken, shippers.changeStatus) // Restore product
 router.put('/stop/:id', authenticateToken, shippers.changeStatus) // Temporarily stop product
 router.delete('/:id', authenticateToken, shippers.deleteshippers) // Delete product
-module.exports = router;
+module.exports = router

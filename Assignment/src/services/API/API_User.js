@@ -1,7 +1,6 @@
 import API_config from '../../config/API_config'
 import { removeItem } from '../localStorage.services'
 
-
 const UserLogin = async (userData) => {
   const response = await fetch(`${API_config.Users.login}`, {
     method: 'POST',

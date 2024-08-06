@@ -85,7 +85,7 @@ const Customers = React.lazy(() => import('./views/customers/Customers'))
 const AddCustomers = React.lazy(() => import('./views/customers/AddCustomers'))
 const EditCustomers = React.lazy(() => import('./views/customers/EditCustomers'))
 
-const Genres = React.lazy(() => import('./views/genres/Genres'))
+const Genres = React.lazy(() => import('./views/genres/genres'))
 const AddGenres = React.lazy(() => import('./views/genres/AddGenres'))
 const EditGenres = React.lazy(() => import('./views/genres/EditGenres'))
 //Các bảng
@@ -236,7 +236,7 @@ const PublicRoutes = [
   // Genre routes
   { path: '/genres', name: 'Genres', element: Genres, requiredRole: ['Admin', 'WarehouseStaff'] },
   { path: '/AddGenres', name: 'Add Genre', element: AddGenres, requiredRole: ['Admin'] },
-  { path: '/EditGenres', name: 'Edit Genre', element: EditGenres, requiredRole: ['Admin'] },
+  { path: '/EditGenres/:id', name: 'Edit Genre', element: EditGenres, requiredRole: ['Admin'] },
 
   // Order routes
   {
