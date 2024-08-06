@@ -16,6 +16,7 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage: storage })
+router.get('/searchkey', authenticateToken, products.searchProduct) // Search product by name
 router.get('/', authenticateToken, products.getAllproductss)
 router.get('/:id', authenticateToken, products.getproductsById)
 router.post('/', authenticateToken, upload.single('Product_Image'), products.createProduct)
@@ -24,5 +25,4 @@ router.get('/backdata/all', authenticateToken, products.backdata) // Change to G
 router.put('/backdata/:id', authenticateToken, products.changeStatus) // Restore product
 router.put('/stop/:id', authenticateToken, products.changeStatus) // Temporarily stop product
 router.delete('/:id', authenticateToken, products.deleteproducts) // Delete product
-
 module.exports = router

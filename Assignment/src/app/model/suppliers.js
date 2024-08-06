@@ -8,8 +8,8 @@ class suppliers {
     const limit = pageSize
 
     return new Promise((resolve, reject) => {
-      const countQuery = 'SELECT COUNT(*) AS total FROM suppliers'
-      const paginatedQuery = 'SELECT * FROM suppliers Where status = 0  ORDER BY Supplier_ID  DESC LIMIT ?, ?'
+      const countQuery = 'SELECT COUNT(*) AS total FROM suppliers Where status = 0'
+      const paginatedQuery = 'SELECT * FROM suppliers Where status = 0  ORDER BY Supplier_ID  DESC  LIMIT ?, ?'
 
       db.query(countQuery, (err, countResult) => {
         if (err) {

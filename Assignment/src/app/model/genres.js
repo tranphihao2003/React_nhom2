@@ -9,7 +9,7 @@ class genres {
 
     return new Promise((resolve, reject) => {
       const countQuery = "SELECT COUNT(*) AS total FROM genres";
-      const paginatedQuery = "SELECT * FROM genres ORDER BY Genre_ID LIMIT ?, ?";
+      const paginatedQuery = "SELECT * FROM genres ORDER BY Genre_ID DESC LIMIT ?, ?";
 
       db.query(countQuery, (err, countResult) => {
         if (err) {

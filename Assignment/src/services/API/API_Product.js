@@ -115,7 +115,15 @@ export const createProduct = async (product, navigate) => {
   })
   return _handleResponse(response, navigate)
 }
-
+export const searchProduct = async (searchKey, navigate) => {
+  const response = await _fetchWithAuth(`${API_config.products.search}?searchkey=${searchKey}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  return _handleResponse(response, navigate)
+}
 // Function to update an existing product
 export const updateProduct = async (product, navigate) => {
   // Create FormData

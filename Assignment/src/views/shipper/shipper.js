@@ -40,6 +40,7 @@ const Shipper = () => {
   const getdata = (page, pageSize) => {
     API.getShippers(page, pageSize).then((res) => {
       const { data } = res
+
       setPagination({
         totalItems: data.totalItems,
         totalPages: data.totalPages,
@@ -58,7 +59,7 @@ const Shipper = () => {
   }
 
   const editacp = (id) => {
-    navigate(`/Shipper/${id}`)
+    navigate(`/Shippers/${id}`)
   }
   function handlePageChange(newpage) {
     searchParams.set('page', newpage)
@@ -69,12 +70,18 @@ const Shipper = () => {
     setItems(
       items.map((item, index) => {
         item.STT = index + 1
-        if (item.status === 0) {
-          item.status = <CBadge color="success">Đang hoạt động</CBadge>
-        } else if (item.status === 1) {
-          item.status = <CBadge color="danger">Ngừng hoạt động</CBadge>
-        } else if (item.status === 2) {
-          item.status = <CBadge color="warning">Đang chờ duyệt</CBadge>
+
+        switch (item.status) {
+          case 0:
+            item.status = <CBadge color="success">Đang hoạt động</CBadge>
+            break
+          case 1:
+            item.status = <CBadge color="danger">Ngừng hoạt động</CBadge>
+            break
+          case 2:
+            item.status = <CBadge color="warning">Đang chờ duyệt</CBadge>
+          default:
+            break
         }
         item.actions = (
           <>
@@ -160,7 +167,7 @@ const Shipper = () => {
             </h5>
           </CCol>
 
-          <CCol sm="9" className="d-md-block">
+          <CCol sm="9" className="d-flex justify-content-end">
             <AppHeaderHistory
               id="Shipper_ID"
               API={API}
@@ -179,37 +186,36 @@ const Shipper = () => {
           </CCol>
         </CRow>
       </CCardHeader>
-      <div
-        style={{
-          minHeight: '70vh',
-        }}
-      >
+      <div>
         <CTable striped hover columns={columns} items={items} />
+        {items.length === 0 && <div className="text-center p-3">Không có dữ liệu để hiển thị</div>}
       </div>
-      <CPagination align="center" aria-label="Page navigation example">
-        <CPaginationItem
-          disabled={pagination.page <= 1}
-          onClick={() => handlePageChange(pagination.page - 1)}
-        >
-          <span aria-hidden="true">&laquo;</span>
-        </CPaginationItem>
-        {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((page) => (
+      {items.length !== 0 && (
+        <CPagination align="center" aria-label="Page navigation example">
           <CPaginationItem
-            key={page}
-            active={page === pagination.page}
-            onClick={() => handlePageChange(page)}
+            disabled={pagination.page <= 1}
+            onClick={() => handlePageChange(pagination.page - 1)}
           >
-            {page}
+            <span aria-hidden="true">&laquo;</span>
           </CPaginationItem>
-        ))}
-        <CPaginationItem
-          disabled={pagination.page === pagination.totalPages}
-          onClick={() => handlePageChange(pagination.page + 1)}
-        >
-          {' '}
-          <span aria-hidden="true">&raquo;</span>
-        </CPaginationItem>
-      </CPagination>
+          {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((page) => (
+            <CPaginationItem
+              key={page}
+              active={page === pagination.page}
+              onClick={() => handlePageChange(page)}
+            >
+              {page}
+            </CPaginationItem>
+          ))}
+          <CPaginationItem
+            disabled={pagination.page === pagination.totalPages}
+            onClick={() => handlePageChange(pagination.page + 1)}
+          >
+            {' '}
+            <span aria-hidden="true">&raquo;</span>
+          </CPaginationItem>
+        </CPagination>
+      )}
     </CCard>
   )
 }

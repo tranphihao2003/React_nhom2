@@ -9,7 +9,7 @@ class store_products {
 
     return new Promise((resolve, reject) => {
       const countQuery = "SELECT COUNT(*) AS total FROM store_products";
-      const paginatedQuery = "SELECT * FROM store_products ORDER BY Product_ID LIMIT ?, ?";
+      const paginatedQuery = "SELECT * FROM store_products ORDER BY Product_ID DESC LIMIT ?, ?";
 
       db.query(countQuery, (err, countResult) => {
         if (err) {

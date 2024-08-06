@@ -10,7 +10,7 @@ class shippers {
     return new Promise((resolve, reject) => {
       const countQuery = 'SELECT COUNT(*) AS total FROM shippers'
       const paginatedQuery =
-        'SELECT * FROM shippers sp JOIN stores st ON sp.Store_ID  = st.Store_ID  Where sp.status = 0 ORDER BY Shipper_ID LIMIT  ?, ?'
+        'SELECT * FROM shippers sp JOIN stores st ON sp.Store_ID  = st.Store_ID  Where sp.status = 0 ORDER BY Shipper_ID DESC LIMIT  ?, ?'
 
       db.query(countQuery, (err, countResult) => {
         if (err) {

@@ -155,7 +155,7 @@ const Stores = () => {
             </h5>
           </CCol>
 
-          <CCol sm="9" className="d-md-block">
+          <CCol sm="9" className="d-flex justify-content-end">
             <AppHeaderHistory
               id="Store_ID"
               API={API_Store}

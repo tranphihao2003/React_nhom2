@@ -28,10 +28,16 @@ const _handleResponse = async (response, navigate) => {
     return null
   }
   try {
-    return await response.json()
+    const data = await response.json()
+    return {
+      status: response.status,
+      data: data,
+    }
   } catch (error) {
-    console.error('Failed to parse JSON:', error)
-    return null
+    return {
+      status: response.status,
+      data: null,
+    }
   }
 }
 

@@ -80,6 +80,7 @@ const AppHeaderHistory = (props) => {
       Swal.fire({
         icon: 'error',
         title: 'Không thể xóa này',
+        text: 'Do gặp lỗi  về ràng buộc dữ liệu',
         showConfirmButton: false,
         timer: 1500,
       })
@@ -97,7 +98,7 @@ const AppHeaderHistory = (props) => {
   }
   async function restoreitem(id) {
     const data = await props.API.changestatus(id, 0)
-    if (data.status === 200) {
+    if (data.status === 201) {
       Swal.fire({
         icon: 'success',
         title: 'Khôi phục thành công',
@@ -161,7 +162,7 @@ const AppHeaderHistory = (props) => {
     <>
       <CButton
         color="primary"
-        className="float-end px-4"
+        className=" px-4 ms-2 me-2"
         onClick={() => {
           setVisibleLg(!visibleLg)
         }}

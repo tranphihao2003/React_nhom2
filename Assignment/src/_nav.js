@@ -70,11 +70,6 @@ const _nav = [
         name: 'Thêm',
         to: '/AddGenres',
       },
-      {
-        component: CNavItem,
-        name: 'Thêm Sản Phẩm',
-        to: '/Products/add',
-      },
     ],
   },
   {
@@ -105,49 +100,12 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Hiển thị',
-        to: '/Genres',
-      },
-      {
-        component: CNavItem,
-        name: 'Thêm',
-        to: '/AddGenres',
-      }
-    ],
-  },
-  {
-    component: CNavGroup,
-    name: 'Shippers',
-    to: '/Shippers',
-    icon: <CIcon icon={cilTruck} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Hiển thị',
-        to: '/Shippers',
-      },
-      {
-        component: CNavItem,
-        name: 'Thêm người giao hình',
-        to: '/Shippers/add',
-      },
-    ],
-  },
-
-  {
-    component: CNavGroup,
-    name: 'Orders',
-    to: '/orders',
-    icon: <CIcon icon={cilCart} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Hiển thị',
         to: '/orders',
       },
       {
         component: CNavItem,
         name: 'Thêm',
-        to: '/order_Add',
+        to: '/orders/order_add',
       },
     ],
   },
@@ -185,7 +143,7 @@ const _nav = [
         component: CNavItem,
         name: 'Thêm',
         to: '/stores_add',
-      }
+      },
     ],
   },
   {
@@ -203,7 +161,7 @@ const _nav = [
         component: CNavItem,
         name: 'Thêm',
         to: '/store_products_add',
-      }
+      },
     ],
   },
   {
@@ -221,7 +179,7 @@ const _nav = [
         component: CNavItem,
         name: 'Thêm',
         to: '/accounts_add',
-      }
+      },
     ],
   },
   {

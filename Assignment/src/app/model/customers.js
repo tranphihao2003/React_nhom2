@@ -9,7 +9,7 @@ class customers {
 
     return new Promise((resolve, reject) => {
       const countQuery = "SELECT COUNT(*) AS total FROM customers";
-      const paginatedQuery = "SELECT * FROM customers ORDER BY Customer_ID LIMIT ?, ?";
+      const paginatedQuery = "SELECT * FROM customers ORDER BY Customer_ID DESC LIMIT ?, ?";
 
       db.query(countQuery, (err, countResult) => {
         if (err) {

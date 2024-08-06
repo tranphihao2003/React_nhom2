@@ -9,7 +9,7 @@ class employees {
 
     return new Promise((resolve, reject) => {
       const countQuery = "SELECT COUNT(*) AS total FROM employees";
-      const paginatedQuery = "SELECT * FROM employees ORDER BY Employee_ID LIMIT ?, ?";
+      const paginatedQuery = "SELECT * FROM employees ORDER BY Employee_ID DESC LIMIT ?, ?";
 
       db.query(countQuery, (err, countResult) => {
         if (err) {
