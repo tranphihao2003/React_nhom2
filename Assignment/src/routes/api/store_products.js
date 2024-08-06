@@ -20,4 +20,7 @@ router.post("/",authenticateToken, store_products.createstore_products);
 router.put("/:id",authenticateToken, store_products.updatestore_products);
 router.delete("/:id",authenticateToken, store_products.deletestore_products);
 
+router.put('/backdata/:id', authenticateToken, store_products.changeStatus);
+router.get('/backdata/all', authenticateToken, store_products.backdata);
+router.put('/stop/:id', authenticateToken, store_products.changeStatus);
 module.exports = router;
