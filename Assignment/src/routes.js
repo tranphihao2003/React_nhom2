@@ -227,7 +227,7 @@ const PublicRoutes = [
     requiredRole: ['Admin', 'salesman ', 'StoreManager'],
   },
   {
-    path: '/EditCustomers',
+    path: '/EditCustomers/:id',
     name: 'Edit Customer',
     element: EditCustomers,
     requiredRole: ['Admin', 'salesman ', 'StoreManager'],

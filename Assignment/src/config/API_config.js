@@ -21,7 +21,7 @@ const API_config = {
     backdata: `${config.api}/products/backdata/all`,
     updatestatus: `${config.api}/products/backdata`, // Assuming update backdata is the same as updatestatus
   },
-  customers: {
+  Customers: {
     list: `${config.api}/customers`,
     create: `${config.api}/customers`,
     update: `${config.api}/customers`,

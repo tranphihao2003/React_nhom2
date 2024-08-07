@@ -41,3 +41,20 @@ exports.deletegenres = async (req, res) => {
     res.status(500).json(error);
   }
 };
+exports.backdata = async (req, res) => {
+  try {
+    let genres = await genres_class.backdata()
+    res.status(200).json(genres)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
+exports.changeStatus = async (req, res) => {
+  try {
+    let genres = await genres_class.changeStatus(req.params.id, req.body.status)
+    res.status(200).json(genres)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}

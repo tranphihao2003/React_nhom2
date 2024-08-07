@@ -67,7 +67,7 @@ const COLUMNS_CONFIG = {
     { key: 'status', label: 'Trạng thái' },
     { key: 'actions', label: 'Thao tác' },
   ],
-  customers: [
+  Customers: [
     { key: 'STT', label: 'STT' },
     { key: 'First_Name', label: 'Tên' },
     { key: 'Last_Name', label: 'Họ' },

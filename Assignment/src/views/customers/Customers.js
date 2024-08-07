@@ -164,7 +164,7 @@ const Customer = () => {
             <AppHeaderHistory
               id="Customer_ID"
               API={API_Customers}
-              path="customer"
+              path="Customers"
               page={pagination.page}
               loaddata={getdata}
               status={reloadheader}
