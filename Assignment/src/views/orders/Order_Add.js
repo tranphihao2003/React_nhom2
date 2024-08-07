@@ -3,6 +3,8 @@ import { CTable, CButton, CFormSelect, CFormLabel, CForm, CFormInput, CRow, CCol
 import API_Order from '../../services/API/API_Order'
 import API_Product from '../../services/API/API_Product'
 import API_Store from '../../services/API/API_Store'
+import API_Employees from '../../services/API/API_Employees'
+
 
 import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
@@ -19,13 +21,17 @@ import { auto } from '@popperjs/core'
 const Order_Add = () => {
   const Product_List = new API_Product()
   const Store_List = new API_Store()
+  const Employees_List = new API_Employees()
+
   const [items, setItems] = useState([])
   const [stores, setStores] = useState([])
   const [customers, setCustomers] = useState([])
+  const [employees, setEmployees] = useState([])
 
   const [selectedProduct, setSelectedProduct] = useState('')
   const [selectedStore, setSelectedStore] = useState('')
   const [selectedCustomers, setSelectedCustomers] = useState('')
+  const [selectedEmployees, setSelectedEmployees] = useState('')
   const [productOrderList, setProductOrderList] = useState([])
   const [totalPrice, setTotalPrice] = useState(0)
 
@@ -46,6 +52,11 @@ const Order_Add = () => {
     const store = await Store_List.getAllStoreAdd()
     render_data_store(store)
 
+    // const customers = await Store_List.getAllStoreAdd()
+    // render_data_store(store)
+
+    const employees = await Employees_List.getEmpoyees()
+    render_data_employees(employees)
   }
 
   function render_data(items) {
@@ -69,6 +80,13 @@ const Order_Add = () => {
       }),
     )
   }
+  function render_data_employees(items) {
+    setEmployees(
+      items.map((item, index) => {
+        return item
+      }),
+    )
+  }
 
   function onSelectProduct(id) {
     Product_List.getProductById(id)
@@ -87,15 +105,13 @@ const Order_Add = () => {
         console.error(err)
       })
   }
+
   function truqty(id) {
-    productOrderList.map((e)=>{
-        if (e.Product_ID == id) {
-            console.log(e);
-            
-        }
+    productOrderList.map((e) => {
+      if (e.Product_ID == id) {
+        console.log(e)
+      }
     })
-    
-    
 
   }
   function onChangeQta(index, newqty) {
@@ -153,7 +169,7 @@ const Order_Add = () => {
                 <CCol xl={4}>
                   <CRow>
                     <CCol xl={2}>
-                      <CButton onClick={()=>truqty(item.Product_ID)}>
+                      <CButton onClick={() => truqty(item.Product_ID)}>
                         -
                       </CButton>
                     </CCol>
@@ -199,12 +215,17 @@ const Order_Add = () => {
         <CFormSelect
           style={{ marginBottom: '10px' }}
           label="Nhân viên nhập đơn"
-          options={[
-            'Chọn nhân viên',
-            { label: 'Thái Dương', value: '1' },
-            { label: 'Kỳ Nam', value: '2' },
-          ]}
-        />
+          value={selectedEmployees}
+          onChange={(e) => setSelectedEmployees(e.target.value)}
+        >
+          <option value="">Chọn nhân viên</option>
+          {employees.map((employee) => (
+            <option key={employee.Employee_ID} value={employee.Employee_ID}>
+              {employee.First_Name}
+              {employee.Last_Name}
+            </option>
+          ))}
+        </CFormSelect>
         <CFormSelect
           style={{ marginBottom: '10px' }}
           label="Chi nhánh"

@@ -177,6 +177,7 @@ const Employees_Add = () => {
         </CButton>
         <CButton color="danger">Hủy</CButton>
       </CForm>
+      {console.log(stores)}
       <></>
     </>
   )

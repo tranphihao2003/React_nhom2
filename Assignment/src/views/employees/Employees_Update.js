@@ -37,6 +37,7 @@ const Employees_Update = () => {
   useEffect(() => {
     document.title = 'Cập nhật nhân viên'
     fetchEmployeesByID()
+    fetchStores()
   }, [])
 
   const fetchStores = async () => {
@@ -188,7 +189,7 @@ const Employees_Update = () => {
         </CButton>
         <CButton color="danger">Hủy</CButton>
       </CForm>
-      {console.log(formData)}
+      {console.log(stores)}
 
       <></>
     </>
