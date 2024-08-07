@@ -78,14 +78,14 @@ const Accounts_Add = React.lazy(() => import('./views/accounts/Accounts_Add'))
 const Accounts_Edit = React.lazy(() => import('./views/accounts/Accounts_Edit'))
 
 const Employees = React.lazy(() => import('./views/employees/Employees'))
-const AddEmployees = React.lazy(() => import('./views/employees/AddEmployees'))
-const EditEmployees = React.lazy(() => import('./views/employees/EditEmployees'))
+const Employees_Add = React.lazy(() => import('./views/employees/Employees_Add'))
+const Employees_Update = React.lazy(() => import('./views/employees/Employees_Update'))
 
 const Customers = React.lazy(() => import('./views/customers/Customers'))
 const AddCustomers = React.lazy(() => import('./views/customers/AddCustomers'))
 const EditCustomers = React.lazy(() => import('./views/customers/EditCustomers'))
 
-const Genres = React.lazy(() => import('./views/genres/Genres'))
+const Genres = React.lazy(() => import('./views/genres/genres'))
 const AddGenres = React.lazy(() => import('./views/genres/AddGenres'))
 const EditGenres = React.lazy(() => import('./views/genres/EditGenres'))
 //Các bảng
@@ -167,7 +167,7 @@ const PublicRoutes = [
     requiredRole: ['Admin', 'WarehouseStaff', 'StoreManager'],
   },
   {
-    path: '/store_products_edit',
+    path: '/store_products_edit/:id',
     name: 'Edit Store Product',
     element: Store_Products_Edit,
     requiredRole: ['Admin', 'WarehouseStaff', 'StoreManager'],
@@ -203,13 +203,13 @@ const PublicRoutes = [
   {
     path: '/AddEmployees',
     name: 'Add Employee',
-    element: AddEmployees,
+    element: Employees_Add,
     requiredRole: ['Admin', ' StoreManager'],
   },
   {
-    path: '/EditEmployees',
+    path: '/EditEmployees/:id',
     name: 'Edit Employee',
-    element: EditEmployees,
+    element: Employees_Update,
     requiredRole: ['Admin', ' StoreManager'],
   },
 
@@ -227,7 +227,7 @@ const PublicRoutes = [
     requiredRole: ['Admin', 'salesman ', 'StoreManager'],
   },
   {
-    path: '/EditCustomers',
+    path: '/EditCustomers/:id',
     name: 'Edit Customer',
     element: EditCustomers,
     requiredRole: ['Admin', 'salesman ', 'StoreManager'],
@@ -236,7 +236,7 @@ const PublicRoutes = [
   // Genre routes
   { path: '/genres', name: 'Genres', element: Genres, requiredRole: ['Admin', 'WarehouseStaff'] },
   { path: '/AddGenres', name: 'Add Genre', element: AddGenres, requiredRole: ['Admin'] },
-  { path: '/EditGenres', name: 'Edit Genre', element: EditGenres, requiredRole: ['Admin'] },
+  { path: '/EditGenres/:id', name: 'Edit Genre', element: EditGenres, requiredRole: ['Admin'] },
 
   // Order routes
   {

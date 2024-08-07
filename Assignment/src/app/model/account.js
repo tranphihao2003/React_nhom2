@@ -4,12 +4,12 @@ class accounts {
     this.accounts = []
   }
   static getAllaccounts(page = 1, pageSize = 10) {
-    const offset = (page - 1) * pageSize
-    const limit = pageSize
+    const offset = (page - 1) * pageSize;
+    const limit = pageSize;
 
     return new Promise((resolve, reject) => {
-      const countQuery = 'SELECT COUNT(*) AS total FROM accounts'
-      const paginatedQuery = 'SELECT * FROM accounts ORDER BY Account_ID  DESC LIMIT ?, ?'
+      const countQuery = "SELECT COUNT(*) AS total FROM accounts";
+      const paginatedQuery = "SELECT * FROM accounts ORDER BY Account_ID  DESC LIMIT ?, ?";
 
       db.query(countQuery, (err, countResult) => {
         if (err) {

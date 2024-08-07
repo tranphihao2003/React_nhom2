@@ -43,12 +43,38 @@ const COLUMNS_CONFIG = {
     { key: 'status', label: 'Trạng thái' },
     { key: 'actions', label: 'Thao tác' },
   ],
+  employees: [
+    { key: 'STT', label: 'STT' },
+    { key: 'First_Name', label: 'Họ' },
+    { key: 'Last_Name', label: 'Tên' },
+    { key: 'Store_ID', label: 'Chi nhánh' },
+    { key: 'Position', label: 'Vị trí' },
+    { key: 'Salary', label: 'Lương' },
+    { key: 'Status', label: 'Trạng thái' },
+    { key: 'actions', label: 'Thao tác' },
+  ],
+  Store_Products: [
+    { key: 'STT', label: 'STT' },
+    { key: 'Store_ID', label: 'Chi nhánh' },
+    { key: 'Product_ID', label: 'Sản phẩm' },
+    { key: 'Product_Stock', label: 'Số lượng' },
+  ],
   stores: [
     { key: 'STT', label: 'STT' },
     { key: 'Store_Name', label: 'Tên cửa hàng' },
     { key: 'Store_Location', label: 'Địa chỉ' },
     { key: 'Store_Phone', label: 'SĐT' },
     { key: 'status', label: 'Trạng thái' },
+    { key: 'actions', label: 'Thao tác' },
+  ],
+  Customers: [
+    { key: 'STT', label: 'STT' },
+    { key: 'First_Name', label: 'Tên' },
+    { key: 'Last_Name', label: 'Họ' },
+    { key: 'Email', label: 'Email' },
+    { key: 'Phone', label: 'Số điện thoại' },
+    { key: 'Address', label: 'Địa chỉ' },
+    { key: 'Status', label: 'Trạng thái' },
     { key: 'actions', label: 'Thao tác' },
   ],
 }
@@ -66,6 +92,8 @@ const AppHeaderHistory = (props) => {
     for (const item of config_path) {
       if (item === props.path) {
         const data = await props.API.Backdata()
+        console.log(data)
+
         setCountTag(data.data.length)
         renderdata(data.data)
         break
@@ -117,14 +145,17 @@ const AppHeaderHistory = (props) => {
     }
   }
   const renderdata = (data) => {
+    console.log('====================================')
+    console.log(data)
+    console.log('====================================')
     setItems(
       data.map((item, index) => {
         item.STT = index + 1
         item.Product_Image = (
           <img src={item.Product_Image} alt={item.Product_Name} style={{ width: '50px' }} />
         )
-        item.status =
-          item.status === 1 ? (
+        item.Status =
+          item.Status === 1 ? (
             <CBadge color="danger">Tạm ngưng</CBadge>
           ) : (
             <CBadge color="secondary">Inactive</CBadge>

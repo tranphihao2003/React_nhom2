@@ -22,7 +22,7 @@ const API_config = {
     updatestatus: `${config.api}/products/backdata`, // Assuming update backdata is the same as updatestatus
     search : `${config.api}/products/searchkey`,
   },
-  customers: {
+  Customers: {
     list: `${config.api}/customers`,
     create: `${config.api}/customers`,
     update: `${config.api}/customers`,
@@ -32,11 +32,14 @@ const API_config = {
   },
   employees: {
     list: `${config.api}/employees`,
+    list_add: `${config.api}/employees/listadd`,
+    list_detail: `${config.api}/employees/listdetail`,
     create: `${config.api}/employees`,
     update: `${config.api}/employees`,
     delete: `${config.api}/employees`,
+    stop: `${config.api}/employees/stop`,
     backdata: `${config.api}/employees/backdata/all`,
-    updatestatus: `${config.api}/employees/backdata`, // Assuming update backdata is the same as updatestatus
+    updatestatus: `${config.api}/employees/backdata`,
   },
   orders: {
     list: `${config.api}/orders`,
@@ -71,7 +74,7 @@ const API_config = {
     backdata: `${config.api}/genres/backdata/all`,
     updatestatus: `${config.api}/genres/backdata`, // Assuming update backdata is the same as updatestatus
   },
-  store_products: {
+  Store_Products: {
     list: `${config.api}/store_products`,
     create: `${config.api}/store_products`,
     update: `${config.api}/store_products`,

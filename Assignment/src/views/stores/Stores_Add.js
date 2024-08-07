@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import {
   CButton,
   CCol,
@@ -9,60 +9,60 @@ import {
   CCard,
   CCardHeader,
   CCardBody,
-} from '@coreui/react';
+} from '@coreui/react'
 // api
-import * as API_Store from '../../services/API/API_Store';
+import * as API_Store from '../../services/API/API_Store'
 // router
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 const Store_Add = () => {
-  const navigate = useNavigate(); // Sử dụng đúng tên hàm navigate
-  const [status, setStatus] = useState(null);
-  const [validated, setValidated] = useState(false);
-  const [count, setCount] = useState(0);
+  const navigate = useNavigate() // Sử dụng đúng tên hàm navigate
+  const [status, setStatus] = useState(null)
+  const [validated, setValidated] = useState(false)
+  const [count, setCount] = useState(0)
 
   const [formData, setFormData] = useState({
     Store_Name: '',
     Store_Location: '',
     Store_Phone: '',
-  });
+  })
 
   useEffect(() => {
-    document.title = 'Thêm cửa hàng';
-  }, [count]);
+    document.title = 'Thêm cửa hàng'
+  }, [count])
 
   function create() {
     API_Store.createStore(formData)
       .then((response) => {
-        setStatus(true);
+        setStatus(true)
         setTimeout(() => {
-          navigate('/Stores'); 
-        }, 700);
+          navigate('/Stores')
+        }, 700)
       })
       .catch((error) => {
-        setStatus(false);
-      });
+        setStatus(false)
+      })
   }
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData({
       ...formData,
       [name]: value,
-    });
-  };
+    })
+  }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
+    event.preventDefault()
+    const form = event.currentTarget
     if (form.checkValidity() === false) {
-      event.stopPropagation();
+      event.stopPropagation()
     } else {
-      create();
+      create()
     }
-    setValidated(true);
-    setCount(count + 1);
-  };
+    setValidated(true)
+    setCount(count + 1)
+  }
 
   return (
     <CCard>
@@ -134,7 +134,7 @@ const Store_Add = () => {
         </CForm>
       </CCardBody>
     </CCard>
-  );
-};
+  )
+}
 
-export default Store_Add;
+export default Store_Add

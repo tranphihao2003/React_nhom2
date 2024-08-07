@@ -42,9 +42,9 @@ const _handleResponse = async (response, navigate) => {
 }
 
 // Function to get genres
-export const getGenres = async (page = 1, pageSize = 10, navigate) => {
+export const getCustomers = async (page = 1, pageSize = 10, navigate) => {
   const response = await _fetchWithAuth(
-    `${API_config.genres.list}?page=${page}&pageSize=${pageSize}`,
+    `${API_config.Customers.list}?page=${page}&pageSize=${pageSize}`,
     {
       method: 'GET',
       headers: {
@@ -56,8 +56,8 @@ export const getGenres = async (page = 1, pageSize = 10, navigate) => {
 }
 
 // Function to get genre by ID
-export const getGenreById = async (id, navigate) => {
-  const response = await _fetchWithAuth(`${API_config.genres.list}/${id}`, {
+export const getCustomersById = async (id, navigate) => {
+  const response = await _fetchWithAuth(`${API_config.Customers.list}/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -67,18 +67,18 @@ export const getGenreById = async (id, navigate) => {
 }
 
 // Function to create a new genre
-export const createGenre = async (genre, navigate) => {
-  const response = await _fetchWithAuth(API_config.genres.create, {
+export const createCustomers = async (customers, navigate) => {
+  const response = await _fetchWithAuth(API_config.Customers.create, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(genre),
+    body: JSON.stringify(customers),
   })
   return _handleResponse(response, navigate)
 }
 export const changestatus = async (id, status, navigate) => {
-  const response = await _fetchWithAuth(`${API_config.genres.updatestatus}/${id}`, {
+  const response = await _fetchWithAuth(`${API_config.Customers.updatestatus}/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export const changestatus = async (id, status, navigate) => {
 
 // Function to retrieve deleted data
 export const Backdata = async (navigate) => {
-  const response = await _fetchWithAuth(API_config.genres.backdata, {
+  const response = await _fetchWithAuth(API_config.Customers.backdata, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -100,21 +100,21 @@ export const Backdata = async (navigate) => {
 }
 
 // Function to update an existing genre
-export const updateGenre = async (genre, navigate) => {
-  console.log(genre)
-  const response = await _fetchWithAuth(`${API_config.genres.update}/${genre.Genre_ID}`, {
+export const updateCustomers = async (customers, navigate) => {
+  console.log(customers.Customer_ID)
+  const response = await _fetchWithAuth(`${API_config.Customers.update}/${customers.Customer_ID}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(genre),
+    body: JSON.stringify(customers),
   })
   return _handleResponse(response, navigate)
 }
 
 // Function to delete a genre by ID
 export const deleteAPI = async (id, navigate) => {
-  const response = await _fetchWithAuth(`${API_config.genres.delete}/${id}`, {
+  const response = await _fetchWithAuth(`${API_config.Customers.delete}/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
