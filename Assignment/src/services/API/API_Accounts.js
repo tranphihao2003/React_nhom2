@@ -2,107 +2,106 @@ import { json } from 'react-router-dom'
 import API_config from '../../config/API_config'
 import { getItem, removeItem } from '../localStorage.services'
 
-export default class API_Accounts {
-  async getAccounts(page = 1, pageSize = 10) {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(
-      API_config.Accounts.list + '?page=' + page + '&pageSize=' + pageSize,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
-    return this._handleResponse(response)
+const fetchWithAuth = async (url, options) => {
+  const token = getItem('token')
+  options.headers = {
+    ...options.headers,
+    Authorization: `Bearer ${token}`,
   }
-  async changestatus(id, status){
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.Accounts.backdata + '/' + id,{
-      method:'PUT',
-      headers:{
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({status:status}),
-    })
-    return this._handleResponse(response)
-  }
-  async Backdata(){
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.Accounts.backdata,{
-      method:'GET',
-      headers:{
-        'Content-Type': 'application/json',
-      },
-    })
-    return this._handleResponse(response)
-  }
+  return fetch(url, options)
+}
 
-  async getAccountById(id) {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.Accounts.list + '/' + id, {
+const handleResponse = async (response) => {
+  if (response.status === 401 || response.status === 403) {
+    removeItem('token')
+    window.location.replace('/#/login')
+  }
+  try {
+    const data = await response.json()
+    return {
+      status: response.status,
+      data: data,
+    }
+  } catch (error) {
+    return {
+      status: response.status,
+      data: null,
+    }
+  }
+}
+
+export const getAccounts = async (page = 1, pageSize = 10) => {
+  const response = await fetchWithAuth(
+    API_config.Accounts.list + '?page=' + page + '&pageSize=' + pageSize,
+    {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-    })
-    return this._handleResponse(response)
-  }
+    },
+  )
+  return handleResponse(response)
+}
 
-  async createAccount(account) {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.Accounts.create, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(account),
-    })
-    return this._handleResponse(response)
-  }
+export const changestatus = async (id, status) => {
+  const response = await fetchWithAuth(API_config.Accounts.backdata + '/' + id, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ status: status }),
+  })
+  return handleResponse(response)
+}
 
-  async updateAccount(account) {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.Accounts.update + '/' + account.Account_ID, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(account),
-    })
-    return this._handleResponse(response)
-  }
+export const Backdata = async () => {
+  const response = await fetchWithAuth(API_config.Accounts.backdata, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  return handleResponse(response)
+}
 
-  async deleteAccount(id) {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.Accounts.delete + '/' + id, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    return this._handleResponse(response)
-  }
+export const getAccountById = async (id) => {
+  const response = await fetchWithAuth(API_config.Accounts.list + '/' + id, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  return handleResponse(response)
+}
 
-  async _fetchWithAuth(url, options) {
-    const token = getItem('token')
-    options.headers = {
-      ...options.headers,
-      Authorization: `Bearer ${token}`,
-    }
-    return fetch(url, options)
-  }
+export const createAccount = async (account) => {
+  const response = await fetchWithAuth(API_config.Accounts.create, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(account),
+  })
+  return handleResponse(response)
+}
 
-  async _handleResponse(response) {
-    if (response.status === 401 || response.status === 403) {
-      removeItem('token')
-      window.location.replace('/#/login')
-    }
-    try {
-      return await response.json()
-    } catch (error) {
-      console.error('Failed to parse JSON:', error)
-      return null
-    }
-  }
+export const updateAccount = async (account) => {
+  const response = await fetchWithAuth(API_config.Accounts.update + '/' + account.Account_ID, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(account),
+  })
+  return handleResponse(response)
+}
+
+export const deleteAccount = async (id) => {
+  const response = await fetchWithAuth(API_config.Accounts.delete + '/' + id, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  return handleResponse(response)
 }

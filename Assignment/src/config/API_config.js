@@ -73,7 +73,7 @@ const API_config = {
     backdata: `${config.api}/genres/backdata/all`,
     updatestatus: `${config.api}/genres/backdata`, // Assuming update backdata is the same as updatestatus
   },
-  store_products: {
+  Store_Products: {
     list: `${config.api}/store_products`,
     create: `${config.api}/store_products`,
     update: `${config.api}/store_products`,

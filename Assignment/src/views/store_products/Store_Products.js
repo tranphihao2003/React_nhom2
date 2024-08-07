@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import {
   CButton,
   CTable,
@@ -8,56 +8,57 @@ import {
   CCardHeader,
   CRow,
   CCol,
-} from '@coreui/react';
-import API_Store_Products from '../../services/API/API_Store_Products';
-import CIcon from '@coreui/icons-react';
-import * as icon from '@coreui/icons';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-import ModalComponent from '../../components/modal/modalComponent';
-import AppHeaderHistory from '../../components/AppheaderHisory';
+} from '@coreui/react'
+import * as API_Store_Products from '../../services/API/API_Store_Products'
+import CIcon from '@coreui/icons-react'
+import * as icon from '@coreui/icons'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import ModalComponent from '../../components/modal/modalComponent'
+import AppHeaderHistory from '../../components/AppheaderHisory'
 
 const StoreProducts = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams()
   const [pagination, setPagination] = useState({
     page: searchParams.get('page') ? parseInt(searchParams.get('page')) : 1,
     pageSize: searchParams.get('pageSize') ? parseInt(searchParams.get('pageSize')) : 10,
     totalItems: 0,
     totalPages: 0,
-  });
-  const API_Class = new API_Store_Products();
-  const [reloadheader, setReloadHeader] = useState([]);
-  const [items, setItems] = useState([]);
-  const navigate = useNavigate();
+  })
+
+  const [reloadheader, setReloadHeader] = useState([])
+  const [items, setItems] = useState([])
+  const navigate = useNavigate()
 
   useEffect(() => {
-    document.title = 'Sản phẩm cửa hàng';
-    getdata(pagination.page, pagination.pageSize);
-  }, [pagination.page, pagination.pageSize, reloadheader]);
+    document.title = 'Sản phẩm cửa hàng'
+    getdata(pagination.page, pagination.pageSize)
+  }, [pagination.page, pagination.pageSize, reloadheader])
 
   function getdata(page, pageSize) {
-    API_Class.getStore_Products(page, pageSize).then((response) => {
+    API_Store_Products.getStore_Products(page, pageSize).then((response) => {
+      const { data: store_products } = response
       setPagination({
-        totalItems: response.totalItems,
-        totalPages: response.totalPages,
-        page: response.currentPage,
-        pageSize: response.pageSize,
-      });
-      renderdata(response.store_products);
-    });
+        totalItems: store_products.totalItems,
+        totalPages: store_products.totalPages,
+        page: store_products.currentPage,
+        pageSize: store_products.pageSize,
+      })
+      renderdata(store_products.store_products)
+    })
   }
 
   function deleteacp(id) {
-    API_Class.changeStatus(id, 1).then((response) => {
-      ShowSwal('success', 'Xóa thành công');
-      getdata(pagination.page, pagination.pageSize);
-      setReloadHeader((prev) => !prev);
-    });
+    API_Store_Products.changestatus(id, 1).then((response) => {
+      ShowSwal('success', 'Xóa thành công')
+      getdata(pagination.page, pagination.pageSize)
+      setReloadHeader((prev) => !prev)
+    })
   }
 
   function editacp(id) {
-    navigate(`/store_products_edit/${id}`);
+    navigate(`/store_products_edit/${id}`)
   }
 
   const ShowSwal = (status, title) => {
@@ -67,25 +68,25 @@ const StoreProducts = () => {
       title: title,
       showConfirmButton: false,
       timer: 1000,
-    });
-  };
+    })
+  }
 
   function handlePageChange(newPage) {
-    setSearchParams({ ...searchParams, page: newPage });
-    navigate(`/store_products?${searchParams.toString()}`);
-    getdata(newPage, pagination.pageSize);
+    setSearchParams({ ...searchParams, page: newPage })
+    navigate(`/store_products?${searchParams.toString()}`)
+    getdata(newPage, pagination.pageSize)
   }
 
   // Hàm xác định trạng thái dựa trên giá trị status
   const getStatusBadge = (status) => {
-    const statusLabel = status === 0 ? 'Còn hàng' : 'Hết hàng';
-    const statusClass = status === 0 ? 'text-bg-success' : 'text-bg-warning';
-    return { label: statusLabel, className: statusClass };
-  };
+    const statusLabel = status === 0 ? 'Còn hàng' : 'Hết hàng'
+    const statusClass = status === 0 ? 'text-bg-success' : 'text-bg-warning'
+    return { label: statusLabel, className: statusClass }
+  }
 
   const columns = [
     {
-      key: 'Store_ID',
+      key: 'store_products_ID',
       label: 'Mã cửa hàng',
       _props: { scope: 'col' },
     },
@@ -109,15 +110,16 @@ const StoreProducts = () => {
       label: 'Hành động',
       _props: { scope: 'col' },
     },
-  ];
+  ]
 
   function renderdata(items) {
     setItems(
       items.map((item, index) => {
-        item.STT = index + 1;
+       
+        item.STT = index + 1
 
         // Xác định trạng thái và lớp CSS
-        const { label, className } = getStatusBadge(item.status);
+        const { label, className } = getStatusBadge(item.status)
 
         item.actions = (
           <>
@@ -138,20 +140,18 @@ const StoreProducts = () => {
               icon="cilPen"
               status="Edit"
               actions={editacp}
-              id={item.Store_ID}
+              id={item.store_products_ID}
               nameitems={item.Product_ID}
             ></ModalComponent>
           </>
-        );
+        )
 
         // Cập nhật trạng thái với phần tử <span> và lớp CSS
-        item.status = (
-          <span className={`badge ${className}`}>{label}</span>
-        );
+        item.status = <span className={`badge ${className}`}>{label}</span>
 
-        return item;
-      })
-    );
+        return item
+      }),
+    )
   }
 
   return (
@@ -168,7 +168,7 @@ const StoreProducts = () => {
             <AppHeaderHistory
               id="store_products_ID"
               API={API_Store_Products}
-              path="store_products"
+              path="Store_Products"
               page={pagination.page}
               loaddata={getdata}
               status={reloadheader}
@@ -214,7 +214,7 @@ const StoreProducts = () => {
         </CPaginationItem>
       </CPagination>
     </CCard>
-  );
-};
+  )
+}
 
-export default StoreProducts;
+export default StoreProducts

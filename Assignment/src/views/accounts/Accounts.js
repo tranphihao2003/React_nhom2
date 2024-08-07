@@ -9,7 +9,7 @@ import {
   CRow,
   CCol,
 } from '@coreui/react'
-import API_Accounts from '../../services/API/API_Accounts'
+import * as API_Accounts from '../../services/API/API_Accounts'
 import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
 import { useNavigate, useSearchParams } from 'react-router-dom'

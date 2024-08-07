@@ -167,7 +167,7 @@ const PublicRoutes = [
     requiredRole: ['Admin', 'WarehouseStaff', 'StoreManager'],
   },
   {
-    path: '/store_products_edit',
+    path: '/store_products_edit/:id',
     name: 'Edit Store Product',
     element: Store_Products_Edit,
     requiredRole: ['Admin', 'WarehouseStaff', 'StoreManager'],

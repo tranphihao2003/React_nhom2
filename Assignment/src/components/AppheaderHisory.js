@@ -53,6 +53,14 @@ const COLUMNS_CONFIG = {
     { key: 'Status', label: 'Trạng thái' },
     { key: 'actions', label: 'Thao tác' },
   ],
+  Store_Products: [
+    { key: 'STT', label: 'STT' },
+    { key: 'Store_ID', label: 'Chi nhánh' },
+    { key: 'Product_ID', label: 'Sản phẩm' },
+    { key: 'Product_Stock', label: 'Số lượng' },
+    { key: 'status', label: 'Trạng thái' },
+    { key: 'actions', label: 'Thao tác' },
+  ],
 }
 
 const AppHeaderHistory = (props) => {
@@ -68,8 +76,8 @@ const AppHeaderHistory = (props) => {
     for (const item of config_path) {
       if (item === props.path) {
         const data = await props.API.Backdata()
-        console.log(data);
-        
+        console.log(data)
+
         setCountTag(data.data.length)
         renderdata(data.data)
         break
@@ -120,6 +128,9 @@ const AppHeaderHistory = (props) => {
     }
   }
   const renderdata = (data) => {
+    console.log('====================================')
+    console.log(data)
+    console.log('====================================')
     setItems(
       data.map((item, index) => {
         item.STT = index + 1

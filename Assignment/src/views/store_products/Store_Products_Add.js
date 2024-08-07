@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import {
   CButton,
   CCol,
@@ -9,91 +9,83 @@ import {
   CCard,
   CCardHeader,
   CCardBody,
-  CFormSelect
-} from '@coreui/react';
-import API_Store from '../../services/API/API_Store';
-import API_Store_Products from '../../services/API/API_Store_Products';
-import { useNavigate } from 'react-router-dom';
+  CFormSelect,
+} from '@coreui/react'
+import * as API_Store from '../../services/API/API_Store'
+import * as API_Products from '../../services/API/API_Product'
+import * as API_Store_Products from '../../services/API/API_Store_Products'
+import { useNavigate } from 'react-router-dom'
 
 const Store_Products_Add = () => {
-  const navigate = useNavigate();
-  const [status, setStatus] = useState(null);
-  const [validated, setValidated] = useState(false);
-  const [stores, setStores] = useState([]);
-  const [products, setProducts] = useState([]);
+  const navigate = useNavigate()
+  const [status, setStatus] = useState(null)
+  const [validated, setValidated] = useState(false)
+  const [stores, setStores] = useState([])
+  const [products, setProducts] = useState([])
   const [formData, setFormData] = useState({
     Store_ID: '',
     Product_ID: '',
     Product_Stock: '',
-    status: ''
-  });
-
-  const API_Store_Class = new API_Store();
-  const API_Store_Products_Class = new API_Store_Products();
+    status: '',
+  })
 
   useEffect(() => {
-    document.title = 'Thêm sản phẩm vào cửa hàng';
-    fetchStores();
-    fetchProducts();
-  }, []);
+    document.title = 'Thêm sản phẩm vào cửa hàng'
+    fetchStores()
+    fetchProducts()
+  }, [])
 
   const fetchStores = async () => {
     try {
-      const response = await API_Store_Class.getStore();
-      if (response && response.stores) {
-        setStores(response.stores);
-      } else {
-        console.error('Invalid response format for stores:', response);
-      }
+      const response = await API_Store.getStore()
+      const { data: stores } = response
+      setStores(stores.stores)
     } catch (error) {
-      console.error('Failed to fetch stores:', error);
+      console.error('Failed to fetch stores:', error)
     }
-  };
+  }
 
   const fetchProducts = async () => {
     try {
-      const response = await API_Store_Products_Class.getStore_Products();
-      if (response && response.store_products) {
-        setProducts(response.store_products);
-      } else {
-        console.error('Invalid response format for products:', response);
-      }
+      const response = await API_Products.getProducts(1, 100)
+      const { data: product } = response
+      setProducts(product.products)
     } catch (error) {
-      console.error('Failed to fetch products:', error);
+      console.error('Failed to fetch products:', error)
     }
-  };
+  }
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData({
       ...formData,
-      [name]: value
-    });
-  };
+      [name]: value,
+    })
+  }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    const form = event.currentTarget;
+    event.preventDefault()
+    const form = event.currentTarget
     if (form.checkValidity() === false) {
-      event.stopPropagation();
+      event.stopPropagation()
     } else {
-      createProduct();
+      createProduct()
     }
-    setValidated(true);
-  };
+    setValidated(true)
+  }
 
   const createProduct = async () => {
     try {
-      const response = await API_Store_Products_Class.createStore(formData);
-      setStatus(true);
+      const response = await API_Store_Products.createStore(formData)
+      setStatus(true)
       setTimeout(() => {
-        navigate('/Store_Products');
-      }, 700);
+        navigate('/Store_Products')
+      }, 700)
     } catch (error) {
-      setStatus(false);
-      console.error('Failed to create product:', error);
+      setStatus(false)
+      console.error('Failed to create product:', error)
     }
-  };
+  }
 
   return (
     <CCard>
@@ -154,7 +146,7 @@ const Store_Products_Add = () => {
               {products.length > 0 ? (
                 products.map((product, index) => (
                   <option key={`${product.Product_ID}-${index}`} value={product.Product_ID}>
-                    {product.Product_ID}
+                    {product.Product_Name}
                   </option>
                 ))
               ) : (
@@ -191,8 +183,8 @@ const Store_Products_Add = () => {
               value={formData.status}
             >
               <option value="">Chọn trạng thái</option>
-              <option value="available">Có sẵn</option>
-              <option value="out_of_stock">Hết hàng</option>
+              <option value="0">Có sẵn</option>
+              <option value="1">Hết hàng</option>
             </CFormSelect>
           </CCol>
 
@@ -204,7 +196,7 @@ const Store_Products_Add = () => {
         </CForm>
       </CCardBody>
     </CCard>
-  );
-};
+  )
+}
 
-export default Store_Products_Add;
+export default Store_Products_Add

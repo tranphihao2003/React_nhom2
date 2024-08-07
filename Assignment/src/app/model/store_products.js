@@ -8,7 +8,7 @@ class store_products {
     const limit = pageSize;
 
     return new Promise((resolve, reject) => {
-      const countQuery = "SELECT COUNT(*) AS total FROM store_products";
+      const countQuery = "SELECT COUNT(*) AS total FROM store_products Where status = 0";
       const paginatedQuery = "SELECT * FROM store_products Where status = 0 ORDER BY store_products_ID LIMIT ?, ?";
 
       db.query(countQuery, (err, countResult) => {
