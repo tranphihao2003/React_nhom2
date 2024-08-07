@@ -28,7 +28,7 @@ exports.creategenres = async (req, res) => {
 exports.updategenres = async (req, res) => {
   try {
     let genres = await genres_class.updategenres(req.params.id, req.body);
-    res.status(200).json(genres);
+    res.status(201).json(genres);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -53,7 +53,7 @@ exports.backdata = async (req, res) => {
 exports.changeStatus = async (req, res) => {
   try {
     let genres = await genres_class.changeStatus(req.params.id, req.body.status)
-    res.status(200).json(genres)
+    res.status(201).json(genres)
   } catch (error) {
     res.status(500).json(error)
   }

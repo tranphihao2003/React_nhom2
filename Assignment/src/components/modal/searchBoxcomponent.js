@@ -15,6 +15,8 @@ import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
 import * as API from '../../services/API/API_Product'
 import { debounce, set } from 'lodash'
+import * as API_Product from '../../services/API/API_Product'
+import Swal from 'sweetalert2'
 
 const SearchBox = (props) => {
   const [visible, setVisible] = useState(false)
@@ -60,7 +62,22 @@ const SearchBox = (props) => {
       { key: 'actions', label: 'Thao tác' },
     ],
   }
-
+  async function deleteItem(id) {
+    const product = await API_Product.deleteAPI(id)
+    const { data } = product
+    if (data.errno === 1451) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Xóa thất bại',
+        text: 'Sản phẩm này đang được sử dụng',
+      })
+    } else {
+      Swal.fire({
+        icon: 'success',
+        title: 'Xóa thành công',
+      })
+    }
+  }
   function renderdata(item) {
     setItems(
       item.map((item, index) => ({
@@ -75,12 +92,12 @@ const SearchBox = (props) => {
               }}
               className="me-2"
             >
-              <CIcon icon={icon.cilReload} />
+              Xem Chi tiết
             </CButton>
             <CButton
               color="danger"
               onClick={() => {
-                deleteItem(item[props.id])
+                deleteItem(item.Product_ID)
               }}
             >
               <CIcon icon={icon.cilTrash} />
@@ -109,7 +126,7 @@ const SearchBox = (props) => {
         visible={visible}
         onClose={() => setVisible(false)}
         aria-labelledby="LiveDemoExampleLabel"
-        size="lg"
+        size="xl"
       >
         <CModalHeader>
           <CModalTitle id="LiveDemoExampleLabel">Tìm kiếm : {search}</CModalTitle>

@@ -160,7 +160,7 @@ const Customer = () => {
             </h5>
           </CCol>
 
-          <CCol sm="9" className="d-md-block">
+          <CCol sm="9" className="d-flex justify-content-end">
             <AppHeaderHistory
               id="Customer_ID"
               API={API_Customers}
