@@ -48,6 +48,17 @@ class employees {
     })
   }
 
+  static getAllEmployeesAdd() {
+    return new Promise((resolve, reject) => {
+      db.query('SELECT * FROM employees', (err, result) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(result)
+      })
+    })
+  }
+
   static getemployeesById(id) {
     return new Promise((resolve, reject) => {
       db.query('SELECT * FROM employees WHERE Employee_ID = ?', id, (err, result) => {

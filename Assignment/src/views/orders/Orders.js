@@ -8,7 +8,7 @@ import {
   CRow,
   CCol,
 } from '@coreui/react'
-import API_Order from '../../services/API/API_Orders'
+import * as API_Order from '../../services/API/API_Order'
 
 import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
@@ -30,7 +30,6 @@ const Orders = () => {
     totalPages: 0,
   })
 
-  const API_Class = new API_Order()
   const [reloadheader, setreloadheader] = useState(false)
   const [items, setItems] = useState([])
 
@@ -41,7 +40,7 @@ const Orders = () => {
   }, [])
 
   function getdata(page, pageSize) {
-    API_Class.getOrders(page, pageSize).then((response) => {
+    API_Order.getOrders(page, pageSize).then((response) => {
       setPagination({
         totalItems: response.totalItems,
         totalPages: response.totalPages,
@@ -53,7 +52,7 @@ const Orders = () => {
   }
 
   function deleteacp(id) {
-    API_Class.deleteOrder(id).then((response) => {
+    API_Order.deleteOrder(id).then((response) => {
       ShowSwal('success', 'Xóa thành công')
       getdata()
     })
@@ -75,7 +74,7 @@ const Orders = () => {
 
   function handlePageChange(newpage) {
     searchParams.set('page', newpage)
-    navigate(`/suppliers?${searchParams.toString()}`)
+    navigate(`/orders?${searchParams.toString()}`)
     getdata(newpage, pagination.pageSize)
     console.log('====================================')
     console.log(pagination)
@@ -86,13 +85,13 @@ const Orders = () => {
   const getStatusText = (status) => {
     switch (status) {
       case 0:
-        return <CButton className="btn btn-danger">Chờ xác nhận</CButton>
+        return <CButton className="btn btn-danger" style={{ width: '150px', color: 'white' }}>Chờ xác nhận</CButton>
       case 1:
-        return <CButton className="btn btn-warning">Đang Giao</CButton>
+        return <CButton className="btn btn-warning" style={{ width: '150px', color: 'white' }}>Đang Giao</CButton>
       case 2:
-        return <CButton className="btn btn-success">Hoàn thành</CButton>
+        return <CButton className="btn btn-success" style={{ width: '150px', color: 'white' }}>Hoàn thành</CButton>
       case 3:
-        return <CButton className="btn btn-danger">Đã hủy</CButton>
+        return <CButton className="btn btn-secondary" style={{ width: '150px', color: 'white' }}>Đã hủy</CButton>
       default:
         return 'Không xác định'
     }
@@ -145,12 +144,23 @@ key: 'Order_ID',
       _props: { scope: 'col' },
     },
   ]
+  function formatDate(dateString) {
+    const date = new Date(dateString);
 
+    // Lấy ngày, tháng, năm
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Tháng bắt đầu từ 0, thêm 1 và định dạng với 2 chữ số
+    const day = ('0' + date.getDate()).slice(-2); // Định dạng với 2 chữ số
+
+    return `${year}-${month}-${day}`;
+  }
   function renderdata(items) {
     setItems(
       items.map((item, index) => {
         item.Status = getStatusText(item.Status)
         item.Total_Amount = formatCurrency(item.Total_Amount)
+        item.Order_Date = formatDate(item.Order_Date)
+
         item.actions = (
           <>
             <Link to={`/order_detail/${item.Order_ID}`}>
@@ -161,7 +171,7 @@ key: 'Order_ID',
             <ModalComponent
               {...item}
               color="primary"
-              content="bạn muốn chỉnh sửa?"
+              content="Bạn muốn chỉnh sửa?"
               icon="cilPen"
               status="Edit"
               actions={editacp}

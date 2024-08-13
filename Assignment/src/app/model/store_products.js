@@ -2,7 +2,7 @@ var db = require('./db');
 
 class store_products {
   constructor() {
-    this.store_products = [];
+    this.store_products = []
   }
 
   static getAllstore_products(page = 1, pageSize = 10) {
@@ -33,6 +33,53 @@ class store_products {
           });
         });
       });
+    });
+  }
+  static getStore_product_ByID(id) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `SELECT
+              products.Product_ID,
+              products.Product_Name,
+              store_products.Product_Stock
+          FROM
+              store_products JOIN products ON store_products.Product_ID = products.Product_ID
+          WHERE
+              store_products.Store_ID = ? `,
+        id,
+        (err, result) => {
+          if (err) {
+            reject(err)
+          }
+          resolve(result)
+        },
+      )
+    })
+  }
+  static getProductBy_ID(store_id, product_id) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `SELECT
+            store_products.Product_ID,
+            products.Product_Name,
+            products.Product_Price,
+            store_products.Product_Stock
+          FROM store_products 
+          JOIN products ON store_products.Product_ID = products.Product_ID
+          WHERE store_products.Store_ID = ? AND store_products.Product_ID = ?`,
+        [store_id, product_id], // Chuyển các tham số thành một mảng
+        (err, result) => {
+          if (err) {
+            return reject(err); // Trả về lỗi nếu có
+          }
+
+          if (result.length === 0) {
+            return reject(new Error('Không tìm thấy sản phẩm')); // Trả về lỗi nếu không tìm thấy sản phẩm
+          }
+
+          resolve(result[0]); // Trả về sản phẩm đầu tiên tìm thấy
+        },
+      );
     });
   }
 

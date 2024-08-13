@@ -103,92 +103,95 @@ const Employees_Update = () => {
   }
 
   return (
-    <>
-      <h2>Sửa Nhân Viên</h2>
-      <CForm style={{ margin: '10px' }} noValidate onSubmit={handleSubmit} validated={validated}>
-        {status2 === false && (
-          <CCol md={12}>
-            <CAlert color="danger">Chỉnh sửa sản phẩm thất bại</CAlert>
-          </CCol>
-        )}
-        {status2 === true && (
-          <CCol md={12}>
-            <CAlert color="success">Chỉnh sửa sản phẩm thành công</CAlert>
-          </CCol>
-        )}
-        <CFormInput
-          style={{ marginBottom: '10px' }}
-          id="First_Name"
-          label="Họ"
-          name="First_Name"
-          placeholder="Nhập họ nhân viên"
-          onChange={handleChange}
-          value={formData.First_Name}
-        />
-        <CFormInput
-          style={{ marginBottom: '10px' }}
-          id="Last_Name"
-          name="Last_Name"
-          label="Tên"
-          placeholder="Nhập tên nhân viên"
-          onChange={handleChange}
-          value={formData.Last_Name}
-        />
-        <CFormInput
-          style={{ marginBottom: '10px' }}
-          type="number"
-          name="Salary"
-          id="Salary"
-          label="Lương"
-          placeholder="Nhập số Lương"
-          onChange={handleChange}
-          value={formData.Salary}
-        />
-        <CFormSelect
-          style={{ marginBottom: '10px' }}
-          label="Chức vụ"
-          name="Position"
-          onChange={handleChange}
-          value={formData.Position}
-          options={[
-            'Chọn chức vụ',
-            { label: 'Quản lý', value: '1' },
-            { label: 'Nhân viên', value: '2' },
-          ]}
-        />
-        <CFormSelect
-          aria-label="Default select example"
-          id="Store_ID"
-          label="Cửa hàng làm việc"
-          onChange={handleChange}
-          required
-          name="Store_ID"
-          feedbackInvalid="Vui lòng chọn cửa hàng làm việc"
-          value={formData.Store_ID}
-        >
-          <option value="">Chọn cửa hàng làm việc</option>
-          {stores.map((item, index) => (
-            <option key={`${item.Store_ID}-${index}`} value={item.Store_ID}>
-              {item.Store_Name}
-            </option>
-          ))}
-        </CFormSelect>
-        <CFormSelect
-          style={{ marginBottom: '10px' }}
-          name="Status"
-          onChange={handleChange}
-          value={formData.Status}
-          hidden
-          options={['Chọn chức vụ', { label: 'Quản lý', value: '0' }]}
-        />
-        <CButton color="primary" style={{ marginRight: '10px' }} type="submit">
-          Sửa
-        </CButton>
-        <CButton color="danger">Hủy</CButton>
-      </CForm>
+    <CCard>
+      <>
+        <h2>Sửa Nhân Viên</h2>
+        <CForm style={{ margin: '10px' }} noValidate onSubmit={handleSubmit} validated={validated}>
+          {status2 === false && (
+            <CCol md={12}>
+              <CAlert color="danger">Chỉnh sửa sản phẩm thất bại</CAlert>
+            </CCol>
+          )}
+          {status2 === true && (
+            <CCol md={12}>
+              <CAlert color="success">Chỉnh sửa sản phẩm thành công</CAlert>
+            </CCol>
+          )}
+          <CFormInput
+            style={{ marginBottom: '10px' }}
+            id="First_Name"
+            label="Họ"
+            name="First_Name"
+            placeholder="Nhập họ nhân viên"
+            onChange={handleChange}
+            value={formData.First_Name}
+          />
+          <CFormInput
+            style={{ marginBottom: '10px' }}
+            id="Last_Name"
+            name="Last_Name"
+            label="Tên"
+            placeholder="Nhập tên nhân viên"
+            onChange={handleChange}
+            value={formData.Last_Name}
+          />
+          <CFormInput
+            style={{ marginBottom: '10px' }}
+            type="number"
+            name="Salary"
+            id="Salary"
+            label="Lương"
+            placeholder="Nhập số Lương"
+            onChange={handleChange}
+            value={formData.Salary}
+          />
+          <CFormSelect
+            style={{ marginBottom: '10px' }}
+            label="Chức vụ"
+            name="Position"
+            onChange={handleChange}
+            value={formData.Position}
+            options={[
+              'Chọn chức vụ',
+              { label: 'Quản lý', value: '1' },
+              { label: 'Nhân viên', value: '2' },
+            ]}
+          />
+          <CFormSelect
+            aria-label="Default select example"
+            id="Store_ID"
+            label="Cửa hàng làm việc"
+            onChange={handleChange}
+            required
+            name="Store_ID"
+            feedbackInvalid="Vui lòng chọn cửa hàng làm việc"
+            value={formData.Store_ID}
+          >
+            <option value="">Chọn cửa hàng làm việc</option>
+            {stores.map((item, index) => (
+              <option key={`${item.Store_ID}-${index}`} value={item.Store_ID}>
+                {item.Store_Name}
+              </option>
+            ))}
+          </CFormSelect>
+          <CFormSelect
+            style={{ marginBottom: '10px' }}
+            name="Status"
+            onChange={handleChange}
+            value={formData.Status}
+            hidden
+            options={['Chọn chức vụ', { label: 'Quản lý', value: '0' }]}
+          />
+          <CButton color="primary" style={{ marginRight: '10px' }} type="submit">
+            Sửa
+          </CButton>
+          <CButton color="danger">Hủy</CButton>
+        </CForm>
+        {console.log(stores)}
 
-      <></>
-    </>
+        <></>
+      </>
+    </CCard>
   )
 }
 

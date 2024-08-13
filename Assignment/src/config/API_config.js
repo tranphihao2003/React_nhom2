@@ -43,6 +43,7 @@ const API_config = {
   },
   orders: {
     list: `${config.api}/orders`,
+    list_detail: `${config.api}/orders/listdetail`,
     create: `${config.api}/orders`,
     update: `${config.api}/orders`,
     delete: `${config.api}/orders`,
@@ -76,6 +77,8 @@ const API_config = {
   },
   Store_Products: {
     list: `${config.api}/store_products`,
+    list_add: `${config.api}/store_products/listadd`,
+    list_byid: `${config.api}/store_products/listbyid`,
     create: `${config.api}/store_products`,
     update: `${config.api}/store_products`,
     delete: `${config.api}/store_products`,

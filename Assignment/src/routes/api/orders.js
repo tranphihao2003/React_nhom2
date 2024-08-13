@@ -19,4 +19,14 @@ router.get("/:id", authenticateToken, orders.getordersById);
 router.put("/:id", authenticateToken, orders.updateorders);
 router.delete("/:id", authenticateToken, orders.deleteorders);
 
-module.exports = router;
+router.get('/', authenticateToken, orders.getAllorders)
+router.post('/', authenticateToken, orders.createorders)
+router.get('/listdetail/:id', authenticateToken, orders.getordersById)
+router.put('/:id', authenticateToken, orders.updateorders)
+router.delete('/:id', authenticateToken, orders.deleteorders)
+
+router.put('/backdata/:id', authenticateToken, orders.changeStatus)
+router.get('/backdata/all', authenticateToken, orders.backdata)
+router.put('/stop/:id', authenticateToken, orders.changeStatus)
+
+module.exports = router

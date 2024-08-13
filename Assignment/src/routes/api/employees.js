@@ -16,6 +16,7 @@ const upload = multer({
 })
 
 router.get('/', authenticateToken, employees.getAllemployees)
+router.get('/listadd', authenticateToken, employees.getAllEmployessAdd)
 router.get('/:id', authenticateToken, employees.getemployeesById)
 router.get('/listdetail/:id', authenticateToken, employees.getemployeesById)
 router.post('/', authenticateToken, upload.single('image'), employees.createemployees)

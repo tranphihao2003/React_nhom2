@@ -12,6 +12,15 @@ exports.getAllemployees = async (req, res) => {
   }
 }
 
+exports.getAllEmployessAdd = async (req, res) => {
+  try {
+    let employees = await employees_class.getAllEmployeesAdd()
+    res.status(200).json(employees)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
 exports.getemployeesById = async (req, res) => {
   try {
     let employees = await employees_class.getemployeesById(req.params.id)
