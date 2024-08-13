@@ -4,12 +4,20 @@ exports.getAllcustomerss = async (req, res) => {
     let page = Number(req.query.page);
     let pageSize = Number(req.query.pageSize);
 
-    let customerss = await customers_class.getAllcustomerss(page, pageSize);
-    res.status(200).json(customerss);
+    let customers = await customers_class.getAllcustomerss(page, pageSize);
+    res.status(200).json(customers);
   } catch (error) {
     res.status(500).json(error);
   }
 };
+exports.getAllCustomerAdd = async (req, res) => {
+  try {
+    let customers = await customers_class.getAllCustomerAdd()
+    res.status(200).json(customers)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
 exports.getcustomersById = async (req, res) => {
   try {
     let customers = await customers_class.getcustomersById(req.params.id);

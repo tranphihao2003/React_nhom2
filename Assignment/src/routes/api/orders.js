@@ -17,7 +17,8 @@ const upload = multer({
 })
 
 router.get('/', authenticateToken, orders.getAllorders)
-router.get('/:id', authenticateToken, orders.getordersById)
+router.post('/', authenticateToken, orders.createorders)
+router.get('/listdetail/:id', authenticateToken, orders.getordersById)
 router.put('/:id', authenticateToken, orders.updateorders)
 router.delete('/:id', authenticateToken, orders.deleteorders)
 

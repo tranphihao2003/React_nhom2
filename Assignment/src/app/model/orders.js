@@ -24,9 +24,9 @@ class orders {
           JOIN employees ON orders.Employee_ID = employees.Employee_ID
           JOIN customers ON orders.Customer_ID = customers.Customer_ID
       WHERE
-          orders.Status IN (0, 1, 2)
+          orders.Status IN (0, 1, 2, 3)
       ORDER BY
-          orders.Order_Date DESC
+          orders.Order_ID DESC
       `
 
       db.query(countQuery, (err, countResult) => {
@@ -94,7 +94,7 @@ class orders {
 
   static backdata() {
     return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM orders WHERE status = 1', (err, result) => {
+      db.query('SELECT * FROM orders WHERE status = 3', (err, result) => {
         if (err) {
           reject(err)
         }

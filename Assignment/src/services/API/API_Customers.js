@@ -1,5 +1,5 @@
-import API_config from '../../config/API_config'
 import { getItem, removeItem } from '../localStorage.services'
+import API_config from '../../config/API_config'
 
 const fetchWithAuth = async (url, options = {}) => {
   const token = getItem('token')
@@ -24,7 +24,7 @@ const handleResponse = async (response) => {
 }
 
 export const changeStatus = async (id, status, navigate) => {
-  const response = await fetchWithAuth(`${API_config.employees.updatestatus}/${id}`, {
+  const response = await fetchWithAuth(`${API_config.customers.updatestatus}/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export const changeStatus = async (id, status, navigate) => {
 }
 
 export const backdata = async () => {
-  const response = await fetchWithAuth(API_config.employees.backdata, {
+  const response = await fetchWithAuth(API_config.customers.backdata, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -44,18 +44,20 @@ export const backdata = async () => {
   return handleResponse(response)
 }
 
-export const getEmpoyees = async (page = 1, pageSize = 10) => {
-  const response = await fetchWithAuth(`${API_config.employees.list}?page=${page}&pageSize=${pageSize}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
+export const getCustomers = async (page = 1, pageSize = 10) => {
+  const response = await fetchWithAuth(
+    `${API_config.customers.list}?page=${page}&pageSize=${pageSize}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   return handleResponse(response)
 }
 
-export const getAllEmpoyeesAdd = async () => {
-  const response = await fetchWithAuth(API_config.employees.list_add, {
+export const getAllCustomerAdd = async () => {
+  const response = await fetchWithAuth(API_config.customers.list_add, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -65,7 +67,7 @@ export const getAllEmpoyeesAdd = async () => {
 }
 
 export const getEmpoyees_Detail = async (id) => {
-  const response = await fetchWithAuth(`${API_config.employees.list_detail}/${id}`, {
+  const response = await fetchWithAuth(`${API_config.customers.list_detail}/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -75,7 +77,7 @@ export const getEmpoyees_Detail = async (id) => {
 }
 
 export const createEmpoyees = async (employees) => {
-  const response = await fetchWithAuth(API_config.employees.create, {
+  const response = await fetchWithAuth(API_config.customers.create, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -86,8 +88,7 @@ export const createEmpoyees = async (employees) => {
 }
 
 export const updateEmployees = async (employees) => {
-  console.log(employees.Employee_ID)
-  const response = await fetchWithAuth(`${API_config.employees.update}/${employees.Employee_ID}`, {
+  const response = await fetchWithAuth(`${API_config.customers.update}/${employees.Employee_ID}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -98,7 +99,7 @@ export const updateEmployees = async (employees) => {
 }
 
 export const deleteEmployees = async (employees) => {
-  const response = await fetchWithAuth(API_config.employees.delete, {
+  const response = await fetchWithAuth(API_config.customers.delete, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -108,8 +109,8 @@ export const deleteEmployees = async (employees) => {
   return handleResponse(response)
 }
 
-export const deleteEmployee = async (id) => {
-  const response = await fetchWithAuth(`${API_config.employees.delete}/${id}`, {
+export const deleteCustomer = async (id) => {
+  const response = await fetchWithAuth(`${API_config.customers.delete}/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

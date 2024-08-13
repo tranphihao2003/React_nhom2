@@ -9,7 +9,8 @@ import {
   CRow,
   CCol,
 } from '@coreui/react'
-import API_Order_Detail from '../../services/API/API_Order_Detail'
+import * as API_Order_Detail from '../../services/API/API_Order_Detail'
+
 import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
 import { useNavigate, useSearchParams, Link, useParams } from 'react-router-dom'
@@ -23,7 +24,6 @@ import { useState, useEffect } from 'react'
 const Order_Detail = () => {
   let { id } = useParams()
 
-  const API_Class = new API_Order_Detail()
   const [items, setItems] = useState([])
 
   const navigate = useNavigate()
@@ -34,7 +34,7 @@ const Order_Detail = () => {
   }, [])
 
   function get_data() {
-    API_Class.getOrder_Detail(id).then((response) => {
+    API_Order_Detail.getOrder_Detail(id).then((response) => {
       render_data(response)
     })
   }
