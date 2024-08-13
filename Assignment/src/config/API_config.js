@@ -40,6 +40,7 @@ const API_config = {
     stop: `${config.api}/employees/stop`,
     backdata: `${config.api}/employees/backdata/all`,
     updatestatus: `${config.api}/employees/backdata`,
+    getinfo: `${config.api}/employees/getinfo`,
   },
   orders: {
     list: `${config.api}/orders`,
@@ -48,6 +49,9 @@ const API_config = {
     delete: `${config.api}/orders`,
     backdata: `${config.api}/orders/backdata/all`,
     updatestatus: `${config.api}/orders/backdata`, // Assuming update backdata is the same as updatestatus
+    thongkebyemployee: `${config.api}/orders/thongkebyemployee`,
+    thongkebyid : `${config.api}/orders/thongkebyid`,
+    thongke : `${config.api}/orders/thongke`,
   },
   Shippers: {
     list: `${config.api}/shippers`,

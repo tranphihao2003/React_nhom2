@@ -9,27 +9,32 @@ import {
   CFormInput,
   CCol,
   CTable,
+  CSpinner,
 } from '@coreui/react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
 import * as API from '../../services/API/API_Product'
-import { debounce, set } from 'lodash'
-import * as API_Product from '../../services/API/API_Product'
+import { debounce } from 'lodash'
 import Swal from 'sweetalert2'
-
+import { useNavigate } from 'react-router-dom'
 const SearchBox = (props) => {
+  const navigate = useNavigate()
   const [visible, setVisible] = useState(false)
   const [search, setSearch] = useState('')
   const [items, setItems] = useState([])
+  const [loading, setLoading] = useState(false) // Trạng thái loading
 
   async function searchkey(key) {
     try {
+      setLoading(true) // Bắt đầu hiển thị spinner
       const search = await API.searchProduct(key)
       const { data } = search
       renderdata(data)
     } catch (error) {
       console.error('Search failed', error)
+    } finally {
+      setLoading(false) // Dừng hiển thị spinner
     }
   }
 
@@ -62,22 +67,28 @@ const SearchBox = (props) => {
       { key: 'actions', label: 'Thao tác' },
     ],
   }
+
   async function deleteItem(id) {
-    const product = await API_Product.deleteAPI(id)
+    const product = await API.changestatus(id, 1)
     const { data } = product
     if (data.errno === 1451) {
       Swal.fire({
         icon: 'error',
         title: 'Xóa thất bại',
         text: 'Sản phẩm này đang được sử dụng',
+      }).then(() => {
+        props.action()
       })
     } else {
       Swal.fire({
         icon: 'success',
         title: 'Xóa thành công',
+      }).then(() => {
+        props.action()
       })
     }
   }
+
   function renderdata(item) {
     setItems(
       item.map((item, index) => ({
@@ -88,7 +99,7 @@ const SearchBox = (props) => {
             <CButton
               color="primary"
               onClick={() => {
-                restoreitem(item[props.id])
+                navigate(`/products/detail/${item.Product_ID}`)
               }}
               className="me-2"
             >
@@ -112,12 +123,12 @@ const SearchBox = (props) => {
 
   return (
     <>
-      <CCol col="2" sm="2" md="2" className="mb-3 mb-xl-0">
+      <CCol col="3" sm="3" md="3" className="mb-3 mb-xl-0">
         <CFormInput
           type="search"
           id="search"
           name="search"
-          placeholder="Tìm kiếm"
+          placeholder="Tìm kiếm (Ctrl + i)........."
           onClick={() => setVisible(!visible)}
         />
       </CCol>
@@ -143,15 +154,25 @@ const SearchBox = (props) => {
           </CCol>
           <CCol col="12" sm="12" md="12" className="mb-3 mb-xl-0">
             <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
-              <CTable striped hover columns={columns} items={items} />
+              {loading ? (
+                <div className="text-center mt-3">
+                  <CSpinner color="primary" />
+                </div>
+              ) : (
+                <CTable striped hover columns={columns} items={items} />
+              )}
+              {items.length === 0 && !loading && (
+                <div className="text-center mt-3">
+                  <h5>Không có dữ liệu</h5>
+                </div>
+              )}
             </div>
           </CCol>
         </CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={() => setVisible(false)}>
-            Close
+          <CButton color="danger" onClick={() => setVisible(false)}>
+            Hủy
           </CButton>
-          <CButton color="primary">Save changes</CButton>
         </CModalFooter>
       </CModal>
     </>

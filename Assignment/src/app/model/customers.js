@@ -8,8 +8,8 @@ class customers {
     const limit = pageSize
 
     return new Promise((resolve, reject) => {
-      const countQuery = "SELECT COUNT(*) AS total FROM customers";
-      const paginatedQuery = "SELECT * FROM customers ORDER BY Customer_ID DESC LIMIT ?, ?";
+      const countQuery = "SELECT COUNT(*) AS total FROM customers WHERE Status = 0";
+      const paginatedQuery = "SELECT * FROM customers WHERE Status = 0 ORDER BY Customer_ID DESC LIMIT ?, ?";
 
       db.query(countQuery, (err, countResult) => {
         if (err) {

@@ -21,7 +21,7 @@ router.get('/listdetail/:id', authenticateToken, employees.getemployeesById)
 router.post('/', authenticateToken, upload.single('image'), employees.createemployees)
 router.put('/:id', authenticateToken, employees.updateemployees)
 router.delete('/:id', authenticateToken, employees.deleteemployees)
-
+router.get('/getinfo/:id', authenticateToken, employees.getinfo)
 router.put('/backdata/:id', authenticateToken, employees.changeStatus)
 router.get('/backdata/all', authenticateToken, employees.backdata)
 router.put('/stop/:id', authenticateToken, employees.changeStatus)

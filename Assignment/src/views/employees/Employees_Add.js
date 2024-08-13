@@ -139,8 +139,9 @@ const Employees_Add = () => {
             required
             options={[
               'Chọn chức vụ',
-              { label: 'Quản lý', value: '1' },
-              { label: 'Nhân viên', value: '2' },
+              { label: 'Nhân viên kho hàng', value: 'WarehouseStaff' },
+              { label: 'quản lý cửa hàng', value: 'StoreManager' },
+              { label: 'Nhân viên bán hàng', value: 'salesman' },
             ]}
           />
           <CFormSelect

@@ -81,6 +81,14 @@ const Products = () => {
               status="Chỉnh sửa"
               actions={editacp}
             ></ModalComponent>
+            <CButton
+              color="warning"
+              className="text-white ms-md-1"
+              onClick={() => navigate(`/products/detail/${item.Product_ID}`)}
+            >
+              <CIcon icon={icon.cilOptions} />
+            </CButton>
+
           </>
         )
         return item
@@ -124,11 +132,7 @@ const Products = () => {
       label: 'Hình ảnh',
       _props: { scope: 'col' },
     },
-    {
-      key: 'Product_Artist',
-      label: 'Nghệ sĩ',
-      _props: { scope: 'col' },
-    },
+    
     {
       key: 'Product_Price',
       label: 'Giá (VNĐ)',
@@ -162,7 +166,7 @@ const Products = () => {
           </CCol>
 
           <CCol sm="9" className="d-flex justify-content-end">
-            <SearchBox path='products'></SearchBox>
+            <SearchBox action={getdata} path='products'></SearchBox>
             <AppHeaderHistory
               id="Product_ID"
               API={API}

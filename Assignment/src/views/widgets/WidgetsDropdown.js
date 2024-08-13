@@ -16,6 +16,13 @@ import CIcon from '@coreui/icons-react'
 import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
 
 const WidgetsDropdown = (props) => {
+  console.log(props.data)
+  const formatCurrency = (value) => {
+    return (value || 0).toLocaleString('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    })
+  }
   const widgetChartRef1 = useRef(null)
   const widgetChartRef2 = useRef(null)
   const currentMonth = new Date().getMonth() + 1
@@ -42,14 +49,7 @@ const WidgetsDropdown = (props) => {
       <CCol sm={6} xl={4} xxl={3}>
         <CWidgetStatsA
           color="primary"
-          value={
-            <>
-              5,000,000{' '}
-              {/* <span className="fs-6 fw-normal">
-                (-12.4% <CIcon icon={cilArrowBottom} />)
-              </span> */}
-            </>
-          }
+          value={<>{formatCurrency(props.data.Total_Revenue_Day)} </>}
           title="Danh thu hôm nay"
           action={
             <CDropdown alignment="end">
@@ -134,10 +134,7 @@ const WidgetsDropdown = (props) => {
           color="info"
           value={
             <>
-              1,000{' '}
-              {/* <span className="fs-6 fw-normal">
-                (40.9% <CIcon icon={cilArrowTop} />)
-              </span> */}
+              {props.data.Total_Orders_Day}{' '} Đơn hàng
             </>
           }
           title="Đơn hàng hôm nay"
@@ -223,7 +220,7 @@ const WidgetsDropdown = (props) => {
           color="warning"
           value={
             <>
-              1,000,000{' '}
+              {formatCurrency(props.data.Total_Revenue_Month)}{' '}
               {/* <span className="fs-6 fw-normal">
                 (84.7% <CIcon icon={cilArrowTop} />)
               </span> */}
@@ -295,13 +292,11 @@ const WidgetsDropdown = (props) => {
           color="danger"
           value={
             <>
-              1,000{' '}
-              {/* <span className="fs-6 fw-normal">
-                (-23.6% <CIcon icon={cilArrowBottom} />)
-              </span> */}
+              {props.data.Total_Orders_Month}{' '} Đơn hàng
+             
             </>
           }
-          title="Đơn hàng tháng trước"
+          title="Đơn hàng tháng này"
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">

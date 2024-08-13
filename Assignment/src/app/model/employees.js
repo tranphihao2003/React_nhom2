@@ -117,6 +117,35 @@ class employees {
       )
     })
   }
+  static getinfo(id) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `
+        SELECT
+          CONCAT(employees.First_Name, ' ', employees.Last_Name) AS Employee_FullName,
+          employees.Salary,
+          stores.Store_Name,
+          employees.Position,
+          employees.Status,
+          employees.Employee_ID
+        FROM employees
+        JOIN stores ON employees.Store_ID = stores.Store_ID
+        WHERE
+          employees.Status IN (0) AND employees.Employee_ID = ?
+        ORDER BY
+          employees.Employee_ID DESC;
+        `,
+        [id], // Pass the id as a parameter to the query
+        (err, result) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(result)
+          }
+        },
+      )
+    })
+  }
 }
 
 module.exports = employees

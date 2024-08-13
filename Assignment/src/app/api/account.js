@@ -43,35 +43,43 @@ exports.deleteAccount = async (req, res) => {
   }
 }
 exports.login = async (req, res) => {
-  const { username, password } = req.body
+  const { username, password, store } = req.body
   const account = await account_class.login(username, password)
-  console.log(account[0])
+
+  console.log(store)
+
+
   if (account.length > 0) {
-    const token = jwt.sign(
-      {
-        username: account[0].Username,
-        id: account[0].Account_ID,
-        role: account[0].Position,
-        Employee_ID: account[0].Employee_ID,
-      },
-      'Fihao2k3', // secret key should be in .env file
-      { expiresIn: '1h' },
-    )
-    res.status(200).json({
-      token: token,
-      account: {
-        Employee_ID: account[0].Employee_ID,
-        Account_ID: account[0].Account_ID,
-        Username: account[0].Username,
-        role: account[0].Position,
-      },
-    })
+    if (parseInt(store) === account[0].Store_ID || account[0].Position === 'Admin') {
+      const token = jwt.sign(
+        {
+          username: account[0].Username,
+          id: account[0].Account_ID,
+          role: account[0].Position,
+          Employee_ID: account[0].Employee_ID,
+          store: account[0].Store_ID,
+        },
+        'Fihao2k3', // secret key should be in .env file
+        { expiresIn: '1h' },
+      )
+      res.status(200).json({
+        token: token,
+        account: {
+          Employee_ID: account[0].Employee_ID,
+          Account_ID: account[0].Account_ID,
+          Username: account[0].Username,
+          role: account[0].Position,
+          store: account[0].Store_ID
+        },
+      })
+    } else {
+      res.status(401).json({ message: 'Cửa hàng không đúng' })
+    }
   } else {
-    res.status(401).json({ message: 'đăng nhập thất bại' })
+    res.status(401).json({ message: 'Tài khoản hoặc mật khẩu không đúng' })
   }
 }
+
 exports.verify = async (req, res) => {
-  res.status(200).json({ message: 'verify success',
-    user: req.user
-   })
+  res.status(200).json({ message: 'verify success', user: req.user })
 }

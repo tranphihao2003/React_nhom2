@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import * as API_Store from '../../../services/API/API_Store'
 import { UserLogin } from '../../../services/API/API_User'
 import {
   CButton,
@@ -10,55 +12,51 @@ import {
   CContainer,
   CForm,
   CFormInput,
+  CFormSelect,
   CInputGroup,
   CInputGroupText,
   CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser, cilAlbum } from '@coreui/icons'
+import { cilLockLocked, cilUser, cilAlbum, cilHome } from '@coreui/icons'
 
 const Login = () => {
   const navigate = useNavigate()
-  const [account, setAccount] = useState({
-    username: '',
-    password: '',
-  })
 
-  const [validated, setValidated] = useState(false)
-  const [submitCount, setSubmitCount] = useState(0)
-  const [loginStatus, setLoginStatus] = useState('')
-  const handleChange = (e) => {
-    const { name, value } = e.target
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+  const [Store, setStore] = useState([])
+  const [alert, setAlert] = useState({ type: '', message: '' })
 
-    setAccount({
-      ...account,
-      [name]: value,
+  useEffect(() => {
+    document.title = 'Đăng nhập'
+    getStore()
+  }, [])
+
+  function login(data) {
+    UserLogin(data).then((response) => {
+      console.log(response.message)
+
+      if (response.token) {
+        setAlert({ type: 'success', message: 'Đăng nhập thành công' })
+        localStorage.setItem('token', response.token)
+        localStorage.setItem('user', JSON.stringify(response.account))
+        setTimeout(() => {
+          navigate('/')
+        }, 1000)
+      } else {
+        setAlert({ type: 'danger', message: response.message })
+      }
     })
   }
-  useEffect(() => {
-    if (validated) {
-      UserLogin(account).then((response) => {
-        if (response.token) {
-          setLoginStatus('Đăng nhập thành công')
-          localStorage.setItem('token', response.token)
-          localStorage.setItem('user', JSON.stringify(response.account))
-          setTimeout(() => {
-            navigate('/')
-          }, 1000)
-        } else {
-          setLoginStatus('Đăng nhập thất bại')
-        }
-      })
-    }
-  }, [submitCount])
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const form = event.currentTarget
-    if (form.checkValidity() === false) {
-      event.stopPropagation()
-    }
-    setValidated(true)
-    setSubmitCount(submitCount + 1)
+
+  async function getStore() {
+    let response = await API_Store.getStore(1, 100)
+    let { data: store } = response
+    setStore(store.stores)
   }
 
   return (
@@ -69,17 +67,12 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
-                  {loginStatus === 'Đăng nhập thất bại' && (
-                    <div className="alert alert-danger" role="alert">
-                      Đăng nhập thất bại
+                  {alert.message && (
+                    <div className={`alert alert-${alert.type}`} role="alert">
+                      {alert.message}
                     </div>
                   )}
-                  {loginStatus === 'Đăng nhập thành công' && (
-                    <div className="alert alert-success" role="alert">
-                      Đăng nhập thành công
-                    </div>
-                  )}
-                  <CForm onSubmit={handleSubmit} noValidate validated={validated}>
+                  <CForm onSubmit={handleSubmit(login)}>
                     <h1>Đăng Nhập</h1>
                     <p className="text-body-secondary">Đăng nhập vào tài khoản của bạn</p>
                     <CInputGroup className="mb-3">
@@ -90,11 +83,11 @@ const Login = () => {
                         type="text"
                         placeholder="Tài khoản"
                         autoComplete="username"
-                        required
+                        {...register('username', { required: 'Vui lòng nhập tài khoản' })}
                         name="username"
-                        onChange={handleChange}
+                        invalid={!!errors.username}
+                        feedbackInvalid={errors.username && errors.username?.message}
                       />
-                      <div className="invalid-feedback">Vui lòng nhập tài khoản.</div>
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -104,11 +97,29 @@ const Login = () => {
                         type="password"
                         placeholder="Mật khẩu"
                         autoComplete="current-password"
-                        required
+                        {...register('password', { required: 'Vui lòng nhập mật khẩu' })}
+                        invalid={!!errors.password}
+                        feedbackInvalid={errors.password && errors.password?.message}
                         name="password"
-                        onChange={handleChange}
                       />
-                      <div className="invalid-feedback">Vui lòng nhập mật khẩu.</div>
+                    </CInputGroup>{' '}
+                    <CInputGroup className="mb-4">
+                      <CInputGroupText>
+                        <CIcon icon={cilHome} />
+                      </CInputGroupText>
+                      <CFormSelect
+                        placeholder="Chọn Cửa Hàng"
+                        {...register('store', { required: 'Vui lòng chọn cửa hàng' })}
+                        invalid={!!errors.store}
+                        feedbackInvalid={errors.store && errors.store?.message}
+                        name="store"
+                        options={[
+                          { value: '', label: 'Chọn cửa hàng' },
+                          ...Store.map((store) => {
+                            return { value: store.Store_ID, label: store.Store_Name }
+                          }),
+                        ]}
+                      />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>

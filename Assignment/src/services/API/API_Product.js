@@ -12,7 +12,7 @@ const _fetchWithAuth = async (url, options) => {
 }
 
 // Function to handle API responses
-const _handleResponse = async (response, navigate) => {
+const _handleResponse = async (response,  ) => {
   if (response.status === 401 || response.status === 403) {
     removeItem('token')
     Swal.fire({

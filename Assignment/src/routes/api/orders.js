@@ -15,6 +15,9 @@ const upload = multer({
   storage: storage,
 });
 router.get("/", authenticateToken, orders.getAllorderss);
+router.post("/thongkebyemployee", authenticateToken, orders.thongkebyemployee);
+router.post("/thongkebyid", authenticateToken, orders.thongkebyid);
+router.post("/thongke", authenticateToken, orders.thongke);
 router.get("/:id", authenticateToken, orders.getordersById);
 router.put("/:id", authenticateToken, orders.updateorders);
 router.delete("/:id", authenticateToken, orders.deleteorders);

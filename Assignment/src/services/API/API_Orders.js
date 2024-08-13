@@ -2,100 +2,121 @@ import { json } from 'react-router-dom'
 import API_config from '../../config/API_config'
 import { getItem, removeItem } from '../localStorage.services'
 
-export default class API_Order {
-  async changestatus(id, status) {
-    //Thay đổi trạng thái và dừng và khôi phục
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.orders.updatestatus + '/' + id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ status: status }),
-    })
-    return this._handleResponse(response)
+const fetchWithAuth = async (url, options) => {
+  const token = getItem('token')
+  options.headers = {
+    ...options.headers,
+    Authorization: `Bearer ${token}`,
   }
+  return fetch(url, options)
+}
 
-  async backdata() {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.orders.backdata, {
+const handleResponse = async (response) => {
+  if (response.status === 401 || response.status === 403) {
+    removeItem('token')
+    window.location.replace('/#/login')
+  }
+  try {
+    return await response.json()
+  } catch (error) {
+    console.error('Failed to parse JSON:', error)
+    return null
+  }
+}
+export const thongke = async (storeId, day, month, year) => {
+  const response = await fetchWithAuth(API_config.orders.thongke, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ storeId, day, month, year }),
+  })
+  return handleResponse(response)
+}
+export const thongkebyid = async (id, storeId, month, year) => {
+  const response = await fetchWithAuth(API_config.orders.thongkebyid, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id, storeId, month, year }),
+  })
+  return handleResponse(response)
+}
+export const thongkebyemployee = async (id, month, year) => {
+  const response = await fetchWithAuth(API_config.orders.thongkebyemployee, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ id, month, year }),
+  })
+  return handleResponse(response)
+}
+
+export const changestatus = async (id, status) => {
+  const response = await fetchWithAuth(API_config.orders.updatestatus + '/' + id, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ status }),
+  })
+  return handleResponse(response)
+}
+
+export const backdata = async () => {
+  const response = await fetchWithAuth(API_config.orders.backdata, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  return handleResponse(response)
+}
+
+export const getOrders = async (page = 1, pageSize = 10) => {
+  const response = await fetchWithAuth(
+    API_config.orders.list + '?page=' + page + '&pageSize=' + pageSize,
+    {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-    })
-    return this._handleResponse(response)
-  }
+    },
+  )
+  return handleResponse(response)
+}
 
-  async getOrders(page = 1, pageSize = 10) {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(
-      API_config.orders.list + '?page=' + page + '&pageSize=' + pageSize,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    )
-    return this._handleResponse(response)
-  }
+export const createOrder = async (order) => {
+  const response = await fetchWithAuth(API_config.orders.create, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(order),
+  })
+  return handleResponse(response)
+}
 
-  async createOrder(order) {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.orders.create, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(order),
-    })
-    return this._handleResponse(response)
-  }
+export const updateOrder = async (order) => {
+  const response = await fetchWithAuth(API_config.orders.update, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(order),
+  })
+  return handleResponse(response)
+}
 
-  async updateOrder(order) {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.orders.update, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(order),
-    })
-    return this._handleResponse(response)
-  }
-
-  async deleteOrder(order) {
-    const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.orders.delete, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(order),
-    })
-    return this._handleResponse(response)
-  }
-
-  async _fetchWithAuth(url, options) {
-    const token = getItem('token')
-    options.headers = {
-      ...options.headers,
-      Authorization: `Bearer ${token}`,
-    }
-    return fetch(url, options)
-  }
-
-  async _handleResponse(response) {
-    if (response.status === 401 || response.status === 403) {
-      removeItem('token')
-      window.location.replace('/#/login')
-    }
-    try {
-      return await response.json()
-    } catch (error) {
-      console.error('Failed to parse JSON:', error)
-      return null
-    }
-  }
+export const deleteOrder = async (order) => {
+  const response = await fetchWithAuth(API_config.orders.delete, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(order),
+  })
+  return handleResponse(response)
 }

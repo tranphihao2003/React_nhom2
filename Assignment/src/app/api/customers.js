@@ -32,7 +32,7 @@ exports.updatecustomers = async (req, res) => {
       req.params.id,
       req.body
     );
-    res.status(200).json(customers);
+    res.status(201).json(customers);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -56,7 +56,7 @@ exports.backdata2 = async (req, res) => {
 exports.changeStatus2 = async (req, res) => {
   try {
     let customers = await customers_class.changeStatus(req.params.id, req.body.status)
-    res.status(200).json(customers)
+    res.status(201).json(customers)
   } catch (error) {
     res.status(500).json(error)
   }

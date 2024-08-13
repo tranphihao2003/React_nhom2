@@ -96,11 +96,18 @@ export const updateEmployees = async (employees) => {
   return handleResponse(response)
 }
 
-
-
 export const deleteAPI = async (id) => {
   const response = await fetchWithAuth(API_config.employees.delete + '/' + id, {
     method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  return handleResponse(response)
+}
+export const getinfo = async (id) => {
+  const response = await fetchWithAuth(API_config.employees.getinfo + '/' + id, {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },

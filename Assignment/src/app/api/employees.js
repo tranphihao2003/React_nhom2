@@ -65,3 +65,11 @@ exports.changeStatus = async (req, res) => {
     res.status(500).json(error)
   }
 }
+exports.getinfo = async (req, res) => {
+  try {
+    let employees = await employees_class.getinfo(req.params.id)
+    res.status(200).json(employees)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}

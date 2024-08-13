@@ -42,3 +42,33 @@ exports.deleteorders = async (req, res) => {
     res.status(500).json(error)
   }
 }
+exports.thongkebyemployee = async (req, res) => {
+  try {
+    let { id, month, year } = req.body
+    let orders = await orders_class.thongkebyemployee(id, month, year)
+    res.status(200).json(orders)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+exports.thongkebyid = async (req, res) => {
+  try {
+    let { id, month, year, storeId } = req.body
+
+    let orders = await orders_class.thongkebyid(id, storeId, year, month)
+    res.status(200).json(orders)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+exports.thongke = async (req, res) => {
+  try {
+    let { storeId, day, month, year } = req.body
+    console.log(storeId, day, month, year)
+
+    let orders = await orders_class.thongke(storeId, day, month, year)
+    res.status(200).json(orders)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}

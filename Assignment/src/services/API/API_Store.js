@@ -1,5 +1,6 @@
 import API_config from '../../config/API_config'
 import { getItem, removeItem } from '../localStorage.services'
+import Swal from 'sweetalert2'
 
 // Function to handle authenticated fetch requests
 const _fetchWithAuth = async (url, options) => {
@@ -19,9 +20,7 @@ const _handleResponse = async (response, navigate) => {
       icon: 'error',
       title: 'Lỗi',
       text: 'Phiên đăng nhập đã hết hạn',
-      preConfirm: () => {
-        navigate('/login')
-      },
+      
     })
   }
   try {

@@ -6,18 +6,22 @@ const ProtectedRoute = ({ children, requiredRole }) => {
   const { user, loading } = useAuth()
 
   if (loading) {
-    // Show a loading indicator while verifying token
+    // Show a loading indicator while verifying the token
     return <div>Loading...</div>
   }
 
   if (!user) {
+    // Redirect to the login page if the user is not authenticated
     return <Navigate to="/login" />
   }
 
-  if (requiredRole && !requiredRole.includes(user.role) && requiredRole.length <= 0) {
-    return <div>Bạn Không có quyền truy cập</div>
+  
+  if (requiredRole && requiredRole.length > 0 && !requiredRole.includes(user?.role)) {
+  
+    return <div>Bạn không có quyền truy cập</div>
   }
 
+  // If the user is authenticated and has the required role, render the children components
   return children
 }
 
