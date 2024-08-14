@@ -18,18 +18,18 @@ export default class API_Accounts {
   }
   async changestatus(id, status){
     const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.Accounts.backdata + '/' + id,{
+    const response = await this._fetchWithAuth(API_config.Accounts.stop + '/' + id,{
       method:'PUT',
       headers:{
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({status:status}),
+      body: JSON.stringify({ status: status }),
     })
     return this._handleResponse(response)
   }
   async Backdata(){
     const token = getItem('token')
-    const response = await this._fetchWithAuth(API_config.Accounts.backdata,{
+    const response = await this._fetchWithAuth(API_config.Accounts.backdata ,{
       method:'GET',
       headers:{
         'Content-Type': 'application/json',

@@ -99,5 +99,27 @@ class accounts {
       );
     });
   }
+  static backdata() {
+    return new Promise((resolve, reject) => {
+      db.query('SELECT * FROM accounts WHERE status = 1', (err, result) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(result)
+      })
+    })
+  }
+  static changeStatus(id, status) {
+
+    return new Promise((resolve, reject) => {
+      db.query('UPDATE accounts SET status = ? WHERE Account_ID = ?', [status, id], (err, result) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(result)
+      })
+    })
+  }
 }
+
 module.exports = accounts;

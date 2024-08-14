@@ -1,63 +1,73 @@
-import React, { useEffect, useState } from 'react'
-import {
-  CButton,
-  CTable,
-  CPagination,
-  CPaginationItem,
-  CCard,
-  CCardHeader,
-  CRow,
-  CCol,
-} from '@coreui/react'
-import API_Accounts from '../../services/API/API_Accounts'
-import CIcon from '@coreui/icons-react'
-import * as icon from '@coreui/icons'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
-import ModalComponent from '../../components/modal/modalComponent'
-import AppHeaderHistory from '../../components/AppheaderHisory'
+import React, { useEffect, useState } from 'react';
+import { CButton, CTable, CPagination, CPaginationItem, CCard, CCardHeader, CRow, CCol } from '@coreui/react';
+import API_Accounts from '../../services/API/API_Accounts';
+import CIcon from '@coreui/icons-react';
+import * as icon from '@coreui/icons';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import ModalComponent from '../../components/modal/modalComponent';
+import AppHeaderHistory from '../../components/AppheaderHisory';
 
 const Accounts = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams();
   const [pagination, setPagination] = useState({
     page: searchParams.get('page') ? parseInt(searchParams.get('page')) : 1,
     pageSize: searchParams.get('pageSize') ? parseInt(searchParams.get('pageSize')) : 10,
     totalItems: 0,
     totalPages: 0,
-  })
-  const API_Class = new API_Accounts()
-  const [reloadHeader, setReloadHeader] = useState(false)
-  const [items, setItems] = useState([])
-  const navigate = useNavigate()
+  });
+  const API_Class = new API_Accounts();
+  const [reloadheader, setReloadHeader] = useState([]);
+  const [items, setItems] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'Tài khoản'
-    getData(pagination.page, pagination.pageSize)
-  }, [pagination.page, pagination.pageSize, reloadHeader])
+    document.title = 'Tài khoản';
+    getData(pagination.page, pagination.pageSize);
+  }, [pagination.page, pagination.pageSize, reloadheader]);
 
-  const getData = (page, pageSize) => {
-    API_Class.getAccounts(page, pageSize).then((response) => {
-      setPagination({
-        totalItems: response.totalItems,
-        totalPages: response.totalPages,
-        page: response.currentPage,
-        pageSize: response.pageSize,
+  function getData(page, pageSize) {
+    API_Class.getAccounts(page, pageSize)
+      .then((response) => {
+        if (response && Array.isArray(response.accounts)) {
+          setPagination({
+            totalItems: response.totalItems,
+            totalPages: response.totalPages,
+            page: response.currentPage,
+            pageSize: response.pageSize,
+          });
+          renderData(response.accounts);
+        } else {
+          console.error('Dữ liệu trả về không phải là mảng:', response);
+          ShowSwal('error', 'Dữ liệu không hợp lệ');
+        }
       })
-      renderData(response.accounts)
-    })
+      .catch((error) => {
+        console.error('Lỗi khi lấy dữ liệu:', error);
+        ShowSwal('error', 'Không thể tải dữ liệu');
+      });
   }
 
-  const deleteacp = (id) => {
-    API_Class.changestatus(id, 1).then(() => {
-      ShowSwal('success', 'Xóa thành công')
-      getData(pagination.page, pagination.pageSize)
-      setReloadHeader(prev => !prev)
-    })
+  function deleteacp(id) {
+    API_Class.changestatus(id, 1)
+      .then((response) => {
+        if (response.success) {
+          ShowSwal('success', 'Xóa thành công');
+          getData(pagination.page, pagination.pageSize);
+          setReloadHeader((prev) => !prev);
+        } else {
+          ShowSwal('error', 'Xóa thất bại');
+        }
+      })
+      .catch((error) => {
+        console.error('Lỗi khi xóa tài khoản:', error);
+        ShowSwal('error', 'Không thể xóa tài khoản');
+      });
   }
 
-  const editacp = (id) => {
-    navigate(`/Accounts_edit/${id}`)
+  function editacp(id) {
+    navigate(`/accounts_edit/${id}`);
   }
 
   const ShowSwal = (status, title) => {
@@ -67,29 +77,24 @@ const Accounts = () => {
       title: title,
       showConfirmButton: false,
       timer: 1000,
-    })
-  }
+    });
+  };
 
-  const handlePageChange = (newPage) => {
-    searchParams.set('page', newPage)
-    navigate(`/accounts?${searchParams.toString()}`)
-    getData(newPage, pagination.pageSize)
+  function handlePageChange(newPage) {
+    setSearchParams({ ...searchParams, page: newPage });
+    navigate(`/accounts?${searchParams.toString()}`);
+    getData(newPage, pagination.pageSize);
   }
 
   const columns = [
     {
-      key: 'STT',
-      label: 'Mã tài khoản',
+      key: 'Account_ID',
+      label: 'ID Tài khoản',
       _props: { scope: 'col' },
     },
     {
       key: 'Username',
       label: 'Tên đăng nhập',
-      _props: { scope: 'col' },
-    },
-    {
-      key: 'Employee_ID',
-      label: 'Mã nhân viên',
       _props: { scope: 'col' },
     },
     {
@@ -102,46 +107,57 @@ const Accounts = () => {
       label: 'Hành động',
       _props: { scope: 'col' },
     },
-  ]
+  ];
 
-  const renderData = (accounts) => {
-    setItems(
-      accounts.map((account, index) => {
-        account.STT = index + 1
-        const statusClass = account.status === 0 ? 'text-bg-success' : 'text-bg-warning'
-        const statusLabel = account.status === 0 ? 'Hoạt động' : 'Không hoạt động'
+  function renderData(data) {
+    if (Array.isArray(data)) {
+      setItems(
+        data.map((item, index) => {
+          item.STT = index + 1;
+          const { label, className } = getStatusBadge(item.status);
 
-        account.status = (
-          <span className={`badge ${statusClass}`}>{statusLabel}</span>
-        )
-        account.actions = (
-          <>
-            <ModalComponent
-              {...account}
-              color="danger"
-              content="Bạn muốn xóa?"
-              icon="cilTrash"
-              status="Delete"
-              actions={deleteacp}
-              id={account.Account_ID}
-              nameitems={account.Username}
-            />
-            <ModalComponent
-              {...account}
-              color="primary"
-              content="Bạn muốn chỉnh sửa?"
-              icon="cilPen"
-              status="Edit"
-              actions={editacp}
-              id={account.Account_ID}
-              nameitems={account.Username}
-            />
-          </>
-        )
-        return account
-      }),
-    )
+          item.status = (
+            <span className={`badge ${className}`}>{label}</span>
+          );
+          item.actions = (
+            <>
+              <ModalComponent
+                {...item}
+                color="danger"
+                content="Bạn muốn xóa?"
+                icon="cilTrash"
+                status="Delete"
+                actions={deleteacp}
+                id={item.Account_ID}
+                nameitems={item.Username}
+              />
+              <ModalComponent
+                {...item}
+                color="primary"
+                content="Bạn muốn chỉnh sửa?"
+                icon="cilPen"
+                status="Edit"
+                actions={editacp}
+                id={item.Account_ID}
+                nameitems={item.Username}
+              />
+            </>
+          );
+
+          return { ...item, key: item.Account_ID };
+        })
+      );
+    } else {
+      console.error('Dữ liệu không phải là mảng:', data);
+      ShowSwal('error', 'Dữ liệu không hợp lệ');
+    }
   }
+
+  const getStatusBadge = (status) => {
+    const statusLabel = status === 0 ? 'Hoạt động' : 'Không hoạt động';
+    const statusClass = status === 0 ? 'text-bg-success' : 'text-bg-danger';
+    return { label: statusLabel, className: statusClass };
+  };
 
   return (
     <CCard>
@@ -157,13 +173,13 @@ const Accounts = () => {
             <AppHeaderHistory
               id="Account_ID"
               API={API_Accounts}
-              path="Accounts"
+              path="accounts"
               page={pagination.page}
               loaddata={getData}
-              status={reloadHeader}
+              status={reloadheader}
             />
             <CButton
-              onClick={() => navigate('/Accounts_add')}
+              onClick={() => navigate('/accounts_add')}
               color="success"
               className="float-end me-2 px-4 text-white"
             >
@@ -202,7 +218,7 @@ const Accounts = () => {
         </CPaginationItem>
       </CPagination>
     </CCard>
-  )
-}
+  );
+};
 
-export default Accounts
+export default Accounts;
