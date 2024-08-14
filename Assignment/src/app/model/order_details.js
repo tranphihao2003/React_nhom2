@@ -23,6 +23,27 @@ class order_details {
       })
     })
   }
+  static getOrder_DetailsByOrder_ID(id) {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `SELECT
+          products.Product_Name,
+          order_details.Quantity,
+          order_details.Price,
+          order_details.Order_Detail_ID
+        FROM order_details
+          JOIN products ON order_details.Product_ID = products.Product_ID
+        WHERE Order_ID = ?`,
+        id,
+        (err, result) => {
+          if (err) {
+            reject(err)
+          }
+          resolve(result)
+        },
+      )
+    })
+  }
   static createorder_details(order_details) {
     return new Promise((resolve, reject) => {
       db.query('INSERT INTO order_details SET ?', order_details, (err, result) => {

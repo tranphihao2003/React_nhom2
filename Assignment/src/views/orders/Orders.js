@@ -8,8 +8,7 @@ import {
   CRow,
   CCol,
 } from '@coreui/react'
-import * as API_Order from '../../services/API/API_Order'
-
+import * as API_Order from '../../services/API/API_Orders'
 import CIcon from '@coreui/icons-react'
 import * as icon from '@coreui/icons'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
@@ -59,7 +58,7 @@ const Orders = () => {
   }
 
   function editacp(id) {
-    navigate(`/order_update/${id}`)
+    navigate(`/orders/order_update/${id}`)
   }
 
   const ShowSwal = (status, title) => {
@@ -163,7 +162,7 @@ key: 'Order_ID',
 
         item.actions = (
           <>
-            <Link to={`/order_detail/${item.Order_ID}`}>
+            <Link to={`/orders/order_detail/${item.Order_ID}`}>
               <CButton variant="outline" color="primary">
                 Chi tiết
               </CButton>
@@ -195,16 +194,9 @@ key: 'Order_ID',
           </CCol>
 
           <CCol sm="9" className="d-md-block">
-            <AppHeaderHistory
-              id="Order_ID"
-              API={API_Order}
-              path="orders"
-              page={pagination.page}
-              loaddata={getdata}
-              status={reloadheader}
-            />
+            
             <CButton
-              onClick={() => navigate('/order_add')}
+              onClick={() => navigate('/orders/order_add')}
               color="success"
               className="float-end me-2 px-4 text-white"
             >

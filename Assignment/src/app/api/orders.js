@@ -1,11 +1,12 @@
 const orders_class = require('../model/orders')
-exports.getAllorderss = async (req, res) => {
+
+exports.getAllorders = async (req, res) => {
   try {
     let page = Number(req.query.page)
     let pageSize = Number(req.query.pageSize)
 
-    let orderss = await orders_class.getAllorders(page, pageSize)
-    res.status(200).json(orderss)
+    let orders = await orders_class.getAllorders(page, pageSize)
+    res.status(200).json(orders)
   } catch (error) {
     res.status(500).json(error)
   }
@@ -37,6 +38,24 @@ exports.updateorders = async (req, res) => {
 exports.deleteorders = async (req, res) => {
   try {
     let orders = await orders_class.deleteorders(req.params.id)
+    res.status(200).json(orders)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
+exports.backdata = async (req, res) => {
+  try {
+    let orders = await orders_class.backdata()
+    res.status(200).json(orders)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
+exports.changeStatus = async (req, res) => {
+  try {
+    let orders = await orders_class.changeStatus(req.params.id, req.body.status)
     res.status(200).json(orders)
   } catch (error) {
     res.status(500).json(error)

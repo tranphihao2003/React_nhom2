@@ -50,6 +50,15 @@ const API_config = {
     backdata: `${config.api}/orders/backdata/all`,
     updatestatus: `${config.api}/orders/backdata`, // Assuming update backdata is the same as updatestatus
   },
+  order_details: {
+    list: `${config.api}/order_details`,
+    list_detail: `${config.api}/order_details/listdetail`,
+    create: `${config.api}/order_details`,
+    update: `${config.api}/order_details`,
+    delete: `${config.api}/order_details`,
+    backdata: `${config.api}/order_details/backdata/all`,
+    updatestatus: `${config.api}/order_details/backdata`, // Assuming update backdata is the same as updatestatus
+  },
   Shippers: {
     list: `${config.api}/shippers`,
     create: `${config.api}/shippers`,

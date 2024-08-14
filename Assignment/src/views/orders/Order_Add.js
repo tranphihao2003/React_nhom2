@@ -10,7 +10,7 @@ import {
   CCard,
 } from '@coreui/react'
 
-import * as API_Order from '../../services/API/API_Order'
+import * as API_Order from '../../services/API/API_Orders'
 import * as API_Product from '../../services/API/API_Product'
 import * as API_Store from '../../services/API/API_Store'
 import * as API_Employees from '../../services/API/API_Employees'
@@ -35,10 +35,12 @@ const Order_Add = () => {
   const [items, setItems] = useState([])
   const [stores, setStores] = useState([])
   const [customers, setCustomers] = useState([])
+  const [employees, setEmployees] = useState([])
 
   const [selectedProduct, setSelectedProduct] = useState('')
   const [selectedStore, setSelectedStore] = useState('')
   const [selectedCustomers, setSelectedCustomers] = useState('')
+  const [selectedEmployees, setSelectedEmployees] = useState('')
   const [productOrderList, setProductOrderList] = useState([])
   const [totalPrice, setTotalPrice] = useState(0)
   const [totalAmount, setTotalAmount] = useState(0)
@@ -76,14 +78,17 @@ const Order_Add = () => {
 
   async function get_data() {
     // Get thằng chi nhánh
-    const store = await API_Store.getAllStoreAdd()
-    render_data_store(store)
+    const store = await API_Store.getStore(1, 100)
 
-    const customers = await API_Customers.getAllCustomerAdd()
-    render_data_customers(customers)
+    render_data_store(store.data.stores)
 
-    const employees = await API_Employees.getAllEmpoyeesAdd()
-    render_data_employees(employees)
+    const customers = await API_Customers.getCustomers(1, 100)
+    render_data_customers(customers.data.customers)
+
+    const employees = await API_Employees.getEmployees(1, 100)
+    console.log(employees.data.employees)
+
+    render_data_employees(employees.data.employees)
   }
 
   async function onSelectStore(store_id) {
@@ -117,6 +122,13 @@ const Order_Add = () => {
   }
   function render_data_customers(items) {
     setCustomers(
+      items.map((item, index) => {
+        return item
+      }),
+    )
+  }
+  function render_data_employees(items) {
+    setEmployees(
       items.map((item, index) => {
         return item
       }),
@@ -219,14 +231,14 @@ const Order_Add = () => {
   }
 
   function formatDate(dateString) {
-    const date = new Date(dateString);
+    const date = new Date(dateString)
 
     // Lấy ngày, tháng, năm
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Tháng bắt đầu từ 0, thêm 1 và định dạng với 2 chữ số
-    const day = ('0' + date.getDate()).slice(-2); // Định dạng với 2 chữ số
+    const year = date.getFullYear()
+    const month = ('0' + (date.getMonth() + 1)).slice(-2) // Tháng bắt đầu từ 0, thêm 1 và định dạng với 2 chữ số
+    const day = ('0' + date.getDate()).slice(-2) // Định dạng với 2 chữ số
 
-    return `${year}-${month}-${day}`;
+    return `${year}-${month}-${day}`
   }
 
   const handleChange = (e) => {
@@ -236,12 +248,12 @@ const Order_Add = () => {
       setFormData({
         ...formData,
         [name]: formattedDate,
-      });
+      })
     } else {
       setFormData({
         ...formData,
         [name]: value,
-      });
+      })
     }
   }
 
@@ -414,7 +426,7 @@ const Order_Add = () => {
             label="Ngày đặt hàng"
             // value={formData.Order_Date}
             {...register('Order_Date', { required: 'Vui lòng chọn ngày đặt hàng!' })}
-          // onChange={handleChange}
+            // onChange={handleChange}
           />
           {errors.Order_Date && (
             <span style={{ color: 'red', display: 'block' }}>{errors.Order_Date.message}</span>
@@ -430,8 +442,7 @@ const Order_Add = () => {
             <option value="">Chọn nhân viên</option>
             {employees.map((employee) => (
               <option key={employee.Employee_ID} value={employee.Employee_ID}>
-                {employee.First_Name}
-                {employee.Last_Name}
+                {employee.Employee_FullName}
               </option>
             ))}
           </CFormSelect>

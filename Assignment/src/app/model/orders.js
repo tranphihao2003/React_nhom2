@@ -105,7 +105,7 @@ class orders {
 
   static changeStatus(id, status) {
     return new Promise((resolve, reject) => {
-db.query('UPDATE orders SET status = ? WHERE Order_ID = ?', [status, id], (err, result) => {
+      db.query('UPDATE orders SET status = ? WHERE Order_ID = ?', [status, id], (err, result) => {
         if (err) {
           reject(err)
         }

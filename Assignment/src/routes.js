@@ -252,13 +252,13 @@ const PublicRoutes = [
     requiredRole: ['Admin', 'salesman ', 'StoreManager'],
   },
   {
-    path: '/order_add',
+    path: '/orders/order_add',
     name: 'Add Order',
     element: Order_Add,
     requiredRole: ['Admin', 'salesman ', 'StoreManager'],
   },
   {
-    path: '/order_update',
+    path: '/orders/order_update/:id',
     name: 'Update Order',
     element: Order_Update,
     requiredRole: ['Admin', 'salesman ', 'StoreManager'],

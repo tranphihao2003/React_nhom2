@@ -24,7 +24,7 @@ const handleResponse = async (response) => {
 }
 
 export const changeStoreProductStatus = async (id, status) => {
-  const response = await fetchWithAuth(`${API_config.store_products.updatestatus}/${id}`, {
+  const response = await fetchWithAuth(`${API_config.Store_Products.updatestatus}/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export const changeStoreProductStatus = async (id, status) => {
 }
 
 export const backStoreProductData = async () => {
-  const response = await fetchWithAuth(API_config.store_products.backdata, {
+  const response = await fetchWithAuth(API_config.Store_Products.backdata, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export const getStoreProduct = async (page = 1, pageSize = 10) => {
 }
 
 export const getAllStoreProductAdd = async (id) => {
-  const response = await fetchWithAuth(`${API_config.store_products.list_add}/${id}`, {
+  const response = await fetchWithAuth(`${API_config.Store_Products.list_add}/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export const getAllStoreProductAdd = async (id) => {
 
 export const getProductById = async (store_id, product_id) => {
   const response = await fetchWithAuth(
-    `${API_config.store_products.list_byid}?store_id=${store_id}&product_id=${product_id}`,
+    `${API_config.Store_Products.list_byid}?store_id=${store_id}&product_id=${product_id}`,
     {
       method: 'GET',
       headers: {
@@ -81,7 +81,7 @@ export const getProductById = async (store_id, product_id) => {
 }
 
 export const createStoreProduct = async (store_product) => {
-  const response = await fetchWithAuth(API_config.store_products.create, {
+  const response = await fetchWithAuth(API_config.Store_Products.create, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export const createStoreProduct = async (store_product) => {
 }
 
 export const updateStoreProduct = async (store_product) => {
-  const response = await fetchWithAuth(API_config.store_products.update, {
+  const response = await fetchWithAuth(API_config.Store_Products.update, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ export const updateStoreProduct = async (store_product) => {
 }
 
 export const deleteStoreProduct = async (store_product) => {
-  const response = await fetchWithAuth(API_config.store_products.delete, {
+  const response = await fetchWithAuth(API_config.Store_Products.delete, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

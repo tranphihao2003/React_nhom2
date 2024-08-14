@@ -14,14 +14,11 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
 })
-router.get('/', authenticateToken, order_details.getAllorder_detailss)
-router.get('/:id', authenticateToken, order_details.getorder_detailsById)
 
 router.get('/', authenticateToken, order_details.getAllorder_details)
 router.post('/', authenticateToken, order_details.createorder_details)
 router.get('/listdetail/:id', authenticateToken, order_details.getOrder_DetailsByOrder_ID)
-
+router.get('/:id', authenticateToken, order_details.getorder_detailsById)
 router.put('/:id', authenticateToken, order_details.updateorder_details)
 router.delete('/:id', authenticateToken, order_details.deleteorder_details)
-
 module.exports = router

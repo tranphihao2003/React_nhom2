@@ -44,7 +44,6 @@ const Order_Detail = () => {
     return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
   }
 
-const Order_Detail = (props) => {
   const columns = [
     {
       key: 'Order_Detail_ID',
@@ -52,7 +51,7 @@ const Order_Detail = (props) => {
       _props: { scope: 'col' },
     },
     {
-      key: 'Product_ID',
+      key: 'Product_Name',
       label: 'Sản phẩm',
       _props: { scope: 'col' },
     },
@@ -66,30 +65,25 @@ const Order_Detail = (props) => {
       label: 'Giá sản phẩm',
       _props: { scope: 'col' },
     },
-    {
-      key: 'actions',
-      label: 'Thao tác',
-      _props: { scope: 'col' },
-    },
   ]
 
-  const items = [
-    {
-      Order_Detail_ID: 1,
-      Product_ID: 'Đánh Đổi',
-      Quantity: '2',
-      Price: '780,000',
-      actions: (
-        <>
-          <CButton variant="outline" color="danger">
-            <CIcon icon={icon.cilTrash} />
-          </CButton>{' '}
-        </>
-      ),
-      _cellProps: { Order_ID: { scope: 'row' } },
-    },
-  ]
-  return <CTable striped hover columns={columns} items={items} />
+  function render_data(items) {
+    setItems(
+      items.map((item, index) => {
+        item.Price = formatCurrency(item.Price)
+        return item
+      }),
+    )
+  }
+
+  return (
+    <CCard>
+      <div style={{ minHeight: '70vh' }}>
+        <CTable striped hover columns={columns} items={items} />
+        {items.length === 0 && <div className="text-center">Không có dữ liệu</div>}
+      </div>
+    </CCard>
+  )
 }
 
 export default Order_Detail
